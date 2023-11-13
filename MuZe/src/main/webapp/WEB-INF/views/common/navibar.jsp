@@ -60,6 +60,10 @@
 	    text-align: right;
 	    float: right;
 	}
+	#blank-area{
+		width:100%;
+		height:200px;
+	}
 	/* ---------------- navigator 영역 부분 ---------------- */
 	#navi {
 	    width: 60%;
