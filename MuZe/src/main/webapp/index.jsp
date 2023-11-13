@@ -9,4 +9,4 @@
 <body> 
 	<jsp:include page="WEB-INF/views/common/navibar.jsp"/>
 </body>
-</html>
+</html> 
