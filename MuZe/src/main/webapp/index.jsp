@@ -10,5 +10,7 @@
 	<h1>테스트</h1>
 	
 	<h1>힘내</h1>
+	
+	<jsp:include page="WEB-INF/views/common/navibar.jsp"/>
 </body>
 </html>
