@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -17,8 +18,6 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-            .font-family {
-            }
             #menubar {
                 margin: 0;
                 padding: 0;
@@ -33,7 +32,7 @@
             }
             #wrap {
                 width: 100%;
-                height: 100vh;
+                height: 100%;
                 background-size: cover;
                 /* 예시) 사진 → 영상 */
                 /* background-image: url("resources/image/semi-boseong/보성사진.jpg");*/
@@ -131,6 +130,7 @@
                 background-size: 100%;
             }
         </style>
+
 </head>
     <body>
         <div id="menubar">
