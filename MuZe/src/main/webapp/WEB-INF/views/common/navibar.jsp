@@ -30,14 +30,12 @@
 	    width: 100%;
 	    height: 100%;
 	    background-size: cover;
-	    /* 예시) 사진 → 영상 */
-	    /* background-image: url("resources/image/semi-boseong/보성사진.jpg");*/
 	}
 	.page {
 	    padding: 0;
 	    margin: 0;
 	    width: 100%;
-	    height: 100vh;
+	    height: 100%;
 	    color: black;
 	}
 	#header {
@@ -59,6 +57,10 @@
 	    width: 100%;
 	    text-align: right;
 	    float: right;
+	}
+	#blank-area{
+		width:100%;
+		height:200px;
 	}
 	/* ---------------- navigator 영역 부분 ---------------- */
 	#navi {
@@ -139,7 +141,7 @@
                 <!-- navigator영역 start -->
                 <ul id="navi">
                     <li>
-                        <a href="">마이페이지</a>
+                        <a href="#">마이페이지</a>
                         <ul>
                             <li><a href="#">다이어리</a></li>
                             <li><a href="#">일정</a></li>
