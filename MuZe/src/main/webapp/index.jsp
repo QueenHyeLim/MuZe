@@ -6,11 +6,7 @@
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 </head>
-<body>
-	<h1>테스트</h1>
-	
-	<h1>힘내</h1>
-	
+<body> 
 	<jsp:include page="WEB-INF/views/common/navibar.jsp"/>
 </body>
 </html>
