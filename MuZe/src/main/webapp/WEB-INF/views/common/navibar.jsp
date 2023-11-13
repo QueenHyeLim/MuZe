@@ -141,7 +141,7 @@
                 <!-- navigator영역 start -->
                 <ul id="navi">
                     <li>
-                        <a href="">마이페이지</a>
+                        <a href="#">마이페이지</a>
                         <ul>
                             <li><a href="#">다이어리</a></li>
                             <li><a href="#">일정</a></li>
