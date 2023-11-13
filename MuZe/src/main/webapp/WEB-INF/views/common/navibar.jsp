@@ -30,8 +30,6 @@
 	    width: 100%;
 	    height: 100%;
 	    background-size: cover;
-	    /* 예시) 사진 → 영상 */
-	    /* background-image: url("resources/image/semi-boseong/보성사진.jpg");*/
 	}
 	.page {
 	    padding: 0;
@@ -62,11 +60,7 @@
 	}
 	#blank-area{
 		width:100%;
-<<<<<<< Updated upstream
 		height:200px;
-=======
-		height:100%;
->>>>>>> Stashed changes
 	}
 	/* ---------------- navigator 영역 부분 ---------------- */
 	#navi {
