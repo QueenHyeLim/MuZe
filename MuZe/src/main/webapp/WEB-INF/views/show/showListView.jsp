@@ -35,25 +35,13 @@
 <body>
 	<jsp:include page="../common/navibar.jsp"/>
 	
-	<div id="blank"></div>
+	 <div class="page" id="content"> 
+	 하하호호
+	   <div id="blank-area"></div>
+	   <div class="page">01</div>
+	   <div class="page">02</div>
+	   <div class="page">03</div>
+	</div> 
 	
-	<div class="page" id="content">
-		<div class="page">
-			<div id="list-part">
-				<div id="search-part">
-					<input type="text" placeholder="작품명을 입력하세요">
-				</div>
-				<div id="result-part">
-					
-				</div>
-				
-				<div id="paging-part">
-				
-				</div>
-			</div>
-		</div>
-		<div class="page">02</div>
-		<div class="page">03</div>
-	</div>
 </body>
 </html>
