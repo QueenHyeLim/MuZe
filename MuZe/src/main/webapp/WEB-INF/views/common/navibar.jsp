@@ -137,7 +137,7 @@
             </div>
             <div id="header">
                 <!-- 회원이 아닐때 보여지는 태그 -->
-                <div id="login-form"><a href="#">로그인</a> | <a href="#">회원가입</a></div>
+                <div id="login-form"><a href="loginPage.me">로그인</a> | <a href="enrollForm.me">회원가입</a></div>
                 <!-- navigator영역 start -->
                 <ul id="navi">
                     <li>
