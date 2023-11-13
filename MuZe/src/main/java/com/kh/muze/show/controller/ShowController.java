@@ -18,6 +18,10 @@ public class ShowController {
 	public String showList() {
 		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
 		url += "?service=" + SERVICEYKEY;
+		url += "&stdate=";
+		url += "&eddate=";
+		url += "&cpage=";
+		url += "&rows=10";
 		return "show/showListView";
 	}
 }
