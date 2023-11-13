@@ -35,12 +35,12 @@
 <body>
 	<jsp:include page="../common/navibar.jsp"/>
 	
-	
 	 <div class="page" id="content">
 	   <div id="blank-area"></div>
 	   <div class="page">01</div>
 	   <div class="page">02</div>
 	   <div class="page">03</div>
 	</div> 
+	
 </body>
 </html>
