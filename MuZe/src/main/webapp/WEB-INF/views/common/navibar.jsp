@@ -37,7 +37,7 @@
 	    padding: 0;
 	    margin: 0;
 	    width: 100%;
-	    height: 100vh;
+	    height: 100%;
 	    color: black;
 	}
 	#header {
@@ -62,7 +62,11 @@
 	}
 	#blank-area{
 		width:100%;
+<<<<<<< Updated upstream
 		height:200px;
+=======
+		height:100%;
+>>>>>>> Stashed changes
 	}
 	/* ---------------- navigator 영역 부분 ---------------- */
 	#navi {
