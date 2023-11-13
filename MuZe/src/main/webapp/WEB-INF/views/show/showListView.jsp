@@ -5,8 +5,19 @@
 <head>
 <meta charset="UTF-8">
 <title>작품</title>
+<style>
+
+</style>
 </head>
 <body>
-
+	<jsp:include page="../common/navibar.jsp"/>
+	
+	<div></div>
+	
+	<div class="page" id="content">
+		<div class="page">01</div>
+		<div class="page">02</div>
+		<div class="page">03</div>
+	</div>
 </body>
 </html>
