@@ -69,7 +69,10 @@
 						      + '<td>' + $(item).find('gugunnm').text() + '</td>'
 						      + '<td>' + $(item).find('opende').text() + '</td>'
 						      + '<td>'
+						      + '<form action="theatermap">'
+						      + '<input type="hidden" name="mt10id" value="' + $(item).find('mt10id').text() + '"/>'
 						      + '<button>지도</button>'
+						      + '</form>'
 						      + '</td>'
 						      + '</tr>'
 					})
