@@ -121,7 +121,7 @@
 	    width: 200px;
 	    height: 200px;
 	    margin-left: 50px;
-	    background-image: url("resources/image/LoGo.png");
+	    /*background-image: url("resources/image/LoGo.png");*/
 	    /*일단은 로고 사진은 임시 */
 	    background-repeat: no-repeat;
 	    background-position: center;
@@ -137,7 +137,7 @@
             </div>
             <div id="header">
                 <!-- 회원이 아닐때 보여지는 태그 -->
-                <div id="login-form"><a href="#">로그인</a> | <a href="#">회원가입</a></div>
+                <div id="login-form"><a href="loginPage.me">로그인</a> | <a href="enrollForm.me">회원가입</a></div>
                 <!-- navigator영역 start -->
                 <ul id="navi">
                     <li>
@@ -161,7 +161,7 @@
                         <a href="#">예매하기</a>
                     </li>
                     <li>
-                        <a href="">극장</a>
+                        <a href="list.th">극장</a>
                     </li>
                     <li>
                         <a href="list.sh">작품</a>
