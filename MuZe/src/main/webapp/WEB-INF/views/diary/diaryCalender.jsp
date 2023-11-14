@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,6 +53,10 @@
 
 
 <script>
+
+	// 시간 남을때 다이어리 클릭 제안(현재 오늘의 날 이후의 다이어리 작성제안 회원가입 전의 날짜 다이어리 작성 제안)
+
+
     // div날짜를 클릭했을떄 해당 날짜의 값을 뽑는 함수(insert하기 위해)
     document.addEventListener('DOMContentLoaded', function() {
         var today = new Date(); // 현재 날짜
@@ -64,10 +69,13 @@
             selectable: true,
             select: function(info) {
                 // console.log(events);
-
+				
+                $('#diaryDate').val(info.startStr);
                 // 선택한 날짜값 뽑고 true값일때 모달창을 띄워 다이어리를 작성할 수 있음
                 var result = confirm(info.startStr+'일 의 다이어리를 작성하시겠습니까?');
-
+                
+                
+				
                 if(result == true){
                     // true값이 들어온 경우 다이어리를 작성할수 있는 모달창(form)이 뜸
                     $('#myModal').modal('show');
@@ -123,10 +131,13 @@
     
     
 <!-------------------------------다이어리 작성을 위한 모달창------------------------------------>
-	<form action="insert.di" method="post">
+	<form action="insert.di" method="post" enctype="multipart/form-data">
 	    <div class="modal fade" id="myModal">
 	        <div class="modal-dialog modal-lg">
 	            <div class="modal-content">
+	            <!-- USER_NO HIDDEN / DIARY_DATE HIDDEN -->
+	            <input type="hidden" name="userNo" />
+				<input type="hidden" name="diaryDate" id="diaryDate"/>
 	                <!-- Modal Header -->
 	                <div class="modal-header" style="text-align: center;" id="diary-header">
 	                    <h4 class="modal-title">WRITE YOUR MUZE ON YOUR DIARY</h4>
@@ -144,7 +155,7 @@
 	                </div>
 	                <!-- Modal footer -->
 	                <div class="modal-footer">
-	                    <button type="submit" class="btn btn-secondary" data-dismiss="modal">upload</button>
+	                    <button type="submit" class="btn btn-secondary">upload</button>
 	                </div>
 	                
 	            </div>

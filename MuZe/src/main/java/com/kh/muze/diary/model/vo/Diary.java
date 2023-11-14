@@ -15,5 +15,7 @@ public class Diary {
 	private String diaryContent;  //DIRAY_CONTENT
 	private String diaryStatus;   //DIARY_YN
 	private String attStatus;     //ATT_YN
+	private String diaryDate;     //DIARY_DATE
+	private String createDate;    //CREATE_DATE
 
 }
