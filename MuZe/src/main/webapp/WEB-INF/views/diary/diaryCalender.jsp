@@ -86,18 +86,16 @@
     });
     
     
-    // 화면에 들어왔을떄 보여질수 있게 diaryName select ajax
+    // 화면에 들어왔을떄 보여질수 있게 select diary 
     $(()=>{
         $.ajax({
-            url : 'selectName.di',
-            data : {
-            	diaryUser : // ${sessionScope.loginUser.userNo}
-            },
+            url : 'select.di',
+            // data : { diaryUser : ${sessionScope.loginUser.userNo}},
             success : name => {
                 console.log(name);
                 $('#diaryName').html(name);
             }
-        })
+        });
     })
     
     // diaryName을 클릭했을때 update diaryName (default : YOU ARE MY DIARY)
