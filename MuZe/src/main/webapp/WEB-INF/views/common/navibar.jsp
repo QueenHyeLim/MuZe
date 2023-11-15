@@ -65,6 +65,7 @@
 	    width: 100%;
 	    text-align: right;
 	    float: right;
+	 }
 
 	#blank-area{
 		width:100%;
