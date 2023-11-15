@@ -59,12 +59,13 @@
 	    text-align: right;
 	    float: right;
 	}
+
 	#login {
 	    font-size: 16px;
 	    width: 100%;
 	    text-align: right;
 	    float: right;
-	}
+
 	#blank-area{
 		width:100%;
 		height:200px;
@@ -147,19 +148,23 @@
             		<c:when test="${ empty loginUser }">
                 <!-- 회원이 아닐때 보여지는 태그 -->
                 <div id="login-form"><a href="loginPage.me">로그인</a> | <a href="enrollForm.me">회원가입</a></div>
+
                		</c:when>
                		<c:otherwise>
                		<div id="login"><label>${ sessionScope.loginUser.userName }님 환영합니다</label>&nbsp;&nbsp;<a href="logout.me">로그아웃</a></div>
                		</c:otherwise>
                 </c:choose>
                 
+
                 <!-- navigator영역 start -->
                 <ul id="navi">
                     <li>
                         <a href="#">마이페이지</a>
                         <ul>
                             <li><a href="diary.di">다이어리</a></li>
-                            <li><a href="">일정</a></li>
+
+                            <li><a href="#">일정</a></li>
+
                             <li><a href="#">가계부</a></li>
                             <li><a href="#">즐겨찾기</a></li>
                             <li><a href="#">my muze</a></li>
@@ -173,7 +178,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#">예매하기</a>
+                        <a href="show.rs">예매하기</a>
                     </li>
                     <li>
                         <a href="list.th">극장</a>
