@@ -64,39 +64,39 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             timeZone: 'GMT+9',
             initialView: 'dayGridMonth',
-            events: '/api/demo-feeds/events.json',
-            editable: true,
+            dragScroll : false,
+            editable: false,
             selectable: true,
-            select: function(info) {
-                // console.log(events);
-				
-                $('#diaryDate').val(info.startStr);
+    		// 화면에 들어왔을떄 보여질수 있게 select diary 
+            events: [
+            	<c:forEach var="di" items="${list}">
+            	{
+            		title : '${di.diaryTitle}',
+            		start : '${di.diaryDate}'
+            	},
+            	</c:forEach>
+            ],
+            // 클릭한 해당 날짜의 값을 뽑아주는 이벤트 
+            dateClick: function(date) {
+                console.log(date);
+                $('#diaryDate').val(date.dateStr);
+                var result = confirm(date.dateStr+'일 의 다이어리를 작성하시겠습니까?');
                 // 선택한 날짜값 뽑고 true값일때 모달창을 띄워 다이어리를 작성할 수 있음
-                var result = confirm(info.startStr+'일 의 다이어리를 작성하시겠습니까?');
-                
-                
-				
                 if(result == true){
                     // true값이 들어온 경우 다이어리를 작성할수 있는 모달창(form)이 뜸
                     $('#myModal').modal('show');
-                }
+              }
+            },
+            // 이벤트가 걸려있는 날 ,아닌 날에 따라 조건을 걸어주는 이벤트
+            eventAllow : function(dropInfo, draggedEvent){
+            	if(dropInfo)
             }
         });
         calendar.render();
     });
     
     
-    // 화면에 들어왔을떄 보여질수 있게 select diary 
-    $(()=>{
-        $.ajax({
-            url : 'select.di',
-            // data : { diaryUser : ${sessionScope.loginUser.userNo}},
-            success : name => {
-                console.log(name);
-                $('#diaryName').html(name);
-            }
-        });
-    })
+
     
     // diaryName을 클릭했을때 update diaryName (default : YOU ARE MY DIARY)
     function changeDiaryName(){
@@ -147,12 +147,12 @@
 	                <!-- Modal body -->
 	                <div class="modal-body">
 	                                              제목 <br>
-	                    <input type="text" placeholder="제목을 입력해세요..." name="diaryTitle" id="diaryTitle" class="diary-body"> 
+	                    <input type="text" placeholder="제목을 입력해세요..." name="diaryTitle" id="diaryTitle" class="diary-body" required> 
 	                    <br><br>
 	                    <input type="file" name="upfile" id="diary-file"> 
 	                    <br><br>
 	                   	 내용 <br>
-	                    <textarea name="diaryContent" id="diaryContent" cols="30" rows="10" class="diary-body" placeholder="내용을 입력하세요..."></textarea>
+	                    <textarea name="diaryContent" id="diaryContent" cols="30" rows="10" class="diary-body" placeholder="내용을 입력하세요..." required></textarea>
 	                </div>
 	                <!-- Modal footer -->
 	                <div class="modal-footer">
@@ -179,7 +179,7 @@
             
             <!-- Modal body -->
             <div class="modal-body">
-            <input id="diaryName-input" type="text" name="diaryName" placeholder="나만의 다이어리 네임을 만들어주세요">
+            <input id="diaryName-input" type="text" name="diaryName" placeholder="나만의 다이어리 네임을 만들어주세요" required>
             </div>
             
             <!-- Modal footer -->

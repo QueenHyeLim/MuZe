@@ -29,7 +29,20 @@
 	   			SYSDATE
 	   			)
 	</insert>
-
+	<select id="selectDiary" parameterType="_int" resultType="diary">
+		SELECT
+				DIARY_NO diaryNo,
+				DIARY_TITLE diaryTitle,
+				DIRAY_CONTENT diaryContent,
+				ATT_YN attStatus,
+				DIARY_DATE diaryDate
+		  FROM
+		  		DIARY
+		 WHERE
+		 		DIARY_YN = 'Y'
+		   AND
+		   		DIARY_USER = #{diaryUser}
+	</select>
 
 
 </mapper>
