@@ -94,7 +94,11 @@
                     </div>
                 </div>
                 <div class="pre-res">
-                    <a href="#" name="musId" value="">예약하기</a>
+                	<form action="#">
+                		<input type="hidden" name="musId" value="${s.musId }">
+                		<button type="submit">예약하기</button>
+                	</form>
+                    
                 </div>
                
             </div>
