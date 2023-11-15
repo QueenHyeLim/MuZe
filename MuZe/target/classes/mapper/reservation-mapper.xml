@@ -4,7 +4,19 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reservationMapper">
 	<resultMap id="reservationMap" type="com.kh.muze.show.model.vo.Show">
-		
+		<result column="MUS_ID" property="musId" />
+		<result column="THEATER_ID" property="theaterId" />
+		<result column="GENRE_NO" property="genreNo" />
+		<result column="MUS_TITLE" property="musTitle" />
+		<result column="START_DATE" property="startDate" />
+		<result column="END_DATE" property="endDate" />
+		<result column="PRODUCER" property="producer" />
+		<result column="RUN_TIME" property="runTime" />
+		<result column="POSTER" property="poster" />
+		<result column="AGE_RATE" property="ageRate" />
+		<result column="STATUS" property="status" />
+		<result column="PER_TIME" property="perTime" />
+		<result column="CAST" property="cast" />
 	</resultMap>
 	
 	<select id="showLatest" resultMap="reservationMap">
