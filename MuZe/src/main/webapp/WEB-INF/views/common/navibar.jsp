@@ -159,7 +159,7 @@
                         <a href="#">마이페이지</a>
                         <ul>
                             <li><a href="diary.di">다이어리</a></li>
-                            <li><a href="#">일정</a></li>
+                            <li><a href="">일정</a></li>
                             <li><a href="#">가계부</a></li>
                             <li><a href="#">즐겨찾기</a></li>
                             <li><a href="#">my muze</a></li>
