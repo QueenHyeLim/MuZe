@@ -1,10 +1,11 @@
 package com.kh.muze.diary.controller;
 
-import org.apache.commons.fileupload.MultipartStream;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.muze.diary.model.service.DiaryService;
@@ -16,7 +17,13 @@ public class DiaryController {
 	private DiaryService diaryService;
 	
 	@RequestMapping("diary.di")
-	public String diary() {
+	public String diary(Model model) {
+		
+		// forwarding해주면서 다이어리에 있는 데이터를 select해서 보여주기
+		int diaryUser = 1; // 임시 회원 번호
+		ArrayList<Diary> list = diaryService.selectDiary(diaryUser);
+		model.addAttribute("list",list);
+		
 		return "diary/diaryCalender";
 	}
 	
@@ -27,37 +34,24 @@ public class DiaryController {
 							  String diaryDate,
 							  MultipartFile upfile) {
 		
-		// System.out.println("insert.di에 들어옴");
-		
-		System.out.println("diaryDate : " + diaryDate);
-		
 		Diary diary = new Diary();
 		diary.setDiaryTitle(diaryTitle);
 		diary.setDiaryContent(diaryContent);
 		diary.setDiaryUser(1); // 나중에 회원 완성되면 userNo값 넘기기
 		diary.setDiaryDate(diaryDate);
-		
-		if(upfile != null) {
+		if(upfile != null && !upfile.isEmpty()) {
 			diary.setAttStatus("Y");
 		}else {
 			diary.setAttStatus("N");
 		}
+		
 		int result = diaryService.insertDiary(diary);
 		
-		System.out.println("result : " + result);
-		// 유저가 파일을 업로드 했을때만 DB를 갔다옴
-		return "diary/diaryCalender";
+		
+		return "redirect:diary.di";
 	}
 	
 	
-	// 화면에 들어왔을때 뿌려주는 
-	@RequestMapping("select.di")
-	public String selectDiary() {
-		
-		
-		
-		return "diary/diaryCalender";
-	}
 	
 	
 	

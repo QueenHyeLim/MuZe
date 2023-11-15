@@ -1,5 +1,7 @@
 package com.kh.muze.diary.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,11 @@ public class DiaryServiceImpl implements DiaryService{
 	@Override
 	public int insertDiary(Diary diary) {
 		return diaryDao.insertDiary(sqlSession,diary);
+	}
+
+	@Override
+	public ArrayList<Diary> selectDiary(int diaryUser) {
+		return diaryDao.selectDiary(sqlSession,diaryUser);
 	}
 
 }
