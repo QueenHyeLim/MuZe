@@ -7,6 +7,11 @@
 <title>극장 상세보기</title>
 </head>
 <body>
+	<jsp:include page="../common/navibar.jsp"/>
 
+	<h1>${responseText}</h1>
+	
+	<script>
+	</script>
 </body>
 </html>

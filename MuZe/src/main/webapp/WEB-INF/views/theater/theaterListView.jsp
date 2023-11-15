@@ -21,8 +21,8 @@
 	   			<div class="result">
 	   				 <table border="1" align="center">
 	   				 	<thead>
-	   				 		<tr>
-		   				 		<th>시설명</th>
+	   				 		<tr align="center">
+		   				 		<th width="300">시설명</th>
 		   				 		<th>공연장 수</th>
 		   				 		<th>지역(시도)</th>
 		   				 		<th>지역(구군)</th>
@@ -61,6 +61,11 @@
 					
 					const itemArr = $(result).find('db');
 					
+					// itemArr이 비어있지 않을 경우 '더보기'칸을 출력하고 '더보기'칸 클릭 시, 다음 페이지의 내용을 보여주기
+					if(itemArr.length != 0){
+						console.log('성공');
+					}
+					
 					let value = '';
 					
 					itemArr.each((i, item) => {
@@ -72,20 +77,22 @@
 						      + '<td>' + $(item).find('opende').text() + '</td>'
 						      + '<td>'
 						      + '<form action="theatermap">'
-						      + '<input type="hidden" name="mt10id" value="' + $(item).find('mt10id').text() + '"/>'
+						      + '<input type="hidden" id="mt10id" name="mt10id" value="' + $(item).find('mt10id').text() + '"/>'
 						      + '<button>지도</button>'
 						      + '</form>'
 						      + '</td>'
 						      + '</tr>'
 					})
 					$('tbody').html(value);
-					$('tbody').html('<tr><td align="center" colspan="6">더보기</td></tr>')
+					$('tbody').append('<tr><td align="center" colspan="6">더보기</td></tr>')
 				},
 				error : () => {
 					console.log('fail');
 				}
 			})
 		}
+		
+		
 	</script>
 </body>
 </html>

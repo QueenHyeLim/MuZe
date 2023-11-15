@@ -3,14 +3,26 @@ package com.kh.muze.theater.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import com.kh.muze.show.controller.ShowController;
 
@@ -32,7 +44,7 @@ public class TheaterController {
 		url += "&rows=10";
 		url += "&shprfnmfct=" + URLEncoder.encode(shprfnmfct, "UTF-8");
 		
-		System.out.println(url);
+		//System.out.println(url);
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -53,11 +65,13 @@ public class TheaterController {
 	}
 	
 	// 공연 상세정보 불러오기
-	@RequestMapping("theatermap")
-	public String theatermap(String mt10id) throws IOException {
+	@RequestMapping(value="theatermap", produces="text/html; charset=UTF-8")
+	public String theatermap(String mt10id, Model model) throws IOException, Exception {
 		String url = "http://kopis.or.kr/openApi/restful/prfplc/";
 		url += mt10id;
 		url += "?service=" + ShowController.SERVICEYKEY;
+		
+		//System.out.println(url);
 		
 		URL requestUrl = new URL(url); 
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -74,7 +88,12 @@ public class TheaterController {
 		br.close();
 		urlConnection.disconnect();
 		
-		return responseText;
+		//System.out.println(responseText);
+		
+		
+		return "theater/theaterMapView";
 		
 	}
+	
+	
 }
