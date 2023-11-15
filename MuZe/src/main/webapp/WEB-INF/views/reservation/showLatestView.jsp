@@ -53,7 +53,9 @@
         width : 100%;
         height : 100%;
     }
-	
+	div{
+		color : white;
+	}
 	
 	
 </style>
@@ -82,13 +84,13 @@
                         <img src="${ s.poster }" alt="뮤지컬포스터">
                     </div>
                     <div class="pre_con_2">
-                        	${ c.musTitle }
+                        	${ s.musTitle }
                     </div>
                     <div class="pre_con_3">
-                        	${ c.theaterName }
+                        	${ s.theaterName }
                     </div>
                     <div class="pre_con_4">
-                        ${c.startDate } ~ ${ c.endDate }
+                        ${s.startDate } ~ ${ s.endDate }
                     </div>
                 </div>
                 <div class="pre-res">

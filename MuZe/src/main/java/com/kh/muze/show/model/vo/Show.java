@@ -11,8 +11,8 @@ public class Show {
 	private String theaterId; //THEATER_ID	VARCHAR2(1000 BYTE) 극장번호
 	private int genreNo; //GENRE_NO	NUMBER 장르번호
 	private String musTitle; //MUS_TITLE	VARCHAR2(1000 BYTE) 작품명
-	private Date startDate; //START_DATE	DATE 시작일
-	private Date endDate; //END_DATE	DATE 종료일
+	private String startDate; //START_DATE	DATE 시작일
+	private String endDate; //END_DATE	DATE 종료일
 	private String producer; //PRODUCER	VARCHAR2(500 BYTE) 제작사
 	private String runTime; //RUN_TIME	VARCHAR2(20 BYTE) 런타임
 	private String poster; //POSTER	VARCHAR2(1000 BYTE) 포스터
