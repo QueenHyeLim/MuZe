@@ -32,7 +32,9 @@
 	   				 	</thead>
 	   				 	
 	   				 	<tbody>
-	   				 	
+	   				 		<tr>
+	   				 			<td colspan="6" align="center">일치하는 항목이 존재하지 않습니다.</td>
+	   				 		</tr>
 	   				 	</tbody>
 	   				 </table> 				
 	   			</div>
@@ -77,6 +79,7 @@
 						      + '</tr>'
 					})
 					$('tbody').html(value);
+					$('tbody').html('<tr><td align="center" colspan="6">더보기</td></tr>')
 				},
 				error : () => {
 					console.log('fail');
