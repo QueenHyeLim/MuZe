@@ -20,5 +20,11 @@ public class Show {
 	private String status; //STATUS	VARCHAR2(50 BYTE) 공연상태
 	private String perTime; //PER_TIME	VARCHAR2(100 BYTE) 공연시간
 	private String cast; //CAST	VARCHAR2(200 BYTE) 출연진
+	
+	// 최신 뮤지컬 순 순번
+	private int rowNo;
+	
+	// 극장명
+	private String theaterName;
 
 }

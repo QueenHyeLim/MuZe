@@ -72,27 +72,29 @@
             </select>
         </div>
         <div class="pre-list">
+        	<c:forEach items="${ list }" var="s">
             <div class="pre-show">
                 <div class="pre-rank">
-                    <div id="pre-rank_1">1</div>
+                    <div id="pre-rank_1">${ s.rowNo }</div>
                 </div>
                 <div class="pre-con">
                     <div class="pre_con_1">
-                        <img src="resources/image/뮤지컬레미제라블.png" alt="뮤지컬레미제라블">
+                        <img src="${ s.poster }" alt="뮤지컬포스터">
                     </div>
                     <div class="pre_con_2">
-                        뮤지컬<레미제라블>
+                        	${ c.musTitle }
                     </div>
                     <div class="pre_con_3">
-                        블루스퀘어 신한카드홀
+                        	${ c.theaterName }
                     </div>
                     <div class="pre_con_4">
-                        2023.11.30 ~ 2024.3.10
+                        ${c.startDate } ~ ${ c.endDate }
                     </div>
                 </div>
                 <div class="pre-res">
                     <a href="#" name="musId" value="">예약하기</a>
                 </div>
+               
             </div>
             <!--
             <div class="pre-show">
@@ -101,6 +103,7 @@
             <div class="pre-show">
 
             </div>-->
+        	</c:forEach>
         </div>
 
     </div>
