@@ -78,7 +78,7 @@
             ],
             // 클릭한 해당 날짜의 값을 뽑아주는 이벤트 
             dateClick: function(date) {
-                console.log(date);
+                // console.log(date);
                 $('#diaryDate').val(date.dateStr);
                 var result = confirm(date.dateStr+'일 의 다이어리를 작성하시겠습니까?');
                 // 선택한 날짜값 뽑고 true값일때 모달창을 띄워 다이어리를 작성할 수 있음
@@ -88,9 +88,11 @@
               }
             },
             // 이벤트가 걸려있는 날 ,아닌 날에 따라 조건을 걸어주는 이벤트
-            eventAllow : function(dropInfo, draggedEvent){
-            	if(dropInfo)
-            }
+            eventMouseover: function(event, jsEvent, view) {
+                if (view.name !== 'agendaDay') {
+                  $(jsEvent.target).attr('title', event.title);
+                }
+             },
         });
         calendar.render();
     });
@@ -104,7 +106,7 @@
         $.ajax({
             url : 'name.di',
             success : name => {
-                console.log(name);
+               //  console.log(name);
                 $('#diaryName').html(name);
             }
         })
