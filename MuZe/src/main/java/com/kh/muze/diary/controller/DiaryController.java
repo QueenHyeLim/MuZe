@@ -19,7 +19,8 @@ public class DiaryController {
 	public String diary() {
 		return "diary/diaryCalender";
 	}
-
+	
+	// diary insert 작성 메소드
 	@RequestMapping("insert.di")
 	public String insertDiary(String diaryTitle,
 							  String diaryContent, // int diaryUser값 뽑기!!
@@ -47,6 +48,17 @@ public class DiaryController {
 		// 유저가 파일을 업로드 했을때만 DB를 갔다옴
 		return "diary/diaryCalender";
 	}
+	
+	
+	// 화면에 들어왔을때 뿌려주는 
+	@RequestMapping("select.di")
+	public String selectDiary() {
+		
+		
+		
+		return "diary/diaryCalender";
+	}
+	
 	
 	
 }
