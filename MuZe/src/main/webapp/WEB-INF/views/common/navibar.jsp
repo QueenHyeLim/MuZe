@@ -191,7 +191,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">예매하기</a>
+                    <a href="show.rs">예매하기</a>
                 </li>
                 <li>
                     <a href="list.th">극장</a>

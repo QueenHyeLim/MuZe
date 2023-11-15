@@ -6,7 +6,7 @@
 	<resultMap id="reservationMap" type="show">
 		<result column="MUS_ID" property="musId" />
 		<result column="THEATER_ID" property="theaterId" />
-		<result column="THEATER_NAME" property="theaterName" />
+		<result column="THEATHER_NAME" property="theaterName" />
 		<result column="GENRE_NO" property="genreNo" />
 		<result column="MUS_TITLE" property="musTitle" />
 		<result column="START_DATE" property="startDate" />
