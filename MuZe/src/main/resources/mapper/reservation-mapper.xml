@@ -3,7 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reservationMapper">
+	<resultMap id="reservationMap" type="com.kh.muze.show.model.vo.Show">
+		
+	</resultMap>
 	
+	<select id="showLatest" resultMap="reservationMap">
+		SELECT 
+		        MUS_ID,
+		        THEATER_ID,
+		        GENRE_NO,
+		        MUS_TITLE,
+		        START_DATE,
+		        END_DATE,
+		        RUN_TIME,
+		        POSTER,
+		        AGE_RATE,
+		        STATUS,
+		        PER_TIME,
+		        CAST
+		 FROM 
+		        SHOW 
+		 WHERE 
+		        STATUS = '공연중' 
+		 ORDER 
+		    BY 
+		        START_DATE DESC
+	</select>
 
 
 
