@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>Diary.jsp</title>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="sweetalert2.min.css">
 <style>
    /*------------ DIARY 영역 --------------*/
     #diary-area{
@@ -15,13 +17,14 @@
         border-radius: 17cqmin;
         background-color: rgba(128, 128, 128, 0.506);
     }
-    #diaryName{
+    #diaryName{	
         text-align: center;
         margin-top: 80px;
+        color:rgb(152, 29, 38);
     }
     #diaryName:hover{
         cursor: pointer;
-        color:rgb(152, 29, 38);
+        color : #fff;
     }
     .diary-body{
         width: 100%;
@@ -48,10 +51,7 @@
 </style>
 </head>
 <body>
-
 <jsp:include page="../common/navibar.jsp"/>
-
-
 <script>
 
     // div날짜를 클릭했을떄 해당 날짜의 값을 뽑는 함수(insert하기 위해)
@@ -70,20 +70,29 @@
             	{
             		title : '${di.diaryTitle}',
             		start : '${di.diaryDate}',
-            		backgroundColor : 'green',
-            		color : 'red'
+            		backgroundColor : 'rgb(152, 29, 38)',
+            		color : 'black	'
             	},
             	</c:forEach>
             ],	
             // 클릭한 해당 날짜의 값을 뽑아주는 이벤트 
             dateClick: function(date) {
                 $('#diaryDate').val(date.dateStr);
-                var result = confirm(date.dateStr+'일 의 다이어리를 작성하시겠습니까?');
-                // 선택한 날짜값 뽑고 true값일때 모달창을 띄워 다이어리를 작성할 수 있음
-                if(result == true){
-                    // true값이 들어온 경우 다이어리를 작성할수 있는 모달창(form)이 뜸
-                    $('#myModal').modal('show');
-              }
+                Swal.fire({
+              	  title: date.dateStr + "날에 작성할 <br> 다이어리 / 일정 중 고르시오.",
+              	  showDenyButton: true,
+              	  showCancelButton: true,
+              	  confirmButtonText: "다이어리",
+              	  denyButtonText: "일정",
+              	}).then((result) => {
+              	  if (result.isConfirmed) {
+              		// result.isConfirmed : 다이어리를 작성할수 있는 모달창뜸
+                        $('#myModal-form').modal('show');
+              	  } else if (result.isDenied) {
+              		// result.isDenied : 일정 작성 모달창 뜸
+                        $('#myModal').modal('show');
+              	  }
+              	});
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
@@ -126,10 +135,35 @@
         </div>
     </div> 
     
+	<!-------------------------------다이어리 네임 작성 모달창------------------------------------>
+    <!-- The Modal -->
+    <div class="modal fade" id="modal-diaryName">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header" id="diary-header">
+            <h4 class="modal-title">CHANGE YOUR DIARY NAME</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body">
+            <input id="diaryName-input" type="text" name="diaryName" placeholder="나만의 다이어리 네임을 만들어주세요" required>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-secondary" data-dismiss="modal">change</button>
+            </div>
+            
+        </div>
+        </div>
+    </div>
     
 <!-------------------------------다이어리 작성을 위한 모달창------------------------------------>
 	<form action="insert.di" method="post" enctype="multipart/form-data">
-	    <div class="modal fade" id="myModal">
+	    <div class="modal fade" id="myModal-form">
 	        <div class="modal-dialog modal-lg">
 	            <div class="modal-content">
 	            <!-- USER_NO HIDDEN / DIARY_DATE HIDDEN -->
@@ -161,31 +195,6 @@
 	</form>
 
 
-	<!-------------------------------다이어리 네임 작성 모달창------------------------------------>
-    <!-- The Modal -->
-    <div class="modal fade" id="modal-diaryName">
-        <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-        
-            <!-- Modal Header -->
-            <div class="modal-header" id="diary-header">
-            <h4 class="modal-title">CHANGE YOUR DIARY NAME</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            
-            <!-- Modal body -->
-            <div class="modal-body">
-            <input id="diaryName-input" type="text" name="diaryName" placeholder="나만의 다이어리 네임을 만들어주세요" required>
-            </div>
-            
-            <!-- Modal footer -->
-            <div class="modal-footer">
-            <button type="submit" class="btn btn-secondary" data-dismiss="modal">change</button>
-            </div>
-            
-        </div>
-        </div>
-    </div>
 	<!---------------------------------다이어리 작성 확인 모달창------------------------------------>
 	<div class="modal fade" id="modal-content">
 	        <div class="modal-dialog modal-lg">
