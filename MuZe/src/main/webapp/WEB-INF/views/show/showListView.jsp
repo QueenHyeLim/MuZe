@@ -6,12 +6,6 @@
 <meta charset="UTF-8">
 <title>작품</title>
 <style>
-
-
-#blank{
-	height : 200px
-}
-
 #list-part{
 	border : 1px solid;
 	height : 900px;

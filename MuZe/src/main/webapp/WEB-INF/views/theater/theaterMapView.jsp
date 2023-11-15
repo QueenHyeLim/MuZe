@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>극장 상세보기</title>
 </head>
 <body>
-	<jsp:include page="WEB-INF/views/common/navibar.jsp"/>
+
 </body>
-</html> 
+</html>

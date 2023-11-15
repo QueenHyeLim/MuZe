@@ -25,7 +25,7 @@
 	}
 	div {
 	    box-sizing: border-box;
-	    border: 1px solid red;
+	    /*border: 1px solid red;*/
 	}
 	#wrap {
 	    width: 100%;
@@ -128,7 +128,7 @@
 	    width: 200px;
 	    height: 200px;
 	    margin-left: 50px;
-	    background-image: url("resources/image/LoGo.png");
+	    /*background-image: url("resources/image/LoGo.png");*/
 	    /*일단은 로고 사진은 임시 */
 	    background-repeat: no-repeat;
 	    background-position: center;
@@ -158,11 +158,11 @@
                     <li>
                         <a href="#">마이페이지</a>
                         <ul>
-                            <li><a href="#">다이어리</a></li>
+                            <li><a href="diary.di">다이어리</a></li>
                             <li><a href="#">일정</a></li>
-                            <li><a href="#">my muze</a></li>
                             <li><a href="#">가계부</a></li>
                             <li><a href="#">즐겨찾기</a></li>
+                            <li><a href="#">my muze</a></li>
                         </ul>
                     </li>
                     <li>
@@ -176,7 +176,7 @@
                         <a href="#">예매하기</a>
                     </li>
                     <li>
-                        <a href="">극장</a>
+                        <a href="list.th">극장</a>
                     </li>
                     <li>
                         <a href="list.sh">작품</a>
