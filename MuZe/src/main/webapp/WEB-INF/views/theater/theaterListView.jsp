@@ -54,7 +54,8 @@
 			$.ajax({
 				url : 'rlist.th',
 				data : {
-					shprfnmfct : $('#shprfnmfct').val()
+					shprfnmfct : $('#shprfnmfct').val(),
+					cpage : 1
 				},
 				success : result => {
 					console.log($(result).find('db'));
@@ -62,9 +63,13 @@
 					const itemArr = $(result).find('db');
 					
 					// itemArr이 비어있지 않을 경우 '더보기'칸을 출력하고 '더보기'칸 클릭 시, 다음 페이지의 내용을 보여주기
-					if(itemArr.length != 0){
-						console.log('성공');
-					}
+					// if(itemArr.length == 10){
+					// 	console.log('성공');
+					// 	console.log(itemArr.length);
+					// } else {
+					// 	console.log('없음');
+					// 	console.log(itemArr.length);
+					// }
 					
 					let value = '';
 					
@@ -84,11 +89,26 @@
 						      + '</tr>'
 					})
 					$('tbody').html(value);
-					$('tbody').append('<tr><td align="center" colspan="6">더보기</td></tr>')
+
+					if(itemArr.length == 10){
+						seeMore();
+
+						
+					}
+					
 				},
 				error : () => {
 					console.log('fail');
 				}
+			})
+		}
+
+		function seeMore(){
+			$('tbody').append('<tr><td align="center" colspan="6" id="more">더보기</td></tr>') 
+
+			$('#more').click(() =>{
+				console.log('더보기');
+				search();
 			})
 		}
 		
