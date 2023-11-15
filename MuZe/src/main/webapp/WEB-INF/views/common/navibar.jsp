@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,6 +54,12 @@
 	    margin: auto;
 	}
 	#login-form {
+	    font-size: 16px;
+	    width: 100%;
+	    text-align: right;
+	    float: right;
+	}
+	#login {
 	    font-size: 16px;
 	    width: 100%;
 	    text-align: right;
@@ -136,8 +143,16 @@
                 <p style="font-size: 13px">회원 정보</p>
             </div>
             <div id="header">
+            	<c:choose>
+            		<c:when test="${ empty loginUser }">
                 <!-- 회원이 아닐때 보여지는 태그 -->
                 <div id="login-form"><a href="loginPage.me">로그인</a> | <a href="enrollForm.me">회원가입</a></div>
+               		</c:when>
+               		<c:otherwise>
+               		<div id="login"><label>${ sessionScope.loginUser.userName }님 환영합니다</label>&nbsp;&nbsp;<a href="logout.me">로그아웃</a></div>
+               		</c:otherwise>
+                </c:choose>
+                
                 <!-- navigator영역 start -->
                 <ul id="navi">
                     <li>
