@@ -9,9 +9,6 @@
 <body>
 	<jsp:include page="../common/navibar.jsp"/>
 
-	<h1>${responseText}</h1>
-	
-	<script>
-	</script>
+	<h4>${fcltynm}</h4>
 </body>
 </html>
