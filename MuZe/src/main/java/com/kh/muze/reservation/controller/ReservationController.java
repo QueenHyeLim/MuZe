@@ -16,7 +16,9 @@ public class ReservationController {
 	
 	@RequestMapping("show.rs")
 	public String ShowLatest(Model model) {
-		reservationService.showLatest();
+		model.addAttribute("list", reservationService.showLatest());
+		
+		return "reservation/showLatestView";
 	}
 	
 }
