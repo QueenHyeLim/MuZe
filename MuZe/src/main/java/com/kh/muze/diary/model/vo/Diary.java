@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter @Setter @ToString @NoArgsConstructor
 public class Diary {
 	
-	private int userNo;           //USER_NO
+	private int diaryUser;           //USER_NO
 	private int diaryNo;          //DIARY_NO
 	private String diaryName;     //DIARY_NAME
 	private String diaryTitle;    //DIARY_TITLE

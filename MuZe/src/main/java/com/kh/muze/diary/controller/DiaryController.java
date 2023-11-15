@@ -22,20 +22,25 @@ public class DiaryController {
 
 	@RequestMapping("insert.di")
 	public String insertDiary(String diaryTitle,
-							  String diaryContent, // int userNo값 뽑기!!
+							  String diaryContent, // int diaryUser값 뽑기!!
 							  String diaryDate,
 							  MultipartFile upfile) {
 		
-		System.out.println("insert.di에 들어옴");
+		// System.out.println("insert.di에 들어옴");
 		
 		System.out.println("diaryDate : " + diaryDate);
 		
 		Diary diary = new Diary();
 		diary.setDiaryTitle(diaryTitle);
 		diary.setDiaryContent(diaryContent);
-		diary.setUserNo(1); // 나중에 회원 완성되면 userNo값 넘기기
+		diary.setDiaryUser(1); // 나중에 회원 완성되면 userNo값 넘기기
 		diary.setDiaryDate(diaryDate);
 		
+		if(upfile != null) {
+			diary.setAttStatus("Y");
+		}else {
+			diary.setAttStatus("N");
+		}
 		int result = diaryService.insertDiary(diary);
 		
 		System.out.println("result : " + result);

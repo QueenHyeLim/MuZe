@@ -90,6 +90,9 @@
     $(()=>{
         $.ajax({
             url : 'selectName.di',
+            data : {
+            	diaryUser : // ${sessionScope.loginUser.userNo}
+            },
             success : name => {
                 console.log(name);
                 $('#diaryName').html(name);
@@ -136,7 +139,7 @@
 	        <div class="modal-dialog modal-lg">
 	            <div class="modal-content">
 	            <!-- USER_NO HIDDEN / DIARY_DATE HIDDEN -->
-	            <input type="hidden" name="userNo" />
+	            <input type="hidden" name="diaryUser" />
 				<input type="hidden" name="diaryDate" id="diaryDate"/>
 	                <!-- Modal Header -->
 	                <div class="modal-header" style="text-align: center;" id="diary-header">

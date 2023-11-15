@@ -8,7 +8,7 @@
 		  INTO
 		  		DIARY
 		  		(
-		  		USER_NO,
+		  		DIARY_USER,
 				DIARY_NO,
 				DIARY_TITLE,
 				DIRAY_CONTENT,
@@ -19,8 +19,8 @@
 		  		)
 	   VALUES
 	   			(
-	   			#{userNo},
-	   			SEQ_DIARY_NO,
+	   			#{diaryUser},
+	   			SEQ_DIARY_NO.NEXTVAL,
 	   			#{diaryTitle},
 	   			#{diaryContent},
 	   			'Y',
