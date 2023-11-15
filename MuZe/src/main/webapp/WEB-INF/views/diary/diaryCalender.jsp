@@ -54,9 +54,6 @@
 
 <script>
 
-	// 시간 남을때 다이어리 클릭 제안(현재 오늘의 날 이후의 다이어리 작성제안 회원가입 전의 날짜 다이어리 작성 제안)
-
-
     // div날짜를 클릭했을떄 해당 날짜의 값을 뽑는 함수(insert하기 위해)
     document.addEventListener('DOMContentLoaded', function() {
         var today = new Date(); // 현재 날짜
@@ -72,13 +69,14 @@
             	<c:forEach var="di" items="${list}">
             	{
             		title : '${di.diaryTitle}',
-            		start : '${di.diaryDate}'
+            		start : '${di.diaryDate}',
+            		backgroundColor : 'green',
+            		color : 'red'
             	},
             	</c:forEach>
-            ],
+            ],	
             // 클릭한 해당 날짜의 값을 뽑아주는 이벤트 
             dateClick: function(date) {
-                console.log(date);
                 $('#diaryDate').val(date.dateStr);
                 var result = confirm(date.dateStr+'일 의 다이어리를 작성하시겠습니까?');
                 // 선택한 날짜값 뽑고 true값일때 모달창을 띄워 다이어리를 작성할 수 있음
@@ -87,15 +85,13 @@
                     $('#myModal').modal('show');
               }
             },
-            // 이벤트가 걸려있는 날 ,아닌 날에 따라 조건을 걸어주는 이벤트
-            eventAllow : function(dropInfo, draggedEvent){
-            	if(dropInfo)
-            }
+            // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
+            eventClick : function(info) {
+            	$('#modal-content').modal('show');
+            },
         });
         calendar.render();
     });
-    
-    
 
     
     // diaryName을 클릭했을때 update diaryName (default : YOU ARE MY DIARY)
@@ -104,7 +100,7 @@
         $.ajax({
             url : 'name.di',
             success : name => {
-                console.log(name);
+               //  console.log(name);
                 $('#diaryName').html(name);
             }
         })
@@ -190,7 +186,40 @@
         </div>
         </div>
     </div>
-
+	<!---------------------------------다이어리 작성 확인 모달창------------------------------------>
+	<div class="modal fade" id="modal-content">
+	        <div class="modal-dialog modal-lg">
+	            <div class="modal-content">
+	            <!-- USER_NO HIDDEN / DIARY_DATE HIDDEN -->
+	            <input type="hidden" name="diaryUser" />
+				<input type="hidden" name="diaryDate" id="diaryDate"/>
+	                <!-- Modal Header -->
+	                <div class="modal-header" style="text-align: center;" id="diary-header">
+	                    <h4 class="modal-title" id="diaryName-area"></h4>
+	                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+	                </div>
+	                <!-- Modal body -->
+	                <div class="modal-body">
+	                                              제목 <br>
+	                    <div id="diaryTitle" class="diary-body"> 
+	                    	<h4 name="diaryTitle"></h4>
+	                    </div>
+	                    <br><br>
+	                    <br><br>
+	                   	 내용 <br>
+	                    <div class="diary-body">
+	                    	<span name="diaryContent" id="diaryContent">
+	                    	</span>
+	                    </div>
+	                </div>
+	                <!-- Modal footer -->
+	                <div class="modal-footer">
+	                    <button type="submit" class="btn btn-secondary">upload</button>
+	                </div>
+	                
+	            </div>
+	        </div>
+	    </div>
 
 </body>
 </html>

@@ -15,6 +15,14 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
+	body{
+		background-color: rgb(39, 38, 38);
+		color : white;
+	}
+	a{
+		text-decoration: none;
+		color : white;
+	}
 	#menubar {
 	    margin: 0;
 	    padding: 0;
@@ -25,7 +33,6 @@
 	}
 	div {
 	    box-sizing: border-box;
-	    /*border: 1px solid red;*/
 	}
 	#wrap {
 	    width: 100%;
@@ -44,6 +51,9 @@
 	    padding: 0;
 	    width: 100%;
 	    height: 200px;
+	    z-index:5;
+	    background-color: rgba(152, 29, 37, 0.459);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.459);
 	    /* ↓ 스크롤을 해도 같이 내려오는 효과 */
 	    position: fixed;
 	    top: 0;
@@ -72,6 +82,11 @@
 		height:200px;
 	}
 	/* ---------------- navigator 영역 부분 ---------------- */
+	#header.sticky{
+       background-color: rgba(152, 29, 37, 0.459);
+       position: fixed;
+       top: 0;
+    }
 	#navi {
 	    width: 60%;
 	    padding: 0;
@@ -99,10 +114,9 @@
 	    line-height: 30px;
 	}
 	#navi a:hover {
-	    color: orangered;
+	    color: #fff;
 	}
 	#navi > li > ul {
-	    background-color: rgba(0, 128, 0, 0.457);
 	    list-style: none;
 	    padding: 0;
 	    display: none;
@@ -138,61 +152,6 @@
 	}
 </style>
 </head>
-<<<<<<< Updated upstream
-    <body>
-        <div id="menubar">
-            <!-- 회원일때 보여지는 회원정보 div -->
-            <div id="userBox">
-                <p style="font-size: 13px">회원 정보</p>
-            </div>
-            <div id="header">
-            	<c:choose>
-            		<c:when test="${ empty loginUser }">
-                <!-- 회원이 아닐때 보여지는 태그 -->
-                <div id="login-form"><a href="loginPage.me">로그인</a> | <a href="enrollForm.me">회원가입</a></div>
-
-               		</c:when>
-               		<c:otherwise>
-               		<div id="login"><label>${ sessionScope.loginUser.userName }님 환영합니다</label>&nbsp;&nbsp;<a href="logout.me">로그아웃</a></div>
-               		</c:otherwise>
-                </c:choose>
-                
-
-                <!-- navigator영역 start -->
-                <ul id="navi">
-                    <li>
-                        <a href="#">마이페이지</a>
-                        <ul>
-                            <li><a href="diary.di">다이어리</a></li>
-
-                            <li><a href="#">일정</a></li>
-
-                            <li><a href="#">가계부</a></li>
-                            <li><a href="#">즐겨찾기</a></li>
-                            <li><a href="#">my muze</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="">커뮤니티</a>
-                        <ul>
-                            <li><a href="#">자유게시판</a></li>
-                            <li><a href="#">티켓 양도</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="show.rs">예매하기</a>
-                    </li>
-                    <li>
-                        <a href="list.th">극장</a>
-                    </li>
-                    <li>
-                        <a href="list.sh">작품</a>
-                    </li>
-                </ul>
-                <!-- navi 영역 end -->
-                <div id="logoPlace"></div>
-            </div>
-=======
 <body>
 	<script>
 	    window.addEventListener("scroll", function(){
@@ -243,7 +202,7 @@
             </ul>
             <!-- navi 영역 end -->
             <div id="logoPlace"></div>
->>>>>>> Stashed changes
         </div>
-    </body>
+    </div>
+</body>
 </html>
