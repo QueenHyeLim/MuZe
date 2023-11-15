@@ -3,9 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reservationMapper">
-	<resultMap id="reservationMap" type="com.kh.muze.show.model.vo.Show">
+	<resultMap id="reservationMap" type="show">
 		<result column="MUS_ID" property="musId" />
 		<result column="THEATER_ID" property="theaterId" />
+		<result column="THEATER_NAME" property="theaterName" />
 		<result column="GENRE_NO" property="genreNo" />
 		<result column="MUS_TITLE" property="musTitle" />
 		<result column="START_DATE" property="startDate" />
@@ -17,14 +18,16 @@
 		<result column="STATUS" property="status" />
 		<result column="PER_TIME" property="perTime" />
 		<result column="CAST" property="cast" />
+		<result column="ROWNUM" property="rowNo" />
 	</resultMap>
 	
 	<select id="showLatest" resultMap="reservationMap">
-		SELECT 	
+		SELECT 
 				ROWNUM, A.*
-		 FROM (SELECT 
+		 FROM 
+		 		(SELECT 
 				        MUS_ID,
-				        THEATER_ID,
+				        T.THEATHER_NAME,
 				        GENRE_NO,
 				        MUS_TITLE,
 				        START_DATE,
@@ -36,7 +39,11 @@
 				        PER_TIME,
 				        CAST
 				 FROM 
-				        SHOW 
+				        SHOW S
+		         JOIN
+		                THEATER T
+		          ON
+		               (T.THEATER_ID = S.THEATER_ID)
 				 WHERE 
 				        STATUS = '공연중' 
 				 ORDER 
