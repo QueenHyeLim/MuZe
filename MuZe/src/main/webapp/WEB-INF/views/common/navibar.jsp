@@ -69,12 +69,14 @@
 	    text-align: right;
 	    float: right;
 	}
+
 	#login {
 	    font-size: 16px;
 	    width: 100%;
 	    text-align: right;
 	    float: right;
-	}
+	 }
+
 	#blank-area{
 		width:100%;
 		height:200px;
