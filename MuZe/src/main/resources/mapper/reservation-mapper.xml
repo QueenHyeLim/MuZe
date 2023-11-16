@@ -81,7 +81,7 @@
             AND
                     MUS_ID = #{ musId }	
 	</select>
-	
+	<!-- 
 	<select id="selectMusPrice" resultType="seatprice">
 		SELECT
 		        SEATPK,
@@ -90,4 +90,5 @@
 		  FROM
 		        SEATPRICE	
 	</select>
+	 -->
 </mapper>
