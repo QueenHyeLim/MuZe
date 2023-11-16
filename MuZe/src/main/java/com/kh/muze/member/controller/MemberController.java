@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +27,7 @@ public class MemberController {
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		
 		Member loginUser = memberService.loginMember(m);
-		
+		System.out.println(loginUser);
 		if(loginUser != null) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/");
@@ -39,10 +40,27 @@ public class MemberController {
 		
 	}
 	
+	@RequestMapping("logout.me")
+	public String logoutMember(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 	@RequestMapping("enrollForm.me")
 	public String enrollForm() {
 			
 		return "member/memberEnrollForm";
+	}
+	
+	@RequestMapping("insert.me")
+	public String insertMember(Member m, Model model) {
+		if(memberService.insertMember(m) > 0) { // 성공 => 메인페이지
+			return "redirect:/";
+		} else { 
+			model.addAttribute("errorMsg", "회원가입 실패");
+			return "common/errorPage";
+		}
+		
 	}
 
 }

@@ -21,5 +21,29 @@
 	  	AND
 	  		USER_PWD = #{userPwd}
 	</select>
+	
+	<insert id="insertMember" parameterType="member">
+		INSERT
+		  	  INTO
+			  MEMBER
+		  	  (
+		  		USER_NO,
+		  		USER_ID,
+		  		USER_PWD,
+		  		USER_NAME,
+		  		EMAIL,
+		  		PHONE
+		  	  )
+		VALUES
+			  (
+			  	SEQ_MNO.NEXTVAL,
+			  	#{userId},
+			  	#{userPwd},
+			  	#{userName},
+			  	#{email},
+			  	#{phone}
+			  )
+		
+	</insert>
 
 </mapper>
