@@ -27,7 +27,7 @@ public class MemberController {
 	public ModelAndView loginMember(Member m, HttpSession session, ModelAndView mv) {
 		
 		Member loginUser = memberService.loginMember(m);
-		System.out.println(loginUser);
+		
 		if(loginUser != null) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/");
@@ -61,6 +61,16 @@ public class MemberController {
 			return "common/errorPage";
 		}
 		
+	}
+	
+	@RequestMapping("myPage.me")
+	public String myPage() {
+		return "member/myPage";
+	}
+	
+	@RequestMapping("myInfo.me")
+	public String myInfo() {
+		return "member/myInfo";
 	}
 
 }

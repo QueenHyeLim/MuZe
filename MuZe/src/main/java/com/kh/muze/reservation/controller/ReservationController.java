@@ -25,6 +25,8 @@ public class ReservationController {
 	@RequestMapping("detail.rs")
 	public ModelAndView detailMus(String musId, ModelAndView mv) {
 		mv.addObject("s", reservationService.selectMus(musId)).setViewName("reservation/detailMusView");
+		mv.addObject("sp", reservationService.selectMusPrice()).setViewName("reservation/detailMusView");
+		
 		return mv;
 	}
 }
