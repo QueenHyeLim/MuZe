@@ -7,6 +7,9 @@
 <title>Your My MuZe 뮤지컬 좌석선택</title>
 </head>
 <body>
-
+	<jsp:include page="../common/navibar.jsp" />
+	
+	
+	
 </body>
 </html>

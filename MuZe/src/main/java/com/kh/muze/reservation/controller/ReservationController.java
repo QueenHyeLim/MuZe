@@ -38,10 +38,14 @@ public class ReservationController {
 		System.out.println("예매날짜 : " + selectdate);
 		
 		
-		mv.addObject("musId", musId).setViewName("seat/selectseatView");
+		mv.addObject("musInfo", reservationService.selectMus(musId)).setViewName("seat/selectseatView");
 		mv.addObject("userNo", userNo).setViewName("seat/selectseatView");
 		mv.addObject("selectdate", selectdate).setViewName("seat/selectseatView");
+		mv.addObject("seat", reservationService.ableSeats()).setViewName("seat/selectseatView");
+<<<<<<< Updated upstream
 		
+=======
+>>>>>>> Stashed changes
 		return mv;
 	}
 }
