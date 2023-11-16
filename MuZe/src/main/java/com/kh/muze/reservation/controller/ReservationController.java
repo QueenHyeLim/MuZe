@@ -21,4 +21,6 @@ public class ReservationController {
 		return "reservation/showLatestView";
 	}
 	
+	@RequestMapping("detail.rs")
+	public String
 }

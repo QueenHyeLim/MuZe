@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div class="pre-res">
-                	<form action="#">
+                	<form action="detail.rs" method="POST">
                 		<input type="hidden" name="musId" value="${s.musId }">
                 		<button type="submit">예약하기</button>
                 	</form>
