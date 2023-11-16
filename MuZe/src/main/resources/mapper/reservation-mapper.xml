@@ -51,6 +51,30 @@
 				        START_DATE DESC)A
 	</select>
 
-
+	<select id="selectMus" parameterType="string" resultMap="reservationMap">
+ 		SELECT 
+				MUS_ID,
+				T.THEATHER_NAME,
+				GENRE_NO,
+				MUS_TITLE,
+				START_DATE,
+				END_DATE,
+				RUN_TIME,
+				POSTER,
+				AGE_RATE,
+				STATUS,
+				PER_TIME,
+				CAST
+		 FROM 
+				SHOW S
+		 JOIN
+		        THEATER T
+		   ON
+		        (T.THEATER_ID = S.THEATER_ID)
+		WHERE 
+				STATUS = '공연중' 
+          AND
+                MUS_ID = #{ musId }		
+	</select>
 
 </mapper>
