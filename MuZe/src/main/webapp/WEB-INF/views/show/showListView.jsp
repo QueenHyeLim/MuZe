@@ -17,7 +17,7 @@
 }
 
 #result-part {
-	background-color : blue;
+	background-color : beige;
 	height : 800px;
 }
 
@@ -29,6 +29,20 @@ img {
 	width : 100px;
 	height : 150px;
 }
+
+.show > div{
+	float : left;
+}
+
+.show {
+	border : 1px solid;
+	padding-left : 10px;
+	padding-top : 10px;
+}
+
+.des{
+	margin-left : 10px;
+}
 </style>
 </head>
 <body>
@@ -38,22 +52,27 @@ img {
 	   <div id="blank-area"></div>
 	   <div class="page">
 	   		<div id="search-part">
-	   			<input type="text" placeholder="검색어 입력" name="prfnm" id="prfnm" required>
+	   			<input type="text" placeholder="검색어 입력" name="shprfnm" id="shprfnm" required>
 	   			<button id="btn1" onclick="search();">검색</button>
 	   		</div>
 	   		
 	   		<div id="result-part">
 	   			<div class="result">
-	   				<div class="poster">
-	   					<img src="https://i.namu.wiki/i/MRi4QNUMhWWq1Mc10JHQahMgFfZkd8NhrnkXxoppVhyrIyH2oTlfL94MJ1mDEEaMqdXihVbs61YmyT5fStY_7g.webp">
-	   					<p>
-	   						오페라의 유령<br>
-	   						2023.10.11<br>
-	   						2023.11.16<br>
-	   						샤롯데<br>
-	   						뮤지컬<br>
-	   					</p>
+	   				<div class="show">
+	   					<div class="poster">
+	   						<img src="https://i.namu.wiki/i/MRi4QNUMhWWq1Mc10JHQahMgFfZkd8NhrnkXxoppVhyrIyH2oTlfL94MJ1mDEEaMqdXihVbs61YmyT5fStY_7g.webp">
+	   					</div>
+	   					<div class="des">
+	   						<p>오페라의 유령</p>
+	   						<p>공연시작일 ~ 공연종료일</p>
+	   						<p>공연장</p>
+	   						<p>공연장르</p>
+	   					</div>
+	   					
+	   					<br clear="both">
 	   				</div>
+	   				
+	   				
 	   			</div>
 	   		</div>
 	   		

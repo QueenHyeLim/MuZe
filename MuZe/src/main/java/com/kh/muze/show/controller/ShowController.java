@@ -20,7 +20,7 @@ public class ShowController {
 	public static final String SERVICEYKEY = "2ae027dcffd947cd81fbfc2094402bd8";
 	
 	@RequestMapping(value="list.sh", produces="application/json; charset=UTF-8")
-	public String showList() throws Exception {
+	public String showList(String shprfnm) throws Exception {
 		
 		Calendar calendar = new GregorianCalendar();
 		calendar.add(Calendar.DATE, -1);
@@ -34,8 +34,9 @@ public class ShowController {
 		url += "&cpage=1";
 		url += "&rows=10";
 		url += "&prfstate=02";
+		url += "$shprfnm=" + shprfnm;
 		
-//		System.out.println(url);
+		System.out.println(url);
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
