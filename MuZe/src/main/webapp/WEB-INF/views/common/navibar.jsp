@@ -191,7 +191,14 @@
                     </ul>
                 </li>
                 <li>
+                <c:choose>
+                <c:when test="${not empty sessionScope.loginUser }">
                     <a href="show.rs">예매하기</a>
+                    </c:when>
+                    <c:otherwise>
+                     <a onclick="alert('로그인 후 사용가능');">예매하기</a>
+                    </c:otherwise>
+                </c:choose>
                 </li>
                 <li>
                     <a href="list.th">극장</a>
