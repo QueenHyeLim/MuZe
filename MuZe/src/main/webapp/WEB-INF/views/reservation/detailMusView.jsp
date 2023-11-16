@@ -214,10 +214,12 @@
                         <li class="muz_info">
                             <strong>가격</strong>
                             <ul class="muz_cash">
+                            	<c:forEach items="${ sp }" var="p">
                                 <li class="muz_seat">
-                                    <span class="sname">VIP석</span>
-                                    <span class="sprice">180,000원</span>
+                                    <span class="sname">${ p.kind }석</span>
+                                    <span class="sprice">${ p.price }원</span>
                                 </li>
+                                </c:forEach>
                                 <li class="muz_seat">
                                     <span class="sname">R석</span>
                                     <span class="sprice">150,000원</span>
