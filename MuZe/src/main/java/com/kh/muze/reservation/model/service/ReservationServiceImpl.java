@@ -25,4 +25,9 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationDao.showLatest(sqlSession);
 	}
 
+	@Override
+	public Show selectMus(String musId) {
+		return reservationDao.selectMus(sqlSession, musId);
+	}
+
 }
