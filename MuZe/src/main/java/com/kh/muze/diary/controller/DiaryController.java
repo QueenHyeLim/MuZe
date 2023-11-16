@@ -28,10 +28,21 @@ public class DiaryController {
 		int diaryUser = loginUser.getUserNo();
 		
 		ArrayList<Diary> list = diaryService.selectDiary(diaryUser);
-		model.addAttribute("list",list);
-		String diaryName = list.get(0).getDiaryName();
-		model.addAttribute("diaryName",diaryName);
 		
+		System.out.println("list : " + list);
+		
+		model.addAttribute("list",list);
+		
+		if(!list.isEmpty() && list != null) {
+			if(list.get(0).getDiaryName().isEmpty()) {
+				model.addAttribute("diaryName","YOU ARE MY DIARY");
+			}else {
+				String diaryName = list.get(0).getDiaryName();
+				model.addAttribute("diaryName",diaryName);
+			}
+		}else {
+			model.addAttribute("diaryName","YOU ARE MY DIARY");
+		}
 		return "diary/diaryCalender";
 	}
 	

@@ -173,6 +173,7 @@
             
             <!-- navigator영역 start -->
             <ul id="navi">
+            <c:if test="${ not empty sessionScope.loginUser}">
                 <li>
                 	<c:choose>
 	                	<c:when test="${ empty loginUser }">
@@ -197,6 +198,7 @@
 			            </c:otherwise>
 			        </c:choose>
                 </li>
+            </c:if>
                 <li>
                     <a href="">커뮤니티</a>
                     <ul>
