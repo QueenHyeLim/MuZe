@@ -80,6 +80,7 @@
                 $('#diaryDate').val(date.dateStr);
                 Swal.fire({
               	  title: date.dateStr + "날에 작성할 <br> 다이어리 / 일정 중 고르시오.",
+              	  backgroundColor : " rgb(168, 109, 109)",
               	  showDenyButton: true,
               	  showCancelButton: true,
               	  confirmButtonText: "다이어리",
