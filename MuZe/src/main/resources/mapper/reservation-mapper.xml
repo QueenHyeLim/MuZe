@@ -85,7 +85,7 @@
 	<select id="selectMusPrice" resultType="seatprice">
 		SELECT
 		        SEATPK,
-		        KIND,
+		        KIND ,
 		        PRICE
 		  FROM
 		        SEATPRICE	
