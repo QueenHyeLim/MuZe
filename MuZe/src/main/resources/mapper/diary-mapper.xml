@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="diaryMapper">
+	<insert id="insertDiary" parameterType="diary">
+		INSERT
+		  INTO
+		  		DIARY
+		  		(
+		  		DIARY_USER,
+				DIARY_NO,
+				DIARY_TITLE,
+				DIRAY_CONTENT,
+				DIARY_YN,
+				ATT_YN,
+				DIARY_DATE,
+				CREATE_DATE
+		  		)
+	   VALUES
+	   			(
+	   			#{diaryUser},
+	   			SEQ_DIARY_NO.NEXTVAL,
+	   			#{diaryTitle},
+	   			#{diaryContent},
+	   			'Y',
+	   			'N',
+	   			#{diaryDate},
+	   			SYSDATE
+	   			)
+	</insert>
+	<select id="selectDiary" parameterType="_int" resultType="diary">
+		SELECT
+				DIARY_NO diaryNo,
+				DIARY_TITLE diaryTitle,
+				DIRAY_CONTENT diaryContent,
+				ATT_YN attStatus,
+				DIARY_DATE diaryDate
+		  FROM
+		  		DIARY
+		 WHERE
+		 		DIARY_YN = 'Y'
+		   AND
+		   		DIARY_USER = #{diaryUser}
+	</select>
+
+
+</mapper>
