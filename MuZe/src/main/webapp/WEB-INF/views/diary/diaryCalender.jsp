@@ -20,11 +20,11 @@
     #diaryName{	
         text-align: center;
         margin-top: 80px;
-        color:rgb(152, 29, 38);
+        color : #fff;
     }
     #diaryName:hover{
         cursor: pointer;
-        color : #fff;
+        color:rgb(152, 29, 38);
     }
     .diary-body{
         width: 100%;
@@ -82,8 +82,12 @@
               	  title: date.dateStr + "날에 작성할 <br> 다이어리 / 일정 중 고르시오.",
               	  showDenyButton: true,
               	  showCancelButton: true,
+              	  color : 'black',
+              	  background : 'rgba(152, 29, 37, 0.74)',
               	  confirmButtonText: "다이어리",
+              	  confirmButtonColor : 'rgb(38, 59, 38)',
               	  denyButtonText: "일정",
+                  denyButtonColor : 'rgb(38, 59, 38)'
               	}).then((result) => {
               	  if (result.isConfirmed) {
               		// result.isConfirmed : 다이어리를 작성할수 있는 모달창뜸
@@ -96,6 +100,7 @@
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
+            	console.log(info);
             	$('#modal-content').modal('show');
             },
         });
@@ -171,7 +176,7 @@
 				<input type="hidden" name="diaryDate" id="diaryDate"/>
 	                <!-- Modal Header -->
 	                <div class="modal-header" style="text-align: center;" id="diary-header">
-	                    <h4 class="modal-title">WRITE YOUR MUZE ON YOUR DIARY</h4>
+	                    <h4 class="modal-title" style="color:black">WRITE YOUR MUZE ON YOUR DIARY</h4>
 	                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 	                </div>
 	                <!-- Modal body -->
