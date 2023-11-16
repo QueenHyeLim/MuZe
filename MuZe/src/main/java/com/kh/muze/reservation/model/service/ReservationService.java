@@ -12,4 +12,6 @@ public interface ReservationService {
 	// 선택한 뮤지컬의 상세 정보
 	Show selectMus(String musId);
 
+	SeatPrice selectMusPrice();
+
 }
