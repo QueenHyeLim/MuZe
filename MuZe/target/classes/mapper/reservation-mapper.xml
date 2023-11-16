@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservationMapper">
+	<resultMap id="reservationMap" type="show">
+		<result column="MUS_ID" property="musId" />
+		<result column="THEATER_ID" property="theaterId" />
+		<result column="THEATHER_NAME" property="theaterName" />
+		<result column="GENRE_NO" property="genreNo" />
+		<result column="MUS_TITLE" property="musTitle" />
+		<result column="START_DATE" property="startDate" />
+		<result column="END_DATE" property="endDate" />
+		<result column="PRODUCER" property="producer" />
+		<result column="RUN_TIME" property="runTime" />
+		<result column="POSTER" property="poster" />
+		<result column="AGE_RATE" property="ageRate" />
+		<result column="STATUS" property="status" />
+		<result column="PER_TIME" property="perTime" />
+		<result column="CAST" property="cast" />
+		<result column="ROWNUM" property="rowNo" />
+	</resultMap>
+	
+	<select id="showLatest" resultMap="reservationMap">
+		SELECT 
+				ROWNUM, A.*
+		 FROM 
+		 		(SELECT 
+				        MUS_ID,
+				        T.THEATHER_NAME,
+				        GENRE_NO,
+				        MUS_TITLE,
+				        START_DATE,
+				        END_DATE,
+				        RUN_TIME,
+				        POSTER,
+				        AGE_RATE,
+				        STATUS,
+				        PER_TIME,
+				        CAST
+				 FROM 
+				        SHOW S
+		         JOIN
+		                THEATER T
+		          ON
+		               (T.THEATER_ID = S.THEATER_ID)
+				 WHERE 
+				        STATUS = '공연중' 
+				 ORDER 
+				    BY 
+				        START_DATE DESC)A
+	</select>
+
+
+
+</mapper>
