@@ -1,6 +1,7 @@
 package com.kh.muze.diary.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,21 @@ public class DiaryServiceImpl implements DiaryService{
 	@Override
 	public ArrayList<Diary> selectDiary(int diaryUser) {
 		return diaryDao.selectDiary(sqlSession,diaryUser);
+	}
+
+	@Override
+	public int insertDiaryName(HashMap map) {
+		return diaryDao.insertDiaryName(sqlSession,map);
+	}
+
+	@Override
+	public int selectDiaryName(HashMap map) {
+		return diaryDao.selectDiaryName(sqlSession,map);
+	}
+
+	@Override
+	public int updateDiaryName(HashMap map) {
+		return diaryDao.updateDiaryName(sqlSession,map);
 	}
 
 }

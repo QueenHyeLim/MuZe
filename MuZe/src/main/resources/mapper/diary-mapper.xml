@@ -32,17 +32,48 @@
 	<select id="selectDiary" parameterType="_int" resultType="diary">
 		SELECT
 				DIARY_NO diaryNo,
+                DIARY_NAME diaryName,
 				DIARY_TITLE diaryTitle,
 				DIRAY_CONTENT diaryContent,
 				ATT_YN attStatus,
 				DIARY_DATE diaryDate
 		  FROM
 		  		DIARY
+          JOIN  DIARY_NAME_CATEGORY ON (USER_NO = DIARY_USER)
 		 WHERE
 		 		DIARY_YN = 'Y'
 		   AND
 		   		DIARY_USER = #{diaryUser}
 	</select>
-
+	<insert id="insertDiaryName" parameterType="map">
+		INSERT
+		  INTO
+		  		DIARY_NAME_CATEGORY
+		  		(
+		  		USER_NO,
+		  		DIARY_NAME
+		  		)
+		VALUES
+				(
+				#{userNo},
+				#{diaryName}
+				)
+	</insert>
+	<select id="selectDiaryName" parameterType="map" resultType="_int">
+		SELECT
+		        COUNT(*)
+		  FROM
+		        DIARY_NAME_CATEGORY
+		 WHERE
+		        USER_NO = #{userNo}
+	</select>
+	<update id="updateDiaryName" parameterType="map">
+		UPDATE 
+		        DIARY_NAME_CATEGORY
+		   SET
+		        DIARY_NAME = #{diaryName}
+		 WHERE
+		        USER_NO = #{userNo}
+	</update>
 
 </mapper>

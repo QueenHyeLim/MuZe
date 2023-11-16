@@ -8,7 +8,6 @@
 <title>Diary.jsp</title>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" href="sweetalert2.min.css">
 <style>
    /*------------ DIARY 영역 --------------*/
     #diary-area{
@@ -111,13 +110,6 @@
     // diaryName을 클릭했을때 update diaryName (default : YOU ARE MY DIARY)
     function changeDiaryName(){
     	$('#modal-diaryName').modal('show');
-        $.ajax({
-            url : 'name.di',
-            success : name => {
-               //  console.log(name);
-                $('#diaryName').html(name);
-            }
-        })
     }
 
     
@@ -129,7 +121,7 @@
         <div id="blank-area"></div>
         <div id="diary-area" style="border:1px solid black">
             <div style="height:120px;">
-                <h3 id="diaryName" onclick="changeDiaryName();">YOU ARE MY DIARY</p>
+                <h3 id="diaryName" onclick="changeDiaryName();">${diaryName}</h3>
             </div>
             <div class="page">
                 <div id="calendar"></div>
@@ -142,16 +134,16 @@
     
 	<!-------------------------------다이어리 네임 작성 모달창------------------------------------>
     <!-- The Modal -->
+	<form action="name.di" method="get">
     <div class="modal fade" id="modal-diaryName">
         <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-        
+        	<input type="hidden" name="diaryUser" value="${sessionScope.loginUser.userNo}"/>
             <!-- Modal Header -->
             <div class="modal-header" id="diary-header">
             <h4 class="modal-title">CHANGE YOUR DIARY NAME</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            
             <!-- Modal body -->
             <div class="modal-body">
             <input id="diaryName-input" type="text" name="diaryName" placeholder="나만의 다이어리 네임을 만들어주세요" required>
@@ -159,12 +151,13 @@
             
             <!-- Modal footer -->
             <div class="modal-footer">
-            <button type="submit" class="btn btn-secondary" data-dismiss="modal">change</button>
+            <button type="submit" class="btn btn-secondary">change</button>
             </div>
             
         </div>
         </div>
     </div>
+	</form>
     
 <!-------------------------------다이어리 작성을 위한 모달창------------------------------------>
 	<form action="insert.di" method="post" enctype="multipart/form-data">
