@@ -174,14 +174,28 @@
             <!-- navigator영역 start -->
             <ul id="navi">
                 <li>
-                    <a href="#">마이페이지</a>
-                    <ul>
-                        <li><a href="diary.di">다이어리</a></li>
-                        <li><a href="">일정</a></li>
-                        <li><a href="#">가계부</a></li>
-                        <li><a href="#">즐겨찾기</a></li>
-                        <li><a href="#">my muze</a></li>
-                    </ul>
+                	<c:choose>
+	                	<c:when test="${ empty loginUser }">
+			                    <a href="loginPage.me">마이페이지</a>
+			                    <ul>
+			                        <li><a href="loginPage.me">다이어리</a></li>
+			                        <li><a href="loginPage.me">일정</a></li>
+			                        <li><a href="loginPage.me">가계부</a></li>
+			                        <li><a href="loginPage.me">즐겨찾기</a></li>
+			                        <li><a href="loginPage.me">my muze</a></li>
+			                    </ul>
+			            </c:when>
+			            <c:otherwise>
+			            		<a href="myInfo.me">마이페이지</a>
+			                    <ul>
+			                        <li><a href="#">다이어리</a></li>
+			                        <li><a href="#">일정</a></li>
+			                        <li><a href="#">가계부</a></li>
+			                        <li><a href="#">즐겨찾기</a></li>
+			                        <li><a href="#">my muze</a></li>
+			                    </ul>
+			            </c:otherwise>
+			        </c:choose>
                 </li>
                 <li>
                     <a href="">커뮤니티</a>
