@@ -12,9 +12,10 @@
    /*------------ DIARY 영역 --------------*/
     #diary-area{
         width: 100%;
-        height:1350px;
+        height:1380px;
         border-radius: 17cqmin;
         background-color: rgba(128, 128, 128, 0.506);
+        border : 1px solid rgb(152, 29, 38);
     }
     #diaryName{	
         text-align: center;
@@ -120,7 +121,7 @@
 <!--------------------------------------달력--------------------------------------------->
 <div class="page" id="content">
     <div id="blank-area"></div>
-    <div id="diary-area" style="border:1px solid black">
+    <div id="diary-area">
         <div style="height:120px;">
             <h3 id="diaryName" onclick="changeDiaryName();">${diaryName}</h3>
         </div>
@@ -166,7 +167,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <!-- USER_NO HIDDEN / DIARY_DATE HIDDEN -->
-            <input type="hidden" name="diaryUser" />
+            <input type="hidden" name="diaryUser" value="${sessionScope.loginUser.userNo}"/>
 			<input type="hidden" name="diaryDate" id="diaryDate"/>
                 <!-- Modal Header -->
                 <div class="modal-header" style="text-align: center;" id="diary-header">
