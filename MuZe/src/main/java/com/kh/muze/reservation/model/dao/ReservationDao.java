@@ -13,5 +13,9 @@ public class ReservationDao {
 	public ArrayList<Show> showLatest(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("reservationMapper.showLatest");
 	}
+
+	public Show selectMus(SqlSessionTemplate sqlSession, String musId) {
+		return sqlSession.selectOne("reservationMapper.selectMus", musId);
+	}
 	
 }
