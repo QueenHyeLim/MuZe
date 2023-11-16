@@ -129,19 +129,6 @@
 	  
 	  </div>
 	</div> 
-	
-<script>
-	
-	<c:if test="${ empty loginUser}">
-		$('#resego').click(function(){
-			alert('로그인 후 예매하기를 이용해주세요');
-			location.href = 'loginPage.me';
-		});
-	</c:if>
 		
-	
-
-
-</script>		
 </body>
 </html>

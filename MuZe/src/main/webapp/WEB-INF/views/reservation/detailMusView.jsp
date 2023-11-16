@@ -200,8 +200,9 @@
             </div>
             
             <div class="muz_content_2">
-            	<form action="">
+            	<form action="seat.rs" method="POST">
            		<input type="hidden" name="musId" value="${ s.musId }">
+           		<input type="hidden" name="userNo" value="${ sessionScope.loginUser.userNo }">
             	<div class="dateInput-area">
             		<strong>날짜 선택 :</strong> 
             		<input type="text" id="datepicker" name="selectdate" >
@@ -210,8 +211,7 @@
                 	<button type="submit">좌석선택</button>
                 </div>
             	</form>
-                <!-- <input type="text" id="datepicker">-->
-                <!-- 날짜선택 : -->
+                
             </div>
         </div>
 

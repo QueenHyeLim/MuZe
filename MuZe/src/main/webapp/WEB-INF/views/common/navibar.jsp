@@ -150,6 +150,10 @@
 	    background-position: center;
 	    background-size: 100%;
 	}
+	#bfreser{
+		text-decoration : none;
+		color : white;
+	}
 </style>
 </head>
 <body>
@@ -196,7 +200,7 @@
                     <a href="show.rs">예매하기</a>
                     </c:when>
                     <c:otherwise>
-                     <a onclick="alert('로그인 후 사용가능');">예매하기</a>
+                     <a id="bfreser" onclick="alert('로그인 후 사용가능');">예매하기</a>
                     </c:otherwise>
                 </c:choose>
                 </li>
