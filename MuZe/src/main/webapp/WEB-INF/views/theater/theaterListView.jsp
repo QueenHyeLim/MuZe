@@ -52,6 +52,7 @@
 	<script>
 		var cpage = 1;
 
+		// 검색 버튼 클릭 시 이벤트
 		function search(){
 
 			$.ajax({
@@ -66,13 +67,6 @@
 					const itemArr = $(result).find('db');
 					
 					// itemArr이 비어있지 않을 경우 '더보기'칸을 출력하고 '더보기'칸 클릭 시, 다음 페이지의 내용을 보여주기
-					// if(itemArr.length == 10){
-					// 	console.log('성공');
-					// 	console.log(itemArr.length);
-					// } else {
-					// 	console.log('없음');
-					// 	console.log(itemArr.length);
-					// }
 					
 					let value = '';
 					
@@ -92,10 +86,11 @@
 						      + '</tr>'
 					})
 					$('tbody').html(value);
-					cpage = cpage + 1;
+					$('#search').unbind('click');
 
 					if(itemArr.length == 10){
 						$('tbody').append('<tr><td align="center" colspan="6" id="more">더보기</td></tr>');
+						cpage = cpage + 1;
 						seeMore();
 					}
 					
@@ -113,14 +108,14 @@
 				cpage = 1;
 			})
 
-			$('#more').click(() =>{
-				console.log('성공');
+			$('#btn1').click(() => {
+				console.log('검색');
+				cpage = 1;
 			})
 		})
 
+		// 더보기 버튼 클릭 시 이벤트
 		function seeMore(){
-
-			
 
 			$('#more').click(() =>{
 				$.ajax({
