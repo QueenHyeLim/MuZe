@@ -15,7 +15,9 @@ public class DiaryDao {
 	}
 
 	public ArrayList<Diary> selectDiary(SqlSessionTemplate sqlSession, int diaryUser) {
-		return (ArrayList)sqlSession.selectList("diaryMapper.selectDiary",diaryUser);
+		ArrayList list = (ArrayList)sqlSession.selectList("diaryMapper.selectDiary",diaryUser);
+		System.out.println("DAO list : " + list);
+		return list;
 	}
 
 	public int insertDiaryName(SqlSessionTemplate sqlSession, HashMap map) {

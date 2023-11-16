@@ -173,6 +173,7 @@
             
             <!-- navigator영역 start -->
             <ul id="navi">
+            <c:if test="${ not empty sessionScope.loginUser}">
                 <li>
                     <a href="#">마이페이지</a>
                     <ul>
@@ -183,6 +184,7 @@
                         <li><a href="#">my muze</a></li>
                     </ul>
                 </li>
+            </c:if>
                 <li>
                     <a href="">커뮤니티</a>
                     <ul>
