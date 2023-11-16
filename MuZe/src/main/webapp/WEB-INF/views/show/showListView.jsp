@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>작품</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <style>
 #list-part{
 	border : 1px solid;
@@ -18,7 +19,6 @@
 
 #result-part {
 	background-color : beige;
-	height : 800px;
 }
 
 #paging-part{
@@ -43,6 +43,10 @@ img {
 .des{
 	margin-left : 10px;
 }
+
+.detail{
+	margin-left: 10px;
+}
 </style>
 </head>
 <body>
@@ -63,7 +67,7 @@ img {
 	   						<img src="https://i.namu.wiki/i/MRi4QNUMhWWq1Mc10JHQahMgFfZkd8NhrnkXxoppVhyrIyH2oTlfL94MJ1mDEEaMqdXihVbs61YmyT5fStY_7g.webp">
 	   					</div>
 	   					<div class="des">
-	   						<p>오페라의 유령</p>
+	   						<p>오페라의 유령<button class="detail">더보기</button></p>
 	   						<p>공연시작일 ~ 공연종료일</p>
 	   						<p>공연장</p>
 	   						<p>공연장르</p>
@@ -108,10 +112,13 @@ img {
 							  			+ '<img src="' + $(item).find('poster').text() + '">'
 							  		+ '</div>'
 							  		+ '<div class="des">'
-			   							+'<p>' + $(item).find('prfnm').text() + '</p>'
+							  			+'<form action="detail.sh">'
+							  			+'<input type="hidden" id="mt20id" name="mt20id" value="' + $(item).find('mt20id').text() + '"/>'
+			   							+'<p>' + $(item).find('prfnm').text() + '<button class="detail">더보기</button></p>'
 			   							+'<p>' + $(item).find('prfpdfrom').text() + ' ~ ' +  $(item).find('prfpdto').text() + '</p>'
 			   							+'<p>' + $(item).find('fcltynm').text() + '</p>'
 			   							+'<p>' + $(item).find('genrenm').text() + '</p>'
+			   							+'</form>'
 			   					   + '</div> <br clear="both">'
 							  + '</div>'
 					})
