@@ -171,44 +171,44 @@
 	 	<div class="page" id="d">
     <div class="choose">
         <div class="muz_header">
-            <div class="muz_header_1">뮤지컬</div>
-            <div class="muz_header_2">뮤지컬<레미제라블></div>
+            <div class="muz_header_1">${ genreName }</div>
+            <div class="muz_header_2">${ musTitle }</div>
         </div>
         <div class="muz_content">
             <div class="muz_content_1">
                 <div class="muz_content_1_1">
-                    <img src="resources/image/뮤지컬레미제라블.png" alt="뮤지컬레미제라블">
+                    <img src="${ poster }" alt="뮤지컬포스터">
                 </div>
                 <div class="muz_content_1_2">
                     <ul>
                         <li class="muz_info">
                             <strong>장소</strong>
                             <div class="muz_exp">
-                                <p>블루스퀘어 신한카드홀</p>
+                                <p>${ theaterName }</p>
                             </div>
                         </li>
                         <li class="muz_info">
                             <strong>공연기간</strong>
                             <div class="muz_exp">
-                                <p>2023.11.30 ~ 2024.3.10</p>
+                                <p>${ startDate } ~ ${ endDate }</p>
                             </div>
                         </li>
                         <li class="muz_info">
                             <strong>등급</strong>
                             <div class="muz_exp">
-                                <p>초등학생이상 관람가</p>
+                                <p>${ ageRate }</p>
                             </div>
                         </li>
                         <li class="muz_info">
                             <strong>관람시간</strong>
                             <div class="muz_exp">
-                                <p>180분(인터미션 20분 포함)</p>
+                                <p>${ perTime }</p>
                             </div>
                         </li>
                         <li class="muz_info">
                             <strong>출연</strong>
                             <div class="muz_exp">
-                                <p>민우혁, 김우형, 린아, 육현욱, 박준면, 김진욱, 루미나, 윤은오, 이상아</p>
+                                <p>${ cast }</p>
                             </div>
                         </li>
                         <li class="muz_info">
