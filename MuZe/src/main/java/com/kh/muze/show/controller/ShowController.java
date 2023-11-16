@@ -1,10 +1,12 @@
 package com.kh.muze.show.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.kh.muze.show.model.service.ShowService;
 
 @Controller
 public class ShowController {
@@ -16,12 +18,21 @@ public class ShowController {
 	
 	@RequestMapping(value="list.sh", produces="application/json; charset=UTF-8")
 	public String showList() {
+		
+		Calendar calendar = new GregorianCalendar();
+		calendar.add(Calendar.DATE, -1);
+		String yesterday = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
+		//System.out.println(yesterday + " => 어제");
+		
 		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
 		url += "?service=" + SERVICEYKEY;
-		url += "&stdate=";
-		url += "&eddate=";
-		url += "&cpage=";
+		url += "&stdate=" + yesterday;
+		url += "&eddate="  + yesterday;
+		url += "&cpage=1";
 		url += "&rows=10";
+		url += "&prfstate=02";
+		
+		System.out.println(url);
 		return "show/showListView";
 	}
 }
