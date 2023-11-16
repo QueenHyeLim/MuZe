@@ -9,4 +9,6 @@ public class SeatPrice {
 	private String kind; //KIND	VARCHAR2(10 BYTE)
 	private int price; //PRICE	NUMBER
 
+	
+	
 }
