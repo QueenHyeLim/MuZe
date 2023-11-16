@@ -5,6 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>극장 목록</title>
+<style>
+	#result-part{
+		color : white;
+	}
+</style>
+
 </head>
 <body>
 	<jsp:include page="../common/navibar.jsp"/>
