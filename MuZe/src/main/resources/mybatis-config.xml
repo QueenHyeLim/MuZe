@@ -14,7 +14,7 @@
 	</typeAliases>
 	
 	<mappers>
-    <mapper resource="/mapper/diary-mapper.xml"/>
+    	<mapper resource="/mapper/diary-mapper.xml"/>
 		<mapper resource="/mapper/member-mapper.xml" />
 		<mapper resource="/mapper/reservation-mapper.xml" />
 	</mappers>
