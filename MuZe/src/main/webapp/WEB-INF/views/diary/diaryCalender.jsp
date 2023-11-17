@@ -48,6 +48,9 @@
     #diaryName-input{
     	width:100%;
     }
+    .modal.fade{
+    	color : black;
+    }
 </style>
 </head>
 <body>
@@ -101,9 +104,10 @@
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
-            	console.log(info);
             	$('#modal-content').modal('show');
-            },
+            	console.log(info);
+            	$('#replyDiaryTitle').text(info.event.title);
+            }
         });
         calendar.render();
     });
@@ -143,7 +147,7 @@
        	<input type="hidden" name="userNo" value="${sessionScope.loginUser.userNo}"/>
            <!-- Modal Header -->
            <div class="modal-header" id="diary-header">
-           <h4 class="modal-title">CHANGE YOUR DIARY NAME</h4>
+           <h4 class="modal-title" style="color:black">CHANGE YOUR DIARY NAME</h4>
            <button type="button" class="close" data-dismiss="modal">&times;</button>
            </div>
            <!-- Modal body -->
@@ -203,26 +207,20 @@
 		<input type="hidden" name="diaryDate" id="diaryDate"/>
             <!-- Modal Header -->
             <div class="modal-header" style="text-align: center;" id="diary-header">
-                <h4 class="modal-title" id="diaryName-area"></h4>
+                <p id="replyDiaryDate"></p>
+                <h4 class="modal-title" id="replyDiaryTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <br><br>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                                          제목 <br>
-                <div id="diaryTitle" class="diary-body"> 
-                	<h4 name="diaryTitle"></h4>
-                </div>
-                <br><br>
-                <br><br>
-               	 내용 <br>
-                <div class="diary-body">
-                	<span name="diaryContent" id="diaryContent">
-                	</span>
-                </div>
+	            <div class="diary-body">
+	            	<span id="replyDiaryContent"></span>
+	            </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary">upload</button>
+                <button type="button" class="btn btn-secondary">close</button>
             </div>
             
         </div>
