@@ -49,7 +49,7 @@ public class ShowController {
 		url += "&stdate=" + yesterday;
 		url += "&eddate="  + yesterday;
 		url += "&cpage=1";
-		url += "&rows=10";
+		url += "&rows=386";
 		url += "&prfstate=02";
 		url += "&shprfnm=" + URLEncoder.encode(shprfnm, "UTF-8");
 		
