@@ -14,9 +14,9 @@ public class SeatController {
 	
 	
 	@RequestMapping("disabled.st")
-	public String disabledSeat(String musId, String selectDate) {
+	public void disabledSeat(String musId, String selectDate) {
 		
 		
-		seatService.disabledSeat()
+		//seatService.disabledSeat();
 	}
 }

@@ -112,18 +112,6 @@
             	console.log(info.event.start.format('yyyy-mm-dd'));
             	$('#modal-content').modal('show');
             	$('#replyDiaryTitle').text(info.event.title);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            	$.ajax({
-            		url : 'diaryDetail.di',
-            		data : {
-            			diaryTitle : info.event.title,
-            			diaryUser : $('#hiddenUserNo').val(),
-            		}
-            	})
-=======
-=======
->>>>>>> Stashed changes
                	$.ajax({
                		url : 'diaryDetail.di',
                		type : 'POST',
@@ -140,10 +128,7 @@
                			alert('실패');
                		}
             	});
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
             }
         });
         calendar.render();
