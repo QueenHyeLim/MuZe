@@ -31,8 +31,17 @@
     td{
         width: 10px;
         height: 10px;
+        color: #fff;
     }
-
+	
+	.select-title{
+		color : #fff;
+	}
+	
+	.select-date {
+		color : #fff;
+	}
+	
     #red{
         background-color: red;
     }
