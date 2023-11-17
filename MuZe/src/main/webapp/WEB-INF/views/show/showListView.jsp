@@ -125,7 +125,7 @@ img {
 					let value = '';
 					
 					if(itemArr.length != 0){
-						itemArr.each((i, item) => {
+						itemArr.each((i, item) => { 
 						value += '<div class="show">'
 							  		+ '<div class="poster">'
 							  			+ '<img src="' + $(item).find('poster').text() + '">'
