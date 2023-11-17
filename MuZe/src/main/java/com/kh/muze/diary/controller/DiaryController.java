@@ -90,10 +90,7 @@ public class DiaryController {
 	public String selectDiaryDetail(int diaryNo,
 									String diaryTitle,
 									HttpSession session) {
-<<<<<<< Updated upstream
-		System.out.println("응 겁나잘돼~~~ 구진말하지마~~");
-=======
->>>>>>> Stashed changes
+
 		Member member = (Member)session.getAttribute("loginUser");
 		int diaryUser = member.getUserNo();
 		
