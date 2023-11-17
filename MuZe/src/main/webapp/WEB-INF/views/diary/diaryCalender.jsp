@@ -104,9 +104,16 @@
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
+            	console.log(info.event.start.format('yyyy-mm-dd'));
             	$('#modal-content').modal('show');
-            	console.log(info);
             	$('#replyDiaryTitle').text(info.event.title);
+            	$.ajax({
+            		url : 'diaryDetail.di',
+            		data : {
+            			diaryTitle : info.event.title,
+            			diaryUser : $('#hiddenUserNo').val(),
+            		}
+            	})
             }
         });
         calendar.render();
@@ -144,7 +151,7 @@
    <div class="modal fade" id="modal-diaryName">
        <div class="modal-dialog modal-dialog-centered">
        <div class="modal-content">
-       	<input type="hidden" name="userNo" value="${sessionScope.loginUser.userNo}"/>
+       	<input id="hiddenUserNo" type="hidden" name="userNo" value="${sessionScope.loginUser.userNo}"/>
            <!-- Modal Header -->
            <div class="modal-header" id="diary-header">
            <h4 class="modal-title" style="color:black">CHANGE YOUR DIARY NAME</h4>
