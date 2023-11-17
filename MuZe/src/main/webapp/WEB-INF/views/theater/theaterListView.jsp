@@ -56,7 +56,6 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		var cpage = 1;
 
 		// 검색 버튼 클릭 시 이벤트
 		function search(){
@@ -64,15 +63,11 @@
 			$.ajax({
 				url : 'rlist.th',
 				data : {
-					shprfnmfct : $('#shprfnmfct').val(),
-					cpage : cpage
+					shprfnmfct : $('#shprfnmfct').val() // 시설명 키워드
 				},
 				success : result => {
-					console.log($(result).find('db'));
 					
 					const itemArr = $(result).find('db');
-					
-					// itemArr이 비어있지 않을 경우 '더보기'칸을 출력하고 '더보기'칸 클릭 시, 다음 페이지의 내용을 보여주기
 					
 					let value = '';
 					
@@ -92,13 +87,6 @@
 						      + '</tr>'
 					})
 					$('tbody').html(value);
-					$('#search').unbind('click');
-
-					if(itemArr.length == 10){
-						$('tbody').append('<tr><td align="center" colspan="6" id="more">더보기</td></tr>');
-						cpage = cpage + 1;
-						seeMore();
-					}
 					
 				},
 				error : () => {
@@ -106,67 +94,6 @@
 				}
 			})
 			
-		}
-
-		$(()=>{
-
-			$('#shprfnmfct').keyup(() => {
-				cpage = 1;
-			})
-
-			$('#btn1').click(() => {
-				console.log('검색');
-				cpage = 1;
-			})
-		})
-
-		// 더보기 버튼 클릭 시 이벤트
-		function seeMore(){
-
-			$('#more').click(() =>{
-				$.ajax({
-				url : 'rlist.th',
-				data : {
-					shprfnmfct : $('#shprfnmfct').val(),
-					cpage : cpage
-				},
-				success : result => {
-					console.log($(result).find('db'));
-					
-					const itemArr = $(result).find('db');
-					
-					let value = '';
-					
-					itemArr.each((i, item) => {
-						value += '<tr>'
-						      + '<td>' + $(item).find('fcltynm').text() + '</td>'
-						      + '<td>' + $(item).find('mt13cnt').text() + '</td>'
-						      + '<td>' + $(item).find('sidonm').text() + '</td>'
-						      + '<td>' + $(item).find('gugunnm').text() + '</td>'
-						      + '<td>' + $(item).find('opende').text() + '</td>'
-						      + '<td>'
-						      + '<form action="theatermap">'
-						      + '<input type="hidden" id="mt10id" name="mt10id" value="' + $(item).find('mt10id').text() + '"/>'
-						      + '<button>지도</button>'
-						      + '</form>'
-						      + '</td>'
-						      + '</tr>'
-					})
-					$('tbody').append(value);
-					cpage = cpage + 1;
-
-					$('#more').remove();
-
-					if(itemArr.length == 10){
-						$('tbody').append('<tr><td align="center" colspan="6" id="more">더보기</td></tr>');
-					}
-					
-				},
-				error : () => {
-					console.log('fail');
-				}
-			})
-			})
 		}
 		
 		
