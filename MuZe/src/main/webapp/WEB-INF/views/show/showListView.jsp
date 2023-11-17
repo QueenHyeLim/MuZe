@@ -62,20 +62,8 @@ img {
 	   		
 	   		<div id="result-part">
 	   			<div class="result">
-	   				<div class="show">
-	   					<div class="poster">
-	   						<img src="https://i.namu.wiki/i/MRi4QNUMhWWq1Mc10JHQahMgFfZkd8NhrnkXxoppVhyrIyH2oTlfL94MJ1mDEEaMqdXihVbs61YmyT5fStY_7g.webp">
-	   					</div>
-	   					<div class="des">
-	   						<p>오페라의 유령<button class="detail">더보기</button></p>
-	   						<p>공연시작일 ~ 공연종료일</p>
-	   						<p>공연장</p>
-	   						<p>공연장르</p>
-	   					</div>
-	   					
-	   					<br clear="both">
-	   				</div>
 	   				
+	   				<p>일치하는 항목이 존재하지 않습니다.</p>
 	   				
 	   			</div>
 	   		</div>
@@ -103,10 +91,17 @@ img {
 					console.log($(result).find('db'));
 					
 					const itemArr = $(result).find('db');
+
+					if(itemArr.length == 0){
+						console.log('길이 0임: ' + itemArr.length);
+					} else {
+						console.log(itemArr.length);
+					}
 					
 					let value = '';
 					
-					itemArr.each((i, item) => {
+					if(itemArr.length != 0){
+						itemArr.each((i, item) => {
 						value += '<div class="show">'
 							  		+ '<div class="poster">'
 							  			+ '<img src="' + $(item).find('poster').text() + '">'
@@ -121,7 +116,11 @@ img {
 			   							+'</form>'
 			   					   + '</div> <br clear="both">'
 							  + '</div>'
-					})
+						})
+					} else {
+						value += '<p>일치하는 항목이 존재하지 않습니다.</p>'; 
+					}
+					
 					$('.result').html(value);
 				},
 				error : function(){

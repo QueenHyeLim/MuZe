@@ -11,9 +11,15 @@
 
 
 
+<<<<<<< HEAD
 
 	 	<property name="username" value="MUSE"/>
 	 	<property name="password" value="MUSE"/>
+
+=======
+	 	<property name="username" value="MUSET"/>
+	 	<property name="password" value="MUSET"/>
+>>>>>>> da81465500b6642053028944e7fddd247e0a0475
 
 
 	 </bean>
@@ -32,4 +38,8 @@
 	  		<property name="maxUploadSize" value="100000000"/>
 	  		<property name="maxInMemorySize" value="100000000"/>
 	  </bean>
+
+	  
+	  <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="bcryptPasswordEncoder"/>
 </beans>
+

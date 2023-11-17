@@ -21,6 +21,8 @@
             background-color:white;
         }
         div a {
+            border-radius: 5px;
+            padding: 7px 15px 11px 11px;
   	  		text-decoration: none;
   	  		background-color:red;
 		    color: white;
