@@ -47,6 +47,10 @@ img {
 .detail{
 	margin-left: 10px;
 }
+
+#content {
+	padding-top: 15px;
+}
 </style>
 </head>
 <body>
@@ -71,8 +75,6 @@ img {
 	   		<div id="paging-part">
 	   		</div>
 	   </div>
-	   <div class="page">02</div>
-	   <div class="page">03</div>
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
