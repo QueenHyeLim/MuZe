@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Your My MuZe 뮤지컬 좌석선택</title>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
     .seat-field{
         width : 1302px;
@@ -296,7 +297,7 @@
 	</div>
 	
 <script>
-	$(()=>{
+	$(function(){
 		$.ajax({
 			url : 'disabled.st',
 			data : {
@@ -307,7 +308,7 @@
 				console.log(data);
 			},
 			error : () => {
-				
+				cosole.log('실패');
 			}
 		});
 	});
