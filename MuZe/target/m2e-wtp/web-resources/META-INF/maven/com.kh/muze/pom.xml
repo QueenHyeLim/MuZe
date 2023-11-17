@@ -19,7 +19,7 @@
 	 		<id>Datancleus</id>
 	 		<url>http://www.datanucleus.org/downloads/maven2/</url>
 	 	</repository>
-	 </repositories>
+	 </repositories> 
 	
 	<dependencies>
 		<!-- Spring -->
