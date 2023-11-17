@@ -14,10 +14,6 @@ public class SeatController {
 	
 	@Autowired
 	private SeatService seatService;
-	
-
-	
-	@RequestMapping("disabled.st")
 
 	@ResponseBody
 	@RequestMapping(value="disabled.st", produces="application/json; charset=UTF-8")

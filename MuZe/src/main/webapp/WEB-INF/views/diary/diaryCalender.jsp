@@ -128,7 +128,6 @@
                			alert('실패');
                		}
             	});
-
             }
         });
         calendar.render();
@@ -142,8 +141,6 @@
 
     
 </script>
-
-
 <!--------------------------------------달력--------------------------------------------->
 <div class="page" id="content">
     <div id="blank-area"></div>
@@ -232,11 +229,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <br><br>
                 <div style="border:1px solid red" id="replyDiaryDate-area">
-<<<<<<< Updated upstream
                 	<p id="replyDiaryDate"></p>
-=======
-                <p id="replyDiaryDate"></p>
->>>>>>> Stashed changes
                 </div>
             </div>
             
