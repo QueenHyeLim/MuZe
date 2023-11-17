@@ -21,10 +21,12 @@ public class SeatController {
 		System.out.println(musId);
 		System.out.println(selectDate);
 		
+
 		Reservation reservation = new Reservation();
 		reservation.setMusId(musId);
 		reservation.setSelectDate(selectDate);
 				
 		return new Gson().toJson(seatService.disabledSeat(reservation));
+
 	}
 }
