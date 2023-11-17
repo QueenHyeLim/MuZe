@@ -1,6 +1,7 @@
 package com.kh.muze.diary.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,21 @@ public class DiaryDao {
 	}
 
 	public ArrayList<Diary> selectDiary(SqlSessionTemplate sqlSession, int diaryUser) {
-		return (ArrayList)sqlSession.selectList("diaryMapper.selectDiary",diaryUser);
+		ArrayList list = (ArrayList)sqlSession.selectList("diaryMapper.selectDiary",diaryUser);
+		System.out.println("DAO list : " + list);
+		return list;
+	}
+
+	public int insertDiaryName(SqlSessionTemplate sqlSession, HashMap map) {
+		return sqlSession.insert("diaryMapper.insertDiaryName",map);
+	}
+
+	public int selectDiaryName(SqlSessionTemplate sqlSession, HashMap map) {
+		return sqlSession.selectOne("diaryMapper.selectDiaryName",map);
+	}
+
+	public int updateDiaryName(SqlSessionTemplate sqlSession, HashMap map) {
+		return sqlSession.update("diaryMapper.updateDiaryName", map);
 	}
 
 }

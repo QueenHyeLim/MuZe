@@ -36,7 +36,7 @@ public class MemberController {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/");
 		} else {
-			mv.addObject("errorMsg", "로그인 실패 ㅠ.ㅠ.....")
+			mv.addObject("errorMsg", "로그인에 실패하였습니다.")
 			.setViewName("common/errorPage");
 		}
 		

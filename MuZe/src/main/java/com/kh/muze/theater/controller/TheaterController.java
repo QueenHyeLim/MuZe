@@ -32,14 +32,14 @@ public class TheaterController {
 	// 공연 목록 불러오기
 	@ResponseBody
 	@RequestMapping(value="rlist.th", produces="text/html; charset=UTF-8")
-	public String theaterList(int cpage, String shprfnmfct) throws Exception {
+	public String theaterList(String shprfnmfct) throws Exception {
 		String url = "https://www.kopis.or.kr/openApi/restful/prfplc";
 		url += "?service=" + ShowController.SERVICEYKEY;
-		url += "&cpage=" + cpage;
-		url += "&rows=10";
+		url += "&cpage=1";
+		url += "&rows=2800";
 		url += "&shprfnmfct=" + URLEncoder.encode(shprfnmfct, "UTF-8");
 		
-		//System.out.println(url);
+		System.out.println(url);
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();

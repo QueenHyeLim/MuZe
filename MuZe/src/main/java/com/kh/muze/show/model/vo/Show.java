@@ -26,5 +26,7 @@ public class Show {
 	
 	// 극장명
 	private String theaterName;
-
+	
+	// 장르명
+	private String genreName;
 }

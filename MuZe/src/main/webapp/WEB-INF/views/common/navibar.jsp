@@ -150,6 +150,10 @@
 	    background-position: center;
 	    background-size: 100%;
 	}
+	#bfreser{
+		text-decoration : none;
+		color : white;
+	}
 </style>
 </head>
 <body>
@@ -173,6 +177,7 @@
             
             <!-- navigator영역 start -->
             <ul id="navi">
+            <c:if test="${ not empty sessionScope.loginUser}">
                 <li>
                 	<c:choose>
 	                	<c:when test="${ empty loginUser }">
@@ -197,6 +202,7 @@
 			            </c:otherwise>
 			        </c:choose>
                 </li>
+            </c:if>
                 <li>
                     <a href="">커뮤니티</a>
                     <ul>
@@ -205,7 +211,14 @@
                     </ul>
                 </li>
                 <li>
+                <c:choose>
+                <c:when test="${not empty sessionScope.loginUser }">
                     <a href="show.rs">예매하기</a>
+                    </c:when>
+                    <c:otherwise>
+                     <a id="bfreser" onclick="alert('로그인 후 사용가능');">예매하기</a>
+                    </c:otherwise>
+                </c:choose>
                 </li>
                 <li>
                     <a href="list.th">극장</a>

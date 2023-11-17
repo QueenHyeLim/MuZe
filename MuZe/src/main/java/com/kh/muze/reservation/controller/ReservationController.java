@@ -25,6 +25,23 @@ public class ReservationController {
 	@RequestMapping("detail.rs")
 	public ModelAndView detailMus(String musId, ModelAndView mv) {
 		mv.addObject("s", reservationService.selectMus(musId)).setViewName("reservation/detailMusView");
+		mv.addObject("sp", reservationService.selectMusPrice()).setViewName("reservation/detailMusView");
+		
+		return mv;
+	}
+	
+	@RequestMapping("seat.rs")
+	public ModelAndView SeatSelect(String musId, int userNo, String selectdate, ModelAndView mv) {
+		
+		System.out.println("뮤지컬아이디 : " + musId);
+		System.out.println("회원번호 : " + userNo);
+		System.out.println("예매날짜 : " + selectdate);
+		
+		
+		mv.addObject("musInfo", reservationService.selectMus(musId)).setViewName("seat/selectseatView");
+		mv.addObject("userNo", userNo).setViewName("seat/selectseatView");
+		mv.addObject("selectdate", selectdate).setViewName("seat/selectseatView");
+
 		return mv;
 	}
 }
