@@ -47,8 +47,8 @@
 		<div class="page" id="d">
 			<div class="seatfield">
         <div class="select-show">
-            <div class="select-title">선택한 작품명</div>
-            <div class="select-date">선택한 시간</div>
+            <div class="select-title">${ musInfo.musTitle }</div>
+            <div class="select-date">${ selectdate }</div>
         </div>
         <div class="seat-list">
             <table class="seat-table" border="20">
