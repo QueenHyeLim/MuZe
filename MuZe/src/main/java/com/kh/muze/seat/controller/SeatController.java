@@ -14,7 +14,7 @@ public class SeatController {
 	
 	@Autowired
 	private SeatService seatService;
-	
+
 	@ResponseBody
 	@RequestMapping(value="disabled.st", produces="application/json; charset=UTF-8")
 	public String disabledSeat(String musId, String selectDate) {
