@@ -91,10 +91,17 @@ img {
 					console.log($(result).find('db'));
 					
 					const itemArr = $(result).find('db');
+
+					if(itemArr.length == 0){
+						console.log('길이 0임: ' + itemArr.length);
+					} else {
+						console.log(itemArr.length);
+					}
 					
 					let value = '';
 					
-					itemArr.each((i, item) => {
+					if(itemArr.length != 0){
+						itemArr.each((i, item) => {
 						value += '<div class="show">'
 							  		+ '<div class="poster">'
 							  			+ '<img src="' + $(item).find('poster').text() + '">'
@@ -109,7 +116,11 @@ img {
 			   							+'</form>'
 			   					   + '</div> <br clear="both">'
 							  + '</div>'
-					})
+						})
+					} else {
+						value += '<p>일치하는 항목이 존재하지 않습니다.</p>'; 
+					}
+					
 					$('.result').html(value);
 				},
 				error : function(){

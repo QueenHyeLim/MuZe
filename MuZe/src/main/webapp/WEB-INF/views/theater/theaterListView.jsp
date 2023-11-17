@@ -71,7 +71,8 @@
 					
 					let value = '';
 					
-					itemArr.each((i, item) => {
+					if(itemArr.length != 0){
+						itemArr.each((i, item) => {
 						value += '<tr>'
 						      + '<td>' + $(item).find('fcltynm').text() + '</td>'
 						      + '<td>' + $(item).find('mt13cnt').text() + '</td>'
@@ -85,7 +86,13 @@
 						      + '</form>'
 						      + '</td>'
 						      + '</tr>'
-					})
+						})
+					} else {
+						value += '<tr>'
+							  + '<td colspan="6" align="center">일치하는 항목이 존재하지 않습니다.</td>'
+							  + '</tr>';
+					}
+					
 					$('tbody').html(value);
 					
 				},
