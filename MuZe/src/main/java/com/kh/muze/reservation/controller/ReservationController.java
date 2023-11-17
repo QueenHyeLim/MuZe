@@ -29,4 +29,19 @@ public class ReservationController {
 		
 		return mv;
 	}
+	
+	@RequestMapping("seat.rs")
+	public ModelAndView SeatSelect(String musId, int userNo, String selectdate, ModelAndView mv) {
+		
+		System.out.println("뮤지컬아이디 : " + musId);
+		System.out.println("회원번호 : " + userNo);
+		System.out.println("예매날짜 : " + selectdate);
+		
+		
+		mv.addObject("musInfo", reservationService.selectMus(musId)).setViewName("seat/selectseatView");
+		mv.addObject("userNo", userNo).setViewName("seat/selectseatView");
+		mv.addObject("selectdate", selectdate).setViewName("seat/selectseatView");
+
+		return mv;
+	}
 }

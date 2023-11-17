@@ -95,20 +95,32 @@
                 </div>
                 <div class="pre-res">
                 	<form action="detail.rs" method="POST">
-                		<input type="hidden" name="musId" value="${s.musId }">
-                		<button type="submit">예약하기</button>
-                	</form>
-                    
+	                		<input type="hidden" name="musId" value="${s.musId }">
+	                		<button type="submit" id="resego">예약하기</button>
+	                </form>
+                
+                <!--  
+                	<c:choose>
+                		<c:when test="${ not empty loginUser }">
+	                	<form action="detail.rs" method="POST">
+	                		<input type="hidden" name="musId" value="${s.musId }">
+	                		<button type="submit" id="resego">예약하기</button>
+	                	</form>
+	                	</c:when>
+	                	<c:otherwise>
+	                		<script>
+	                			$('#resego').click(function(){
+	                				alert('로그인 후 이용할 수 있는 기능입니다');
+	                			});
+	                			//$('#resego').attr('disabled', true);
+	                		</script>
+	                	</c:otherwise>
+                    </c:choose>
+                    -->
                 </div>
                
             </div>
-            <!--
-            <div class="pre-show">
 
-            </div>
-            <div class="pre-show">
-
-            </div>-->
         	</c:forEach>
         </div>
 
@@ -117,7 +129,6 @@
 	  
 	  </div>
 	</div> 
-	
 		
 </body>
 </html>

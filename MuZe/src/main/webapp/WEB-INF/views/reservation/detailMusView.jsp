@@ -22,8 +22,9 @@
 
     .muz_content{
         width : 100%;
-        height : 780px;
+        height : 880px;
         border : 1px solid black;
+        color : #fff;
     }
 
     .muz_content_1{
@@ -34,8 +35,17 @@
     
     .muz_content_2{
         width : 100%;
-        height : 420px;
+        height : 520px;
         border : 1px solid brown;
+    }
+    .dateInput-area{
+    	width : 100%;
+    	height : 420px;
+    }
+    .muz_content_2_2{
+    	width : 100%;
+    	height : 100px;
+    	border : 1px solid pink;
     }
     
     .muz_content_1 > div {
@@ -60,11 +70,11 @@
         margin: 0;
     }
 
-    .muz_footer{
+/*  .muz_footer{
         width : 100%;
         height : 100px;
         border : 1px solid pink;
-    }
+    }*/
 
     ul{
         list-style: none;
@@ -85,6 +95,7 @@
         display: inline-block;
         box-sizing: border-box;
         margin: 0;
+        color : #fff;
     }
 
     #calendar{
@@ -95,6 +106,7 @@
     p{
         padding: 0;
         line-height: 100%;
+        color : #fff;
     }
 </style>
 
@@ -186,17 +198,22 @@
                     </ul>
                 </div>
             </div>
+            
             <div class="muz_content_2">
-                <!-- <input type="text" id="datepicker">-->
-                <input type="text" id="datepicker">
+            	<form action="seat.rs" method="POST">
+           		<input type="hidden" name="musId" value="${ s.musId }">
+           		<input type="hidden" name="userNo" value="${ sessionScope.loginUser.userNo }">
+            	<div class="dateInput-area">
+            		<strong>날짜 선택 :</strong> 
+            		<input type="text" id="datepicker" name="selectdate" >
+            	</div>
+                <div class="muz_content_2_2" id="seatBtn">
+                	<button type="submit">좌석선택</button>
+                </div>
+            	</form>
+                
             </div>
         </div>
-        <div class="muz_footer">
-            <button>예매하기</button>
-        </div>
-
-
-
 
     </div>
     </div>

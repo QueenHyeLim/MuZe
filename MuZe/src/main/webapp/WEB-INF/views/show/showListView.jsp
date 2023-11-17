@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>작품</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
 #list-part{
 	border : 1px solid;
@@ -15,6 +17,23 @@
 
 #search-part {
 	height : 50px;
+	position: relative;
+	width: 300px;
+}
+
+#search-part > input{
+	width: 100%;
+	border: 1px solid white;
+	border-radius: 8px;
+	padding: 10px 12px;
+}
+
+#search-part > i{
+	position : absolute;
+	width: 17px;
+	top: 10px;
+	right: 12px;
+	margin: 0;
 }
 
 #result-part {
@@ -47,6 +66,13 @@ img {
 .detail{
 	margin-left: 10px;
 }
+
+#content {
+	padding-top: 15px;
+}
+#btn {
+	background-color: white;
+}
 </style>
 </head>
 <body>
@@ -57,25 +83,13 @@ img {
 	   <div class="page">
 	   		<div id="search-part">
 	   			<input type="text" placeholder="검색어 입력" name=shprfnm id="shprfnm" required>
-	   			<button id="btn1" onclick="search();">검색</button>
+				<i class="fa-solid fa-magnifying-glass" onclick="search();" id="btn1"></i>
 	   		</div>
 	   		
 	   		<div id="result-part">
 	   			<div class="result">
-	   				<div class="show">
-	   					<div class="poster">
-	   						<img src="https://i.namu.wiki/i/MRi4QNUMhWWq1Mc10JHQahMgFfZkd8NhrnkXxoppVhyrIyH2oTlfL94MJ1mDEEaMqdXihVbs61YmyT5fStY_7g.webp">
-	   					</div>
-	   					<div class="des">
-	   						<p>오페라의 유령<button class="detail">더보기</button></p>
-	   						<p>공연시작일 ~ 공연종료일</p>
-	   						<p>공연장</p>
-	   						<p>공연장르</p>
-	   					</div>
-	   					
-	   					<br clear="both">
-	   				</div>
 	   				
+	   				<p>일치하는 항목이 존재하지 않습니다.</p>
 	   				
 	   			</div>
 	   		</div>
@@ -83,8 +97,6 @@ img {
 	   		<div id="paging-part">
 	   		</div>
 	   </div>
-	   <div class="page">02</div>
-	   <div class="page">03</div>
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -103,10 +115,17 @@ img {
 					console.log($(result).find('db'));
 					
 					const itemArr = $(result).find('db');
+
+					if(itemArr.length == 0){
+						console.log('길이 0임: ' + itemArr.length);
+					} else {
+						console.log(itemArr.length);
+					}
 					
 					let value = '';
 					
-					itemArr.each((i, item) => {
+					if(itemArr.length != 0){
+						itemArr.each((i, item) => {
 						value += '<div class="show">'
 							  		+ '<div class="poster">'
 							  			+ '<img src="' + $(item).find('poster').text() + '">'
@@ -121,7 +140,11 @@ img {
 			   							+'</form>'
 			   					   + '</div> <br clear="both">'
 							  + '</div>'
-					})
+						})
+					} else {
+						value += '<p>일치하는 항목이 존재하지 않습니다.</p>'; 
+					}
+					
 					$('.result').html(value);
 				},
 				error : function(){
