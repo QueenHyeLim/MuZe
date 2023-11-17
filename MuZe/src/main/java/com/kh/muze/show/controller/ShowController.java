@@ -123,6 +123,8 @@ public class ShowController {
 				model.addAttribute("styurl", getTagValue("styurl", eElement)); // 세부 이미지
 				model.addAttribute("dtguidance", getTagValue("dtguidance", eElement)); // 공연일정
 				model.addAttribute("genrenm", getTagValue("genrenm", eElement)); // 장르
+				model.addAttribute("mt20id", getTagValue("mt20id", eElement)); // 작품ID
+				
 			}
 		}
 		
