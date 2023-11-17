@@ -113,6 +113,7 @@
             	$('#modal-content').modal('show');
             	$('#replyDiaryTitle').text(info.event.title);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             	$.ajax({
             		url : 'diaryDetail.di',
             		data : {
@@ -121,6 +122,8 @@
             		}
             	})
 =======
+=======
+>>>>>>> Stashed changes
                	$.ajax({
                		url : 'diaryDetail.di',
                		type : 'POST',
@@ -137,6 +140,9 @@
                			alert('실패');
                		}
             	});
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             }
         });
@@ -241,7 +247,11 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <br><br>
                 <div style="border:1px solid red" id="replyDiaryDate-area">
+<<<<<<< Updated upstream
                 	<p id="replyDiaryDate"></p>
+=======
+                <p id="replyDiaryDate"></p>
+>>>>>>> Stashed changes
                 </div>
             </div>
             
