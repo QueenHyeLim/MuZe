@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.muze.reservation.model.vo.Reservation;
 import com.kh.muze.seat.model.vo.SeatPrice;
 import com.kh.muze.seat.model.vo.SeatPrice;
 import com.kh.muze.show.model.vo.Show;
@@ -22,6 +23,10 @@ public class ReservationDao {
 
 	public ArrayList<SeatPrice> selectMusPrice(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("reservationMapper.selectMusPrice");
+	}
+
+	public ArrayList<Reservation> disabledSeat(SqlSessionTemplate sqlSession, Reservation reservation) {
+		return (ArrayList)sqlSession.selectList("reservationMapper.disabledSeat", reservation);
 	}
 	
 }
