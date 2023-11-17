@@ -32,14 +32,12 @@ public class TheaterController {
 	// 공연 목록 불러오기
 	@ResponseBody
 	@RequestMapping(value="rlist.th", produces="text/html; charset=UTF-8")
-	public String theaterList(int cpage, String shprfnmfct) throws Exception {
+	public String theaterList(String shprfnmfct) throws Exception {
 		String url = "https://www.kopis.or.kr/openApi/restful/prfplc";
 		url += "?service=" + ShowController.SERVICEYKEY;
-		url += "&cpage=" + cpage;
-		url += "&rows=10";
+		url += "&cpage=1";
+		url += "&rows=2800";
 		url += "&shprfnmfct=" + URLEncoder.encode(shprfnmfct, "UTF-8");
-		
-		//System.out.println(url);
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -66,8 +64,6 @@ public class TheaterController {
 		url += mt10id;
 		url += "?service=" + ShowController.SERVICEYKEY;
 		
-		//System.out.println(url);
-		
 		URL requestUrl = new URL(url); 
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 		urlConnection.setRequestMethod("GET");
@@ -83,33 +79,19 @@ public class TheaterController {
 		br.close();
 		urlConnection.disconnect();
 		
-		//System.out.println(responseText);
-		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(url);
 		
 		doc.getDocumentElement().normalize();
-		System.out.println("Root element : " + doc.getDocumentElement().getNodeName());
 		
 		NodeList nList = doc.getElementsByTagName("db");
-		System.out.println("파싱할 리스트 수 : " + nList.getLength());
 		
 		for(int i = 0; i < nList.getLength(); i++) {
 			Node nNode = nList.item(i);
 			
 			if(nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element)nNode;
-				System.out.println("-------------------------------");
-				System.out.println("시설명 : " + getTagValue("fcltynm", eElement));
-				System.out.println("공연장 수 : " + getTagValue("mt13cnt", eElement));
-				System.out.println("개관연도 : " + getTagValue("opende", eElement));
-				System.out.println("객석 수 : " + getTagValue("seatscale", eElement));
-				System.out.println("전화번호 : " + getTagValue("telno", eElement));
-				System.out.println("홈페이지 : " + getTagValue("relateurl", eElement));
-				System.out.println("주소 : " + getTagValue("adres", eElement));
-				System.out.println("위도 : " + getTagValue("la", eElement));
-				System.out.println("경도 : " + getTagValue("lo", eElement));
 				
 				model.addAttribute("fcltynm", getTagValue("fcltynm", eElement));
 				model.addAttribute("mt13cnt", getTagValue("mt13cnt", eElement));

@@ -8,16 +8,10 @@
 	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
 	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-
-<<<<<<< Updated upstream
-	 	<property name="username" value="MUSET"/>
-	 	<property name="password" value="MUSET"/>
-=======
+	 	<property name="username" value="MUZE"/>
+	 	<property name="password" value="MUZE"/>
 
 
-	 	<property name="username" value="MUZE_TEST"/>
-	 	<property name="password" value="MUZE_TEST"/>
->>>>>>> Stashed changes
 
 	 </bean>
 	 
@@ -35,4 +29,8 @@
 	  		<property name="maxUploadSize" value="100000000"/>
 	  		<property name="maxInMemorySize" value="100000000"/>
 	  </bean>
+
+	  
+	  <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="bcryptPasswordEncoder"/>
 </beans>
+
