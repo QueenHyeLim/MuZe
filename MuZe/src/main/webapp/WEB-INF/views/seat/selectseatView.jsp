@@ -45,6 +45,11 @@
     #red{
         background-color: red;
     }
+    
+    .seat-line{
+    	width : 10px;
+    	height : 10px;
+    }
 </style>
 
 
@@ -290,6 +295,23 @@
 		</div>
 	</div>
 	
-	
+<script>
+	$(()=>{
+		$.ajax({
+			url : 'disabled.st',
+			data : {
+				musId : '${ musInfo.musId }',
+				selectDate : '${ selectdate }'
+			},
+			success : data => {
+				console.log(data);
+			},
+			error : () => {
+				
+			}
+		});
+	});
+
+</script>
 </body>
 </html>
