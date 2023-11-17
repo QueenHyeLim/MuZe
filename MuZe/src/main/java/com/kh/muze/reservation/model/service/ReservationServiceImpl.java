@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.kh.muze.reservation.model.dao.ReservationDao;
+import com.kh.muze.seat.model.vo.SeatPrice;
 import com.kh.muze.show.model.vo.Show;
 
 @EnableTransactionManagement
@@ -28,6 +29,11 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public Show selectMus(String musId) {
 		return reservationDao.selectMus(sqlSession, musId);
+	}
+
+	@Override
+	public ArrayList<SeatPrice> selectMusPrice() {
+		return reservationDao.selectMusPrice(sqlSession);
 	}
 
 }

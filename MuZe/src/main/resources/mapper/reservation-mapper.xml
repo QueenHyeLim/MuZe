@@ -8,6 +8,7 @@
 		<result column="THEATER_ID" property="theaterId" />
 		<result column="THEATHER_NAME" property="theaterName" />
 		<result column="GENRE_NO" property="genreNo" />
+		<result column="GENRE" property="genreName" />
 		<result column="MUS_TITLE" property="musTitle" />
 		<result column="START_DATE" property="startDate" />
 		<result column="END_DATE" property="endDate" />
@@ -52,29 +53,42 @@
 	</select>
 
 	<select id="selectMus" parameterType="string" resultMap="reservationMap">
- 		SELECT 
-				MUS_ID,
-				T.THEATHER_NAME,
-				GENRE_NO,
-				MUS_TITLE,
-				START_DATE,
-				END_DATE,
-				RUN_TIME,
-				POSTER,
-				AGE_RATE,
-				STATUS,
-				PER_TIME,
-				CAST
+		SELECT 
+			        MUS_ID,
+			        T.THEATHER_NAME,
+			        GENRE,
+			        MUS_TITLE,
+			        START_DATE,
+			        END_DATE,
+			        RUN_TIME,
+			        POSTER,
+			        AGE_RATE,
+			        STATUS,
+			        PER_TIME,
+			        CAST
 		 FROM 
-				SHOW S
+				    SHOW S
 		 JOIN
-		        THEATER T
+		            THEATER T
 		   ON
-		        (T.THEATER_ID = S.THEATER_ID)
-		WHERE 
-				STATUS = '공연중' 
-          AND
-                MUS_ID = #{ musId }		
+		            (T.THEATER_ID = S.THEATER_ID)
+         JOIN
+                    SHOW_GENRE
+         USING    
+                    (GENRE_NO)
+		  WHERE 
+				    STATUS = '공연중' 
+            AND
+                    MUS_ID = #{ musId }	
 	</select>
-
+	 
+	<select id="selectMusPrice" resultType="seatprice">
+		SELECT
+		        SEATPK seatPk,
+		        KIND kind,
+		        PRICE price
+		  FROM
+		        SEATPRICE	
+	</select>
+	
 </mapper>

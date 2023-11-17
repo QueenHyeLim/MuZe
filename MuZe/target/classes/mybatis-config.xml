@@ -10,11 +10,11 @@
     <typeAlias type="com.kh.muze.diary.model.vo.Diary" alias="diary"/>
 		<typeAlias type="com.kh.muze.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.muze.show.model.vo.Show" alias="show" />
-	
+		<typeAlias type="com.kh.muze.seat.model.vo.SeatPrice" alias="seatprice" />
 	</typeAliases>
 	
 	<mappers>
-    <mapper resource="/mapper/diary-mapper.xml"/>
+    	<mapper resource="/mapper/diary-mapper.xml"/>
 		<mapper resource="/mapper/member-mapper.xml" />
 		<mapper resource="/mapper/reservation-mapper.xml" />
 	</mappers>

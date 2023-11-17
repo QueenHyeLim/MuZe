@@ -2,6 +2,7 @@ package com.kh.muze.reservation.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.muze.seat.model.vo.SeatPrice;
 import com.kh.muze.show.model.vo.Show;
 
 public interface ReservationService {
@@ -11,5 +12,7 @@ public interface ReservationService {
 
 	// 선택한 뮤지컬의 상세 정보
 	Show selectMus(String musId);
+
+	ArrayList<SeatPrice> selectMusPrice();
 
 }
