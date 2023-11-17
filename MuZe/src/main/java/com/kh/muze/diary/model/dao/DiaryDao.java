@@ -16,7 +16,6 @@ public class DiaryDao {
 
 	public ArrayList<Diary> selectDiary(SqlSessionTemplate sqlSession, int diaryUser) {
 		ArrayList list = (ArrayList)sqlSession.selectList("diaryMapper.selectDiary",diaryUser);
-		System.out.println("DAO list : " + list);
 		return list;
 	}
 
@@ -30,6 +29,10 @@ public class DiaryDao {
 
 	public int updateDiaryName(SqlSessionTemplate sqlSession, HashMap map) {
 		return sqlSession.update("diaryMapper.updateDiaryName", map);
+	}
+
+	public Diary selectDiaryDetail(SqlSessionTemplate sqlSession, Diary diary) {
+		return sqlSession.selectOne("diaryMapper.selectDiaryDetail",diary);
 	}
 
 }

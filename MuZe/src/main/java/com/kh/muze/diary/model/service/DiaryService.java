@@ -18,4 +18,6 @@ public interface DiaryService {
 
 	int updateDiaryName(HashMap map);
 
+	Diary selectDiaryDetail(Diary diary);
+
 }
