@@ -14,13 +14,6 @@ public class SeatController {
 	
 	@Autowired
 	private SeatService seatService;
-<<<<<<< Updated upstream
-	
-
-	
-	@RequestMapping("disabled.st")
-=======
->>>>>>> Stashed changes
 
 	@ResponseBody
 	@RequestMapping(value="disabled.st", produces="application/json; charset=UTF-8")
