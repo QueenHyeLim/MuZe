@@ -109,7 +109,6 @@
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
-            	console.log(info.event.start.format('yyyy-mm-dd'));
             	$('#modal-content').modal('show');
             	$('#replyDiaryTitle').text(info.event.title);
                	$.ajax({
@@ -228,25 +227,26 @@
                 <h4 class="modal-title" id="replyDiaryTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <br><br>
-                <div style="border:1px solid red" id="replyDiaryDate-area">
-                	<p id="replyDiaryDate"></p>
-                </div>
             </div>
             
             <!-- Modal body -->
             <div class="modal-body">
+                <p id="replyDiaryDate" style="text-align:right;"></p>
 	            <div class="diary-body">
 	            	<span id="replyDiaryContent"></span>
+	            </div>
+	            <div class="diaryImage-area">
 	            </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
             </div>
-            
         </div>
     </div>
 </div>
+<!-- -----------------------------------일정 작성 모달창 ----------------------------------------- -->
+
 </c:if>
 </body>
 </html>
