@@ -112,18 +112,6 @@
             	console.log(info.event.start.format('yyyy-mm-dd'));
             	$('#modal-content').modal('show');
             	$('#replyDiaryTitle').text(info.event.title);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            	$.ajax({
-            		url : 'diaryDetail.di',
-            		data : {
-            			diaryTitle : info.event.title,
-            			diaryUser : $('#hiddenUserNo').val(),
-            		}
-            	})
-=======
-=======
->>>>>>> Stashed changes
                	$.ajax({
                		url : 'diaryDetail.di',
                		type : 'POST',
@@ -140,10 +128,6 @@
                			alert('실패');
                		}
             	});
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
             }
         });
         calendar.render();
@@ -157,8 +141,6 @@
 
     
 </script>
-
-
 <!--------------------------------------달력--------------------------------------------->
 <div class="page" id="content">
     <div id="blank-area"></div>
@@ -247,11 +229,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <br><br>
                 <div style="border:1px solid red" id="replyDiaryDate-area">
-<<<<<<< Updated upstream
                 	<p id="replyDiaryDate"></p>
-=======
-                <p id="replyDiaryDate"></p>
->>>>>>> Stashed changes
                 </div>
             </div>
             
