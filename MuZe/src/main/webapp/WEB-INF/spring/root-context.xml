@@ -9,8 +9,15 @@
 	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
 
+<<<<<<< Updated upstream
 	 	<property name="username" value="MUSET"/>
 	 	<property name="password" value="MUSET"/>
+=======
+
+
+	 	<property name="username" value="MUZE_TEST"/>
+	 	<property name="password" value="MUZE_TEST"/>
+>>>>>>> Stashed changes
 
 	 </bean>
 	 

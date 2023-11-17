@@ -75,5 +75,20 @@
 		 WHERE
 		        USER_NO = #{userNo}
 	</update>
-
+	<select id="selectDiaryDetail" parameterType="diary" resultType="diary">
+		SELECT
+		        DIARY_NO diaryNo,
+		        DIARY_TITLE diaryTitle,
+		        DIRAY_CONTENT diaryContent,
+		        ATT_YN attStatus,
+		        DIARY_DATE diaryDate
+		  FROM
+		        DIARY D
+		 WHERE
+		        DIARY_USER = #{diaryUser}
+		   AND
+		   		DIARY_TITLE = #{diaryTitle}
+		   AND
+		   		DIARY_YN = 'Y'
+	</select>
 </mapper>

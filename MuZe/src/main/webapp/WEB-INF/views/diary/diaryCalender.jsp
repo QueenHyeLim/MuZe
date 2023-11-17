@@ -6,8 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Diary.jsp</title>
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <style>
    /*------------ DIARY 영역 --------------*/
     #diary-area{
@@ -51,9 +50,14 @@
     .modal.fade{
     	color : black;
     }
+    #replyDiaryDate-area{
+    
+    }
 </style>
 </head>
 <body>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <jsp:include page="../common/navibar.jsp"/>
 <c:if test="${not empty sessionScope.loginUser}">
 <script>
@@ -72,6 +76,7 @@
             events: [
             	<c:forEach var="di" items="${list}">
             	{
+            		id : '${di.diaryNo}',
             		title : '${di.diaryTitle}',
             		start : '${di.diaryDate}',
             		backgroundColor : 'rgb(152, 29, 38)',
@@ -100,13 +105,14 @@
               		// result.isDenied : 일정 작성 모달창 뜸
                         $('#myModal').modal('show');
               	  }
-              	});
+              });
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
             	console.log(info.event.start.format('yyyy-mm-dd'));
             	$('#modal-content').modal('show');
             	$('#replyDiaryTitle').text(info.event.title);
+<<<<<<< Updated upstream
             	$.ajax({
             		url : 'diaryDetail.di',
             		data : {
@@ -114,6 +120,24 @@
             			diaryUser : $('#hiddenUserNo').val(),
             		}
             	})
+=======
+               	$.ajax({
+               		url : 'diaryDetail.di',
+               		type : 'POST',
+               		data : {
+               			diaryNo : info.event.id,
+               			diaryTitle : info.event.title
+               		},
+               		success : result =>{
+               			console.log(result);
+               			$('#replyDiaryDate').text(result.diaryDate);
+               			$('#replyDiaryContent').text(result.diaryContent);
+               		},
+               		error : () =>{
+               			alert('실패');
+               		}
+            	});
+>>>>>>> Stashed changes
             }
         });
         calendar.render();
@@ -210,15 +234,17 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
         <!-- USER_NO HIDDEN / DIARY_DATE HIDDEN -->
-        <input type="hidden" name="diaryUser" />
 		<input type="hidden" name="diaryDate" id="diaryDate"/>
             <!-- Modal Header -->
-            <div class="modal-header" style="text-align: center;" id="diary-header">
-                <p id="replyDiaryDate"></p>
+            <div class="modal-header" style="text-align: center;" id="diary-header" >
                 <h4 class="modal-title" id="replyDiaryTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <br><br>
+                <div style="border:1px solid red" id="replyDiaryDate-area">
+                	<p id="replyDiaryDate"></p>
+                </div>
             </div>
+            
             <!-- Modal body -->
             <div class="modal-body">
 	            <div class="diary-body">
@@ -227,7 +253,7 @@
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary">close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
             </div>
             
         </div>
