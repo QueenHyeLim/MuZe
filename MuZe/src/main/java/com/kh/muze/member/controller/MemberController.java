@@ -3,6 +3,7 @@ package com.kh.muze.member.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,9 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
 	@RequestMapping("loginPage.me")
 	public String loginPage() {
 		
@@ -28,7 +32,7 @@ public class MemberController {
 		
 		Member loginUser = memberService.loginMember(m);
 		
-		if(loginUser != null) {
+		if(loginUser != null && bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
 			session.setAttribute("loginUser", loginUser);
 			mv.setViewName("redirect:/");
 		} else {
@@ -54,6 +58,9 @@ public class MemberController {
 	
 	@RequestMapping("insert.me")
 	public String insertMember(Member m, Model model) {
+		
+		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
+		m.setUserPwd(encPwd); 
 		if(memberService.insertMember(m) > 0) { // 성공 => 메인페이지
 			return "redirect:/";
 		} else { 
