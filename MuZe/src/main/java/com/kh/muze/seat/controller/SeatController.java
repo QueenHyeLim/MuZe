@@ -15,16 +15,22 @@ public class SeatController {
 	@Autowired
 	private SeatService seatService;
 	
+
+	
+	@RequestMapping("disabled.st")
+
 	@ResponseBody
 	@RequestMapping(value="disabled.st", produces="application/json; charset=UTF-8")
 	public String disabledSeat(String musId, String selectDate) {
 		System.out.println(musId);
 		System.out.println(selectDate);
 		
+
 		Reservation reservation = new Reservation();
 		reservation.setMusId(musId);
 		reservation.setSelectDate(selectDate);
 				
 		return new Gson().toJson(seatService.disabledSeat(reservation));
+
 	}
 }
