@@ -46,16 +46,24 @@ public class ShowController {
 		
 		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
 		url += "?service=" + SERVICEYKEY;
+<<<<<<< Updated upstream
 //		url += "&stdate=" + yesterday;
 //		url += "&eddate="  + yesterday;
 		url += "&cpage=1";
 		url += "&rows=88000";
 		url += "&prfstate=" + prfstate;
+=======
+		url += "&cpage=1";
+		url += "&rows=88000";
+		if(prfstate != "00") {
+			url += "&prfstate=" + prfstate;
+		}
+>>>>>>> Stashed changes
 		url += "&shprfnm=" + URLEncoder.encode(shprfnm, "UTF-8");
 		
 //		System.out.println(prfstate);
 //		System.out.println(url);
-//		System.out.println(shprfnm);
+//		System.out.println(prfstate.length());
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -81,6 +89,8 @@ public class ShowController {
 		       url += mt20id;
 		       url += "?service=" + SERVICEYKEY;
 		
+		//System.out.println(url);       
+		       
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 		urlConnection.setRequestMethod("GET");

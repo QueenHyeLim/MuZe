@@ -88,6 +88,11 @@ img {
 
 .detail{
 	margin-left: 10px;
+	font-size: 10px;
+	height: 30px;
+	border-radius: 5px;
+	background-color:transparent;
+	border: 1px solid black;
 }
 
 </style>
@@ -101,6 +106,10 @@ img {
 	   		<div id="search-part">
 	   			<div id="select">
 		   			<select id="prfstate">
+<<<<<<< Updated upstream
+=======
+		   				<option value="00">전체</option>
+>>>>>>> Stashed changes
 		   				<option value="01">공연예정</option>
 		   				<option value="02">공연중</option>
 		   				<option value="03">공연완료</option>
@@ -110,7 +119,10 @@ img {
 	   			<div id="search">
 		   			<input type="text" placeholder="검색어 입력" name=shprfnm id="shprfnm" minlength="2">
 					<i class="fa-solid fa-magnifying-glass" id="btn"></i>
+<<<<<<< Updated upstream
 					<!--<span class="material-symbols-outlined" id="btn">search</span>-->
+=======
+>>>>>>> Stashed changes
 				</div>
 	   		</div>
 	   		
@@ -172,7 +184,7 @@ img {
 							  		+ '<div class="des">'
 							  			+'<form action="detail.sh">'
 							  			+'<input type="hidden" id="mt20id" name="mt20id" value="' + $(item).find('mt20id').text() + '"/>'
-			   							+'<p>' + $(item).find('prfnm').text() + '<button class="detail">더보기</button></p>'
+			   							+'<p>' + $(item).find('prfnm').text() + '<button align="center" class="detail">상세보기</button></p>'
 			   							+'<p>' + $(item).find('prfpdfrom').text() + ' ~ ' +  $(item).find('prfpdto').text() + '</p>'
 			   							+'<p>' + $(item).find('fcltynm').text() + '</p>'
 			   							+'<p>' + $(item).find('prfstate').text() + '</p>'
@@ -186,7 +198,10 @@ img {
 					}
 					
 					$('.result').html(value);
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 					
 				},
 				error : function(){
