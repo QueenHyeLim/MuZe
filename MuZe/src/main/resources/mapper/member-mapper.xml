@@ -47,5 +47,17 @@
 			  )
 		
 	</insert>
+	
+	<update id="updateMember" parameterType="member">
+		update
+			   member
+		   set
+		   	   user_name = #{userName}
+		   	   ,phone = #{phone}
+		   	   ,email = #{email}
+		  where
+		  		user_id = #{userId}
+	
+	</update>
 
 </mapper>
