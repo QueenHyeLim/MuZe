@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +30,11 @@ table {
 .title {
 	font-weight: 800;
 	width: 200px;
+}
+
+.value > a{
+	color: black;
+	font-style: italic;
 }
 
 /*지도 전체를 감싸는 영역*/
@@ -71,7 +77,16 @@ table {
 	   			
 	   			<tr>
 	   				<td class="title">개관연도</td>
-	   				<td class="value">${ opende }년</td>
+	   				<td class="value">
+						<c:choose>
+							<c:when test="${ opende eq ' ' }">
+								-
+							</c:when>
+							<c:otherwise>
+								${ opende }년
+							</c:otherwise>
+						</c:choose>
+					</td>
 	   			</tr>
 	   			
 	   			<tr>
@@ -80,11 +95,31 @@ table {
 	   			</tr>
 	   			<tr>
 	   				<td class="title">전화번호</td>
-	   				<td class="value">${ telno }</td>
+	   				<td class="value">
+						<c:choose>
+							<c:when test="${ telno eq ' ' }">
+								-
+							</c:when>
+
+							<c:otherwise>
+								${ telno }
+							</c:otherwise>
+						</c:choose>	
+					</td>
 	   			</tr>
 	   			<tr>
 	   				<td  class="title">홈페이지</td>
-	   				<td  class="value">${ relateurl } </td>
+	   				<td  class="value">
+						<c:choose>
+							<c:when test="${ relateurl eq ' '}">
+								-
+							</c:when>
+
+							<c:otherwise>
+								<a href="${ relateurl }">${ relateurl }</a>
+							</c:otherwise>
+						</c:choose>
+					</td>
 	   			</tr>
 	   			<tr>
 	   				<td class="title">주소</td>
@@ -121,9 +156,6 @@ table {
 			
 			// 마커가 지도 위에 표시되도록 설정합니다
 			marker.setMap(map);
-			
-			// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
-			// marker.setMap(null);    
 			</script>
 			
 	   </div>
