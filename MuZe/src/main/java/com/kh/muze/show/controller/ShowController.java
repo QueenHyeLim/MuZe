@@ -53,8 +53,8 @@ public class ShowController {
 		url += "&prfstate=" + prfstate;
 		url += "&shprfnm=" + URLEncoder.encode(shprfnm, "UTF-8");
 		
-		System.out.println(prfstate);
-		System.out.println(url);
+//		System.out.println(prfstate);
+//		System.out.println(url);
 //		System.out.println(shprfnm);
 		
 		URL requestUrl = new URL(url);

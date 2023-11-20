@@ -9,61 +9,60 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
-#list-part{
-	border : 1px solid;
-	height : 900px;
-	margin-top : 31.5px;
+/*전체를 감싸는 영역*/
+#content {
+	padding-top: 15px;
 }
 
+/*검색*/
 #search-part {
 	height : 50px;
 	position: relative;
-	border: 1px solid red;
-}
-
-select{
-	height: 45px;
-	border-radius: 8px;
-	margin-right: 10px;
 }
 
 #search-part > div {
 	float : left;
 }
 
+/*검색 : 옵션*/
+select{
+	height: 45px;
+	width: 100px;
+	border-radius: 8px;
+}
+
+/*검색 : 검색어 입력*/
 #search{
 	margin-left: 10px;
 }
 
 #search > input{
-	width: 100%;
+	width: 400px;
 	border: 1px solid white;
 	border-radius: 8px;
 	padding: 10px 12px;
 }
 
-#search > i{
+/*검색 : 버튼*/
+#btn{
 	position : absolute;
-	width: 17px;
-	top: 10px;
-	right: 12px;
-	margin: 0;
+	margin-top: 15px;
+	margin-left: -30px;
 }
 
+/*결과*/
 #result-part {
 	background-color : beige;
 	margin-top: 20px;
 }
 
+/*결과 : 없는 경우*/
 p{
 	padding: 0;
 	margin: 0;
 }
 
-#paging-part{
-	height : 50px;
-}
-
+/*결과 : 포스터*/
 img {
 	width : 150px;
 	height : 200px;
@@ -91,15 +90,6 @@ img {
 	margin-left: 10px;
 }
 
-#content {
-	padding-top: 15px;
-}
-
-#btn {
-	background-color: white;
-	padding-top: 5px;
-}
-
 </style>
 </head>
 <body>
@@ -120,6 +110,7 @@ img {
 	   			<div id="search">
 		   			<input type="text" placeholder="검색어 입력" name=shprfnm id="shprfnm" minlength="2">
 					<i class="fa-solid fa-magnifying-glass" id="btn"></i>
+					<!--<span class="material-symbols-outlined" id="btn">search</span>-->
 				</div>
 	   		</div>
 	   		
@@ -138,20 +129,24 @@ img {
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		var cpage = 1;
-
-		// 검색창에 아무것도 입력 안하면 버튼 비활성화
-		// if($('#'))
 		
 		$('#btn').click(() => {
 			if($('#shprfnm').val() == ''){
-				console.log('검색어 없음');
 				alert('검색어를 입력하세요');
+				$('#shprfnm').focus();
 			} else {
 				search();
 			}
 		})
-		
+
+		// 엔터키 클릭 이벤트
+		$(()=>{
+			$('#shprfnm').keydown(function(key){
+				if(key.keyCode == 13){
+					$('#btn').click();
+				}
+			})
+		})
 		
 		// 검색 버튼 클릭 이벤트
 		function search(){
@@ -165,12 +160,6 @@ img {
 					 console.log($(result).find('db'));
 					
 					const itemArr = $(result).find('db');
-
-					// if(itemArr.length == 0){
-					// 	console.log('길이 0임: ' + itemArr.length);
-					// } else {
-					// 	console.log(itemArr.length);
-					// }
 					
 					let value = '';
 					
@@ -204,8 +193,6 @@ img {
 					console.log('fail');
 				}
 			})
-			console.log("검색어 길이 : " + $('#shprfnm').val())
-			return true;
 		}
 	</script>
 	 
