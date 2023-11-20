@@ -116,6 +116,9 @@ img {
 	   			<div id="search">
 		   			<input type="text" placeholder="검색어 입력" name=shprfnm id="shprfnm" minlength="2">
 					<i class="fa-solid fa-magnifying-glass" id="btn"></i>
+
+					<!--<span class="material-symbols-outlined" id="btn">search</span>-->
+
 				</div>
 	   		</div>
 	   		

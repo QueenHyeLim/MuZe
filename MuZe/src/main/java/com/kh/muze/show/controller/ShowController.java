@@ -46,11 +46,19 @@ public class ShowController {
 		
 		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
 		url += "?service=" + SERVICEYKEY;
+
 		url += "&cpage=1";
 		url += "&rows=88000";
 		if(prfstate != "00") {
 			url += "&prfstate=" + prfstate;
 		}
+
+		url += "&cpage=1";
+		url += "&rows=88000";
+		if(prfstate != "00") {
+			url += "&prfstate=" + prfstate;
+		}
+
 		url += "&shprfnm=" + URLEncoder.encode(shprfnm, "UTF-8");
 		
 //		System.out.println(url);

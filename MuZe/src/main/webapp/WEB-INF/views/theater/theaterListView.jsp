@@ -36,10 +36,15 @@
 		margin-left: -30px;
 	}
 
+
+	#content {
+		padding-top: 15px;
+
 	/*결과*/
 	#result-part{
 		color : white;
 		margin-top: 20px;
+
 	}
 
 	table{
@@ -79,7 +84,9 @@
 					</select>
 				</div>-->
 	   			<input type="text" placeholder="검색어 입력" name="shprfnmfct" id="shprfnmfct" required>
-	   			<i class="fa-solid fa-magnifying-glass" id="btn"></i>
+
+	   			<i class="fa-solid fa-magnifying-glass" onclick="search();" id="btn"></i>
+
 	   		</div> 
 	   		
 	   		<div id="result-part">

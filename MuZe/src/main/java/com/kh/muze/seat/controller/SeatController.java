@@ -28,9 +28,16 @@ public class SeatController {
 		Reservation reservation = new Reservation();
 		reservation.setMusId(musId);
 		reservation.setSelectDate(selectDate);
+<<<<<<< Updated upstream
 
 		*/
 		return new Gson().toJson(seatService.disabledSeat(seat));
 
+=======
+		*/
+		return new Gson().toJson(seatService.disabledSeat(seat));
+
+
+>>>>>>> Stashed changes
 	}
 }
