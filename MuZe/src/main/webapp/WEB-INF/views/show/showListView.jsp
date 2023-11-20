@@ -9,61 +9,60 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
-#list-part{
-	border : 1px solid;
-	height : 900px;
-	margin-top : 31.5px;
+/*전체를 감싸는 영역*/
+#content {
+	padding-top: 15px;
 }
 
+/*검색*/
 #search-part {
 	height : 50px;
 	position: relative;
-	border: 1px solid red;
-}
-
-select{
-	height: 45px;
-	border-radius: 8px;
-	margin-right: 10px;
 }
 
 #search-part > div {
 	float : left;
 }
 
+/*검색 : 옵션*/
+select{
+	height: 45px;
+	width: 100px;
+	border-radius: 8px;
+}
+
+/*검색 : 검색어 입력*/
 #search{
 	margin-left: 10px;
 }
 
 #search > input{
-	width: 100%;
+	width: 400px;
 	border: 1px solid white;
 	border-radius: 8px;
 	padding: 10px 12px;
 }
 
-#search > i{
+/*검색 : 버튼*/
+#btn{
 	position : absolute;
-	width: 17px;
-	top: 10px;
-	right: 12px;
-	margin: 0;
+	margin-top: 15px;
+	margin-left: -30px;
 }
 
+/*결과*/
 #result-part {
 	background-color : beige;
 	margin-top: 20px;
 }
 
+/*결과 : 없는 경우*/
 p{
 	padding: 0;
 	margin: 0;
 }
 
-#paging-part{
-	height : 50px;
-}
-
+/*결과 : 포스터*/
 img {
 	width : 150px;
 	height : 200px;
@@ -89,15 +88,11 @@ img {
 
 .detail{
 	margin-left: 10px;
-}
-
-#content {
-	padding-top: 15px;
-}
-
-#btn {
-	background-color: white;
-	padding-top: 5px;
+	font-size: 10px;
+	height: 30px;
+	border-radius: 5px;
+	background-color:transparent;
+	border: 1px solid black;
 }
 
 </style>
@@ -111,6 +106,7 @@ img {
 	   		<div id="search-part">
 	   			<div id="select">
 		   			<select id="prfstate">
+		   				<option value="00">전체</option>
 		   				<option value="01">공연예정</option>
 		   				<option value="02">공연중</option>
 		   				<option value="03">공연완료</option>
@@ -138,20 +134,24 @@ img {
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		var cpage = 1;
-
-		// 검색창에 아무것도 입력 안하면 버튼 비활성화
-		// if($('#'))
 		
 		$('#btn').click(() => {
 			if($('#shprfnm').val() == ''){
-				console.log('검색어 없음');
 				alert('검색어를 입력하세요');
+				$('#shprfnm').focus();
 			} else {
 				search();
 			}
 		})
-		
+
+		// 엔터키 클릭 이벤트
+		$(()=>{
+			$('#shprfnm').keydown(function(key){
+				if(key.keyCode == 13){
+					$('#btn').click();
+				}
+			})
+		})
 		
 		// 검색 버튼 클릭 이벤트
 		function search(){
@@ -165,12 +165,6 @@ img {
 					 console.log($(result).find('db'));
 					
 					const itemArr = $(result).find('db');
-
-					// if(itemArr.length == 0){
-					// 	console.log('길이 0임: ' + itemArr.length);
-					// } else {
-					// 	console.log(itemArr.length);
-					// }
 					
 					let value = '';
 					
@@ -183,7 +177,7 @@ img {
 							  		+ '<div class="des">'
 							  			+'<form action="detail.sh">'
 							  			+'<input type="hidden" id="mt20id" name="mt20id" value="' + $(item).find('mt20id').text() + '"/>'
-			   							+'<p>' + $(item).find('prfnm').text() + '<button class="detail">더보기</button></p>'
+			   							+'<p>' + $(item).find('prfnm').text() + '<button align="center" class="detail">상세보기</button></p>'
 			   							+'<p>' + $(item).find('prfpdfrom').text() + ' ~ ' +  $(item).find('prfpdto').text() + '</p>'
 			   							+'<p>' + $(item).find('fcltynm').text() + '</p>'
 			   							+'<p>' + $(item).find('prfstate').text() + '</p>'
@@ -197,15 +191,12 @@ img {
 					}
 					
 					$('.result').html(value);
-
 					
 				},
 				error : function(){
 					console.log('fail');
 				}
 			})
-			console.log("검색어 길이 : " + $('#shprfnm').val())
-			return true;
 		}
 	</script>
 	 

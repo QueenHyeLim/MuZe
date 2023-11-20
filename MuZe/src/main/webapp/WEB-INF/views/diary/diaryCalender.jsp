@@ -47,12 +47,9 @@
     #diaryName-input{
     	width:100%;
     }
-    .modal.fade{
-    	color : black;
-    }
-    #replyDiaryDate-area{
-    
-    }
+	.modal-content{
+		color : black;
+	}
 </style>
 </head>
 <body>
@@ -61,7 +58,6 @@
 <jsp:include page="../common/navibar.jsp"/>
 <c:if test="${not empty sessionScope.loginUser}">
 <script>
-
     // div날짜를 클릭했을떄 해당 날짜의 값을 뽑는 함수(insert하기 위해)
     document.addEventListener('DOMContentLoaded', function() {
         var today = new Date(); // 현재 날짜
@@ -103,7 +99,8 @@
                         $('#myModal-form').modal('show');
               	  } else if (result.isDenied) {
               		// result.isDenied : 일정 작성 모달창 뜸
-                        $('#myModal').modal('show');
+              		$('#schedule-modal').modal('show');
+              	  	$('.schedule-modal-title').html(date.dateStr + ' DAY SCHEDULE');
               	  }
               });
             },
@@ -246,7 +243,29 @@
     </div>
 </div>
 <!-- -----------------------------------일정 작성 모달창 ----------------------------------------- -->
-
+<!-- The Modal -->
+<div class="modal" id="schedule-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="schedule-modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <p id="clickDate"></p>
+        <input type="time" name="time">
+        <button type="button" name="time" value="24hours" class="btn btn-outline-danger">All day</button><br>
+        <p id="show-time"></p>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-basic" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 </c:if>
 </body>
 </html>
