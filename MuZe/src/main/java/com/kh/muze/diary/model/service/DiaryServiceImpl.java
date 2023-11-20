@@ -42,4 +42,9 @@ public class DiaryServiceImpl implements DiaryService{
 		return diaryDao.updateDiaryName(sqlSession,map);
 	}
 
+	@Override
+	public Diary selectDiaryDetail(Diary diary) {
+		return diaryDao.selectDiaryDetail(sqlSession,diary);
+	}
+
 }

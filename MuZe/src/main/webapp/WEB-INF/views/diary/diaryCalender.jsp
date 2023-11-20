@@ -6,8 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Diary.jsp</title>
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <style>
    /*------------ DIARY 영역 --------------*/
     #diary-area{
@@ -51,9 +50,14 @@
     .modal.fade{
     	color : black;
     }
+    #replyDiaryDate-area{
+    
+    }
 </style>
 </head>
 <body>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <jsp:include page="../common/navibar.jsp"/>
 <c:if test="${not empty sessionScope.loginUser}">
 <script>
@@ -72,6 +76,7 @@
             events: [
             	<c:forEach var="di" items="${list}">
             	{
+            		id : '${di.diaryNo}',
             		title : '${di.diaryTitle}',
             		start : '${di.diaryDate}',
             		backgroundColor : 'rgb(152, 29, 38)',
@@ -100,13 +105,28 @@
               		// result.isDenied : 일정 작성 모달창 뜸
                         $('#myModal').modal('show');
               	  }
-              	});
+              });
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
             	$('#modal-content').modal('show');
-            	console.log(info);
             	$('#replyDiaryTitle').text(info.event.title);
+               	$.ajax({
+               		url : 'diaryDetail.di',
+               		type : 'POST',
+               		data : {
+               			diaryNo : info.event.id,
+               			diaryTitle : info.event.title
+               		},
+               		success : result =>{
+               			console.log(result);
+               			$('#replyDiaryDate').text(result.diaryDate);
+               			$('#replyDiaryContent').text(result.diaryContent);
+               		},
+               		error : () =>{
+               			alert('실패');
+               		}
+            	});
             }
         });
         calendar.render();
@@ -120,8 +140,6 @@
 
     
 </script>
-
-
 <!--------------------------------------달력--------------------------------------------->
 <div class="page" id="content">
     <div id="blank-area"></div>
@@ -144,7 +162,7 @@
    <div class="modal fade" id="modal-diaryName">
        <div class="modal-dialog modal-dialog-centered">
        <div class="modal-content">
-       	<input type="hidden" name="userNo" value="${sessionScope.loginUser.userNo}"/>
+       	<input id="hiddenUserNo" type="hidden" name="userNo" value="${sessionScope.loginUser.userNo}"/>
            <!-- Modal Header -->
            <div class="modal-header" id="diary-header">
            <h4 class="modal-title" style="color:black">CHANGE YOUR DIARY NAME</h4>
@@ -203,29 +221,32 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
         <!-- USER_NO HIDDEN / DIARY_DATE HIDDEN -->
-        <input type="hidden" name="diaryUser" />
 		<input type="hidden" name="diaryDate" id="diaryDate"/>
             <!-- Modal Header -->
-            <div class="modal-header" style="text-align: center;" id="diary-header">
-                <p id="replyDiaryDate"></p>
+            <div class="modal-header" style="text-align: center;" id="diary-header" >
                 <h4 class="modal-title" id="replyDiaryTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <br><br>
             </div>
+            
             <!-- Modal body -->
             <div class="modal-body">
+                <p id="replyDiaryDate" style="text-align:right;"></p>
 	            <div class="diary-body">
 	            	<span id="replyDiaryContent"></span>
+	            </div>
+	            <div class="diaryImage-area">
 	            </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary">close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
             </div>
-            
         </div>
     </div>
 </div>
+<!-- -----------------------------------일정 작성 모달창 ----------------------------------------- -->
+
 </c:if>
 </body>
 </html>

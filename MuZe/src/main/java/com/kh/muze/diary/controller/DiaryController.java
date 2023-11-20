@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.kh.muze.diary.model.service.DiaryService;
 import com.kh.muze.diary.model.vo.Diary;
 import com.kh.muze.member.model.vo.Member;
@@ -20,6 +22,7 @@ public class DiaryController {
 	@Autowired
 	private DiaryService diaryService;
 	
+	// diary forwarding하면서 내용 가지고 오기
 	@RequestMapping("diary.di")
 	public String diary(Model model,HttpSession session) {
 		// forwarding해주면서 다이어리에 있는 데이터를 select해서 보여주기
@@ -65,9 +68,9 @@ public class DiaryController {
 		return "redirect:diary.di";
 	}
 	
-	
+	// diary Name insert및 update 메소드
 	@RequestMapping("name.di")
-	public String insertDiaryName(String diaryName, int userNo) { // userNo회원 값 나중에 뽑기
+	public String insertDiaryName(String diaryName, int userNo) { 
 		
 		HashMap map = new HashMap();
 		map.put("userNo", userNo);
@@ -81,6 +84,23 @@ public class DiaryController {
 		return "redirect:diary.di";
 	}
 	
+	// diary detail내용 select 메소드
+	@ResponseBody
+	@RequestMapping(value="diaryDetail.di", produces="application/json; charset=UTF-8")
+	public String selectDiaryDetail(int diaryNo,
+									String diaryTitle,
+									HttpSession session) {
+
+		Member member = (Member)session.getAttribute("loginUser");
+		int diaryUser = member.getUserNo();
+		
+		Diary diary = new Diary();
+		diary.setDiaryNo(diaryNo);
+		diary.setDiaryTitle(diaryTitle);
+		diary.setDiaryUser(diaryUser);
+		
+		return new Gson().toJson(diaryService.selectDiaryDetail(diary));
+	}
 	
 	
 	

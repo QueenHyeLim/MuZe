@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Your My MuZe 뮤지컬 좌석선택</title>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
     .seat-field{
         width : 1302px;
@@ -31,10 +32,24 @@
     td{
         width: 10px;
         height: 10px;
+        color: #fff;
     }
-
+	
+	.select-title{
+		color : #fff;
+	}
+	
+	.select-date {
+		color : #fff;
+	}
+	
     #red{
         background-color: red;
+    }
+    
+    .seat-line{
+    	width : 10px;
+    	height : 10px;
     }
 </style>
 
@@ -281,6 +296,23 @@
 		</div>
 	</div>
 	
-	
+<script>
+	$(function(){
+		$.ajax({
+			url : 'disabled.st',
+			data : {
+				musId : '${ musInfo.musId }',
+				selectDate : '${ selectdate }'
+			},
+			success : data => {
+				console.log(data);
+			},
+			error : () => {
+				cosole.log('실패');
+			}
+		});
+	});
+
+</script>
 </body>
 </html>
