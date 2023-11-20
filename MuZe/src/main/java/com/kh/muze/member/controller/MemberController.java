@@ -61,7 +61,7 @@ public class MemberController {
 		
 		String encPwd = bcryptPasswordEncoder.encode(m.getUserPwd());
 		m.setUserPwd(encPwd); 
-		if(memberService.insertMember(m) > 0) { // 성공 => 메인페이지
+		if(memberService.insertMember(m) > 0) { 
 			return "redirect:/";
 		} else { 
 			model.addAttribute("errorMsg", "회원가입 실패");
@@ -78,6 +78,22 @@ public class MemberController {
 	@RequestMapping("myInfo.me")
 	public String myInfo() {
 		return "member/myInfo";
+	}
+	
+	@RequestMapping("update.me")
+	public String updateMember(Member m, Model model, HttpSession session) {
+		
+		if(memberService.updateMember(m) > 0) {
+			session.setAttribute("loginUser", memberService.loginMember(m));
+			
+			session.setAttribute("alertMsg", "정보 수정 성공");
+			
+			return "redirect:myInfo.me";
+		} else { 
+			model.addAttribute("errorMsg", "정보 수정 실패");
+			
+			return "common/errorPage";
+		}
 	}
 
 }

@@ -22,6 +22,15 @@
 		<result column="ROWNUM" property="rowNo" />
 	</resultMap>
 	
+	<resultMap id="disabledSeatMap" type="reservation">
+		<result column="SEAT_NO" property="seatNo" />
+		<result column="SEAT_TYPE" property="seatType" />
+		<result column="SEAT_ID" property="seatId" />
+		<result column="RES_NO" property="resNo" />
+		<result column="RES_DATE" property="resDate" />
+		
+	</resultMap>
+	
 	<select id="showLatest" resultMap="reservationMap">
 		SELECT 
 				ROWNUM, A.*
@@ -90,8 +99,8 @@
 		  FROM
 		        SEATPRICE	
 	</select>
-	
-	<select id="disabledSeat" resultType="reservation" resultMap="reservationMap">
+	<!-- 
+	<select id="disabledSeat" resultType="reservation" resultMap="disabledSeatMap">
 		SELECT 
 				SEAT_NO,
 				SEAT_TYPE, 
@@ -109,4 +118,5 @@
 		  AND 
 		  		RES_DATE = #{ selectDate }
 	</select>
+	-->
 </mapper>
