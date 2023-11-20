@@ -24,9 +24,9 @@ public class ReservationDao {
 	public ArrayList<SeatPrice> selectMusPrice(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("reservationMapper.selectMusPrice");
 	}
-
+	/*
 	public ArrayList<Reservation> disabledSeat(SqlSessionTemplate sqlSession, Reservation reservation) {
 		return (ArrayList)sqlSession.selectList("reservationMapper.disabledSeat", reservation);
 	}
-	
+	*/
 }

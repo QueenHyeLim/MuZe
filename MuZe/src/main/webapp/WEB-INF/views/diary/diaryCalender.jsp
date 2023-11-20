@@ -47,12 +47,61 @@
     #diaryName-input{
     	width:100%;
     }
-    .modal.fade{
-    	color : black;
-    }
-    #replyDiaryDate-area{
-    
-    }
+	.modal-content{
+		color : black;
+	}
+	/*------ slider toggle area --------*/
+	/* The switch - the box around the slider */
+	.switch {
+	  position: relative;
+	  display: inline-block;
+	  width: 50px;
+	  height: 30px;
+	}
+	.slider {
+	  position: absolute;
+	  cursor: pointer;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: #ccc;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+	
+	.slider:before {
+	  position: absolute;
+	  content: "";
+	  height: 20px;
+	  width: 20px;
+	  left: 4px;
+	  bottom: 4px;
+	  background-color: white;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+	
+	input:checked + .slider {
+	  background-color: #2196F3;
+	}
+	
+	input:focus + .slider {
+	  box-shadow: 0 0 1px #2196F3;
+	}
+	
+	input:checked + .slider:before {
+	  -webkit-transform: translateX(26px);
+	  -ms-transform: translateX(26px);
+	  transform: translateX(26px);
+	}
+	.slider.round {
+	  border-radius: 20px;
+	}
+	
+	.slider.round:before {
+	  border-radius: 50%;
+	}
 </style>
 </head>
 <body>
@@ -61,7 +110,6 @@
 <jsp:include page="../common/navibar.jsp"/>
 <c:if test="${not empty sessionScope.loginUser}">
 <script>
-
     // div날짜를 클릭했을떄 해당 날짜의 값을 뽑는 함수(insert하기 위해)
     document.addEventListener('DOMContentLoaded', function() {
         var today = new Date(); // 현재 날짜
@@ -103,13 +151,13 @@
                         $('#myModal-form').modal('show');
               	  } else if (result.isDenied) {
               		// result.isDenied : 일정 작성 모달창 뜸
-                        $('#myModal').modal('show');
+              		$('#schedule-modal').modal('show');
+              	  	$('.schedule-modal-title').html(date.dateStr + ' DAY SCHEDULE');
               	  }
               });
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
-            	console.log(info.event.start.format('yyyy-mm-dd'));
             	$('#modal-content').modal('show');
             	$('#replyDiaryTitle').text(info.event.title);
                	$.ajax({
@@ -138,7 +186,6 @@
     function changeDiaryName(){
     	$('#modal-diaryName').modal('show');
     }
-
     
 </script>
 <!--------------------------------------달력--------------------------------------------->
@@ -228,25 +275,94 @@
                 <h4 class="modal-title" id="replyDiaryTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <br><br>
-                <div style="border:1px solid red" id="replyDiaryDate-area">
-                	<p id="replyDiaryDate"></p>
-                </div>
             </div>
             
             <!-- Modal body -->
             <div class="modal-body">
+                <p id="replyDiaryDate" style="text-align:right;"></p>
 	            <div class="diary-body">
 	            	<span id="replyDiaryContent"></span>
+	            </div>
+	            <div class="diaryImage-area">
 	            </div>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
             </div>
-            
         </div>
     </div>
 </div>
+<!-- -----------------------------------일정 작성 모달창 ----------------------------------------- -->
+<!-- The Modal -->
+<div class="modal" id="schedule-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="schedule-modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+       	<p id="show-time"></p>
+        <input type="time" name="time" id="schedule-time">
+        <button type="button" class="btn btn-light" id="time-check">check my time</button><br>	
+        All Day :
+		<label class="switch" id="allDay">
+		  &nbsp;<input type="checkbox" id="allDay-checkbox" value="00:00">
+		  <span class="slider round"></span>
+		</label>
+		<div>
+			
+		</div>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-danger" id="schedule-submit">submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+// 일정 버튼을 클릭했을 때 나오는 시간 값 뽑아내기
+$(()=>{
+	const $allDay = $('#allDay-checkbox'); // 하루종일  00:00 toggle
+	const $time = $('#schedule-time');     // 시간 달력 input="time"
+	const $timeCheck = $('#time-check');   // check my time(일정 시간 확인 버튼)
+	const $showTime = $('#show-time');     // 일정 시간 : (show time)
+	const $submit = $('#schedule-submit'); // 확인(submit)버튼
+	
+	$timeCheck.on('click',()=>{
+		
+		// $('#show-time').text('일정을 입력해주세요');
+		if($allDay[0].checked == true && $time[0].value == ''){
+			$showTime.text('일정 시간 : ' + $allDay[0].value);
+		}
+		else if($allDay[0].checked == false && $time[0].value == ''){
+			$showTime.text('일정을 입력해주세요');
+		}
+		else if($allDay[0].checked == true && $time[0].value != ''){
+			$showTime.text('값을 하나만 넣어주세요');
+			$allDay.prop('checked', false);
+			$time.val('');
+		}
+		else{
+			$showTime.html('일정 시간 : '+$time[0].value);
+		}
+	});
+
+	
+	$submit.click(()=>{
+		const $textContent = $showTime[0].textContent;
+		console.log($textContent == '');
+		if($textContent == '일정을 입력해주세요' && $textContent == '값을 하나만 넣어주세요' && $textContent == ''){
+			console.log('disabled');
+			$submit.prop('disabled',true);
+		}
+	});
+})
+</script>
 </c:if>
 </body>
 </html>

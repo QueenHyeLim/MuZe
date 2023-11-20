@@ -37,7 +37,7 @@ public class ShowController {
 	
 	@ResponseBody
 	@RequestMapping(value="slist.sh", produces="text/html; charset=UTF-8")
-	public String showList(String shprfnm, Model model) throws Exception {
+	public String showList(String shprfnm, String prfstate, Model model) throws Exception {
 		
 		Calendar calendar = new GregorianCalendar();
 		calendar.add(Calendar.DATE, -1);
@@ -46,15 +46,23 @@ public class ShowController {
 		
 		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
 		url += "?service=" + SERVICEYKEY;
-		url += "&stdate=" + yesterday;
-		url += "&eddate="  + yesterday;
+
 		url += "&cpage=1";
-		url += "&rows=386";
-		url += "&prfstate=02";
+		url += "&rows=88000";
+		if(prfstate != "00") {
+			url += "&prfstate=" + prfstate;
+		}
+
+		url += "&cpage=1";
+		url += "&rows=88000";
+		if(prfstate != "00") {
+			url += "&prfstate=" + prfstate;
+		}
+
 		url += "&shprfnm=" + URLEncoder.encode(shprfnm, "UTF-8");
 		
 //		System.out.println(url);
-//		System.out.println(shprfnm);
+//		System.out.println(prfstate.length());
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -80,6 +88,8 @@ public class ShowController {
 		       url += mt20id;
 		       url += "?service=" + SERVICEYKEY;
 		
+		//System.out.println(url);       
+		       
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 		urlConnection.setRequestMethod("GET");

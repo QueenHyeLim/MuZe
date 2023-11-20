@@ -12,12 +12,14 @@
 		<typeAlias type="com.kh.muze.show.model.vo.Show" alias="show" />
 		<typeAlias type="com.kh.muze.seat.model.vo.SeatPrice" alias="seatprice" />
 		<typeAlias type="com.kh.muze.reservation.model.vo.Reservation" alias="reservation" />
+		<typeAlias type="com.kh.muze.seat.model.vo.Seat" alias="seat" />
 	</typeAliases>
 	
 	<mappers>
     	<mapper resource="/mapper/diary-mapper.xml"/>
 		<mapper resource="/mapper/member-mapper.xml" />
 		<mapper resource="/mapper/reservation-mapper.xml" />
+		<mapper resource="/mapper/seat-mapper.xml" />
 	</mappers>
 	
 </configuration>
