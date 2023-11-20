@@ -49,10 +49,6 @@
     	background-color : green;
     }
     
-<<<<<<< Updated upstream
-    .selected-seat{
-    	color : #fff;
-=======
     .checkedseat{
     	color : #fff;
     }
@@ -63,7 +59,6 @@
     
     #gopay{
     	text-decoration : none;
->>>>>>> Stashed changes
     }
 </style>
 
@@ -315,10 +310,6 @@
             	</div>
             	
             </div>
-<<<<<<< Updated upstream
-        </div>
-		
-=======
             <div class="gopay">
             	<form action="#" method="POST">
             		<input type="hidden" name="musId" value="${ musInfo.musId }">
@@ -360,7 +351,6 @@
 			consoles.log('배열' , selseatlist);
 			*/
 		</script>
->>>>>>> Stashed changes
 
     </div>
 	
@@ -368,13 +358,46 @@
 	</div>
 	
 <script>
-<<<<<<< Updated upstream
-	$(function () {
+
+$(function(){
 		
-		$('.seat-line').on('click', function (e) {
+	
+	$('.seat-row-vip').find('td').attr('id', 'green');
+
+		
+	$.ajax({
+        url: 'disabled.st',
+        data: {
+            musId: '${musInfo.musId}',
+            selectDate: '${selectdate}'
+        },
+        success: data => {
+        	 for (let j in data) {
+                 const disabledSeatId = data[j].seatId;
+
+                 // 예매된 좌석과 td요소의 value와 일치하는 좌석 찾기
+                 const $seat = $('.seat-line').filter(function () {
+                     return $(this).attr('value') === disabledSeatId;
+                 });
+
+                 if ($seat.length > 0) {
+                     $seat.css('background-color', 'grey');
+                     $seat.off('click'); //예매된 좌석은 onclick이벤트 disabled 하기
+                     console.log('결과 O');
+                 } else {
+                     console.log('결과 X');
+                 }
+             }
+         },
+        error: () => {
+            console.log('실패');
+        }
+    });
+	
+		$('.seat-line').click(function (e) {
 			
 		    if ($(this).attr('id') === 'red') { // ===는 아예 동일한 경우!
-=======
+
 $(function(){
 		
 	
@@ -413,7 +436,9 @@ $(function(){
 			
 		    if ($(this).attr('id') === 'red') { // ===는 아예 동일한 경우!
 		    	console.log('this : ', $(this));
->>>>>>> Stashed changes
+
+		    	console.log('this : ', $(this));
+
 		        // 이미 선택한 좌석을 또 클릭하면 id값 해제하기
 		    	if($(this).parent().attr('class') == 'seat-row-vip'){
 		        	$(this).attr('id', 'green');
@@ -421,27 +446,25 @@ $(function(){
 		    	else {
 		    		$(this).removeAttr('id');
 		    	}
-<<<<<<< Updated upstream
-=======
-		    
->>>>>>> Stashed changes
+
+
 		    } else {
 		        // id를 red로 부여하기
 		        $(this).attr('id', 'red');
 		    }
 		   	
 		    //console.log(e.target.eq(0).html());
-<<<<<<< Updated upstream
-		    if($(this).attr('id') === 'red'){ 
-		    	$('.selected-seat').append('<div class="chekced_seat">' + $(this).text() + '</div>');
+
+		    if($(e.target).attr('id') === 'red'){ 
+		    	$('.selected-seat').append('<div class="checked_seat">' + $(this).text() + '</div>');
+
 		    	//$('.selected-seat').html('<div class="checked_seat">' + $(this).text() + '</div>');
-		    	let $chs = $('.checked_seat');
-		    	console.log($chs);
+		    	let check = $('.checked_seat');
+		    	console.log(check);
 		    	// 함수실행 하기??
 		    }
 		    else {
-		    	$('.selected-seat').remove('<div class="chekced_seat">' + $(this).text() + '</div>');
-=======
+
 		    if($(e.target).attr('id') === 'red'){ 
 		    	$('.selected-seat').append('<div class="checked_seat">' + $(this).text() + '</div>');
 		    	//$('.selected-seat').html('<div class="checked_seat">' + $(this).text() + '</div>');
@@ -475,7 +498,6 @@ $(function(){
 		    	*/
 		    	
 		    	
->>>>>>> Stashed changes
 		    	//let $chs = $('.checked_seat');
 		    	//console.log($chs);
 		    	
@@ -490,7 +512,7 @@ $(function(){
 		    }
 			
 		});
-<<<<<<< Updated upstream
+
 	
 		$('.seat-row-vip').find('td').attr('id', 'green');
 		
@@ -522,8 +544,7 @@ $(function(){
             console.log('실패');
         }
     });
-=======
->>>>>>> Stashed changes
+
 });
 	
 	

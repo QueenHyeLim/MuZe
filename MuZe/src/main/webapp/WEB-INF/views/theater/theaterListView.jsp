@@ -36,43 +36,15 @@
 		margin-left: -30px;
 	}
 
+
+	#content {
+		padding-top: 15px;
+
 	/*결과*/
 	#result-part{
 		color : white;
 		margin-top: 20px;
-<<<<<<< Updated upstream
-	}
 
-	#btn {
-		background-color: white;
-		padding-top: 5px;
-	}
-
-	#search-part {
-		height : 50px;
-		position: relative;
-		width: 300px;
-	}
-
-	#search-part > input{
-		width: 100%;
-		border: 1px solid white;
-		border-radius: 8px;
-		padding: 10px 12px;
-	}
-
-	#search-part > i{
-		position : absolute;
-		width: 17px;
-		top: 10px;
-		right: 12px;
-		margin: 0;
-	}
-
-	#content {
-		padding-top: 15px;
-=======
->>>>>>> Stashed changes
 	}
 
 	table{
@@ -112,11 +84,9 @@
 					</select>
 				</div>-->
 	   			<input type="text" placeholder="검색어 입력" name="shprfnmfct" id="shprfnmfct" required>
-<<<<<<< Updated upstream
+
 	   			<i class="fa-solid fa-magnifying-glass" onclick="search();" id="btn"></i>
-=======
-	   			<i class="fa-solid fa-magnifying-glass" id="btn"></i>
->>>>>>> Stashed changes
+
 	   		</div> 
 	   		
 	   		<div id="result-part">
