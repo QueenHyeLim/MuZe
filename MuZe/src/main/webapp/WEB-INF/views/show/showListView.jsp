@@ -18,17 +18,31 @@
 #search-part {
 	height : 50px;
 	position: relative;
-	width: 300px;
+	border: 1px solid red;
 }
 
-#search-part > input{
+select{
+	height: 45px;
+	border-radius: 8px;
+	margin-right: 10px;
+}
+
+#search-part > div {
+	float : left;
+}
+
+#search{
+	margin-left: 10px;
+}
+
+#search > input{
 	width: 100%;
 	border: 1px solid white;
 	border-radius: 8px;
 	padding: 10px 12px;
 }
 
-#search-part > i{
+#search > i{
 	position : absolute;
 	width: 17px;
 	top: 10px;
@@ -38,6 +52,12 @@
 
 #result-part {
 	background-color : beige;
+	margin-top: 20px;
+}
+
+p{
+	padding: 0;
+	margin: 0;
 }
 
 #paging-part{
@@ -45,8 +65,8 @@
 }
 
 img {
-	width : 100px;
-	height : 150px;
+	width : 150px;
+	height : 200px;
 }
 
 .show > div{
@@ -57,6 +77,10 @@ img {
 	border : 1px solid;
 	padding-left : 10px;
 	padding-top : 10px;
+}
+
+.show:hover{
+	cursor: pointer;
 }
 
 .des{
@@ -70,9 +94,12 @@ img {
 #content {
 	padding-top: 15px;
 }
+
 #btn {
 	background-color: white;
+	padding-top: 5px;
 }
+
 </style>
 </head>
 <body>
@@ -82,14 +109,24 @@ img {
 	   <div id="blank-area"></div>
 	   <div class="page">
 	   		<div id="search-part">
-	   			<input type="text" placeholder="검색어 입력" name=shprfnm id="shprfnm" required>
-				<i class="fa-solid fa-magnifying-glass" onclick="search();" id="btn1"></i>
+	   			<div id="select">
+		   			<select id="prfstate">
+		   				<option value="01">공연예정</option>
+		   				<option value="02">공연중</option>
+		   				<option value="03">공연완료</option>
+		   			</select>
+	   			</div>
+	   			
+	   			<div id="search">
+		   			<input type="text" placeholder="검색어 입력" name=shprfnm id="shprfnm" minlength="2">
+					<i class="fa-solid fa-magnifying-glass" id="btn"></i>
+				</div>
 	   		</div>
 	   		
 	   		<div id="result-part">
 	   			<div class="result">
 	   				
-	   				<p>일치하는 항목이 존재하지 않습니다.</p>
+					<span>일치하는 항목이 존재하지 않습니다.</span>
 	   				
 	   			</div>
 	   		</div>
@@ -102,30 +139,43 @@ img {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
 		var cpage = 1;
+
+		// 검색창에 아무것도 입력 안하면 버튼 비활성화
+		// if($('#'))
+		
+		$('#btn').click(() => {
+			if($('#shprfnm').val() == ''){
+				console.log('검색어 없음');
+				alert('검색어를 입력하세요');
+			} else {
+				search();
+			}
+		})
+		
 		
 		// 검색 버튼 클릭 이벤트
 		function search(){
 			$.ajax({
 				url : 'slist.sh',
 				data : {
-					cpage : cpage,
+					prfstate : $('#prfstate').val(),
 					shprfnm : $('#shprfnm').val()
 				},
 				success : function(result){
-					console.log($(result).find('db'));
+					 console.log($(result).find('db'));
 					
 					const itemArr = $(result).find('db');
 
-					if(itemArr.length == 0){
-						console.log('길이 0임: ' + itemArr.length);
-					} else {
-						console.log(itemArr.length);
-					}
+					// if(itemArr.length == 0){
+					// 	console.log('길이 0임: ' + itemArr.length);
+					// } else {
+					// 	console.log(itemArr.length);
+					// }
 					
 					let value = '';
 					
 					if(itemArr.length != 0){
-						itemArr.each((i, item) => {
+						itemArr.each((i, item) => { 
 						value += '<div class="show">'
 							  		+ '<div class="poster">'
 							  			+ '<img src="' + $(item).find('poster').text() + '">'
@@ -136,21 +186,26 @@ img {
 			   							+'<p>' + $(item).find('prfnm').text() + '<button class="detail">더보기</button></p>'
 			   							+'<p>' + $(item).find('prfpdfrom').text() + ' ~ ' +  $(item).find('prfpdto').text() + '</p>'
 			   							+'<p>' + $(item).find('fcltynm').text() + '</p>'
+			   							+'<p>' + $(item).find('prfstate').text() + '</p>'
 			   							+'<p>' + $(item).find('genrenm').text() + '</p>'
 			   							+'</form>'
 			   					   + '</div> <br clear="both">'
 							  + '</div>'
 						})
 					} else {
-						value += '<p>일치하는 항목이 존재하지 않습니다.</p>'; 
+						value += '<span>일치하는 항목이 존재하지 않습니다.</span>'; 
 					}
 					
 					$('.result').html(value);
+
+					
 				},
 				error : function(){
 					console.log('fail');
 				}
 			})
+			console.log("검색어 길이 : " + $('#shprfnm').val())
+			return true;
 		}
 	</script>
 	 
