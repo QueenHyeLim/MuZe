@@ -30,8 +30,7 @@
     }
     
     td{
-        width: 10px;
-        height: 10px;
+        width: 5%;
         color: #fff;
     }
 	
@@ -47,9 +46,12 @@
         background-color: red;
     }
     
-    .seat-line{
-    	width : 10px;
-    	height : 10px;
+    #green{
+    	background-color : green;
+    }
+    
+    .selected-seat{
+    	color : #fff;
     }
 </style>
 
@@ -67,7 +69,7 @@
         </div>
         <div class="seat-list">
             <table class="seat-table" border="20">
-                <tr class="seat-row-vip" id="A" value="vip">
+                <tr class="seat-row-vip" id="A" value="VIP">
                     <td class="seat-line" value="A1" >A1</td>
                     <td class="seat-line" value="A2" >A2</td>
                     <td class="seat-line" value="A3" >A3</td>
@@ -288,8 +290,21 @@
                     <td class="seat-line" value="K18">K18</td>
                 </tr>
             </table>
+            <div class="checkedseat">
+            	선택한 좌석
+            	<div class="selected-seat">
+            		
+            	</div>
+            	<div class="vip-checkd">
+            		<strong>VIP</strong><span></span>
+            	</div>
+            	<div class="s-chekced">
+            		<strong>S</strong><span></span>
+            	</div>
+            	
+            </div>
         </div>
-
+		
 
     </div>
 	
@@ -297,21 +312,81 @@
 	</div>
 	
 <script>
-	$(function(){
-		$.ajax({
-			url : 'disabled.st',
-			data : {
-				musId : '${ musInfo.musId }',
-				selectDate : '${ selectdate }'
-			},
-			success : data => {
-				console.log(data);
-			},
-			error : () => {
-				cosole.log('실패');
-			}
+	$(function () {
+		
+		$('.seat-line').on('click', function (e) {
+			
+		    if ($(this).attr('id') === 'red') { // ===는 아예 동일한 경우!
+		        // 이미 선택한 좌석을 또 클릭하면 id값 해제하기
+		    	if($(this).parent().attr('class') == 'seat-row-vip'){
+		        	$(this).attr('id', 'green');
+		        }
+		    	else {
+		    		$(this).removeAttr('id');
+		    	}
+		    } else {
+		        // id를 red로 부여하기
+		        $(this).attr('id', 'red');
+		    }
+		   	
+		    //console.log(e.target.eq(0).html());
+		    if($(this).attr('id') === 'red'){ 
+		    	$('.selected-seat').append('<div class="chekced_seat">' + $(this).text() + '</div>');
+		    	//$('.selected-seat').html('<div class="checked_seat">' + $(this).text() + '</div>');
+		    	let $chs = $('.checked_seat');
+		    	console.log($chs);
+		    	// 함수실행 하기??
+		    }
+		    else {
+		    	$('.selected-seat').remove('<div class="chekced_seat">' + $(this).text() + '</div>');
+		    	//let $chs = $('.checked_seat');
+		    	//console.log($chs);
+		    	
+		    	//+ $(this).text() + ']').remove();
+		    	//$('.selected_seat').detach('<div class="chekced_seat">' + $(this).attr('value') + '</div>');
+		    	//$('.selected_seat').remove('<div class="chekced_seat">' + $(this).attr('value') + '</div>');
+		    	//$(this).removeAttr('id');
+		    		//$('#mem_check').empty();
+		    	//if($('.selected_seat').text() == $(this).attr('value')){
+		    		
+		    	//}
+		    }
+			
 		});
-	});
+	
+		$('.seat-row-vip').find('td').attr('id', 'green');
+		
+	$.ajax({
+        url: 'disabled.st',
+        data: {
+            musId: '${musInfo.musId}',
+            selectDate: '${selectdate}'
+        },
+        success: data => {
+            for (let j = 0; j < data.length; j++) {
+                const disabledSeatId = data[j].seatId;
+
+                // 예매된 좌석과 td요소의 value와 일치하는 좌석 찾기
+                const $seat = $('.seat-line').filter(function () {
+                    return $(this).attr('value') === disabledSeatId;
+                });
+
+                if ($seat.length > 0) {
+                    $seat.css('background-color', 'grey');
+                    $seat.off('click'); //예매된 좌석은 onclick이벤트 disabled 하기
+                    console.log('결과 O');
+                } else {
+                    console.log('결과 X');
+                }
+            }
+        },
+        error: () => {
+            console.log('실패');
+        }
+    });
+});
+	
+	
 
 </script>
 </body>
