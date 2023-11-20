@@ -101,6 +101,7 @@ img {
 	   		<div id="search-part">
 	   			<div id="select">
 		   			<select id="prfstate">
+		   				<option value="00">전체</option>
 		   				<option value="01">공연예정</option>
 		   				<option value="02">공연중</option>
 		   				<option value="03">공연완료</option>
@@ -110,7 +111,6 @@ img {
 	   			<div id="search">
 		   			<input type="text" placeholder="검색어 입력" name=shprfnm id="shprfnm" minlength="2">
 					<i class="fa-solid fa-magnifying-glass" id="btn"></i>
-					<!--<span class="material-symbols-outlined" id="btn">search</span>-->
 				</div>
 	   		</div>
 	   		
@@ -186,7 +186,6 @@ img {
 					}
 					
 					$('.result').html(value);
-
 					
 				},
 				error : function(){

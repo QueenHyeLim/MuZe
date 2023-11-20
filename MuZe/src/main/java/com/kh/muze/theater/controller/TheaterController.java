@@ -29,15 +29,21 @@ public class TheaterController {
 		return "theater/theaterListView";
 	}
 	
-	// 공연 목록 불러오기
+	// 공연장 목록 불러오기
 	@ResponseBody
 	@RequestMapping(value="rlist.th", produces="text/html; charset=UTF-8")
-	public String theaterList(String shprfnmfct) throws Exception {
+	public String theaterList(String shprfnmfct/*, String signgucode*/) throws Exception {
 		String url = "https://www.kopis.or.kr/openApi/restful/prfplc";
 		url += "?service=" + ShowController.SERVICEYKEY;
 		url += "&cpage=1";
 		url += "&rows=2800";
+//		if(signgucode != "00") {
+//		url += "&signgucode=" + signgucode;
+//		}
 		url += "&shprfnmfct=" + URLEncoder.encode(shprfnmfct, "UTF-8");
+		
+//		System.out.println(signgucode);
+		System.out.println(url);
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -57,7 +63,7 @@ public class TheaterController {
 		return responseText;
 	}
 	
-	// 공연 상세정보 불러오기
+	// 공연장 상세정보 불러오기
 	@RequestMapping(value="theatermap", produces="text/html; charset=UTF-8")
 	public String theatermap(String mt10id, Model model) throws IOException, Exception {
 		String url = "http://kopis.or.kr/openApi/restful/prfplc/";
