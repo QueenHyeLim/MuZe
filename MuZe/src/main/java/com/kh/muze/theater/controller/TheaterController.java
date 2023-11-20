@@ -43,7 +43,7 @@ public class TheaterController {
 		url += "&shprfnmfct=" + URLEncoder.encode(shprfnmfct, "UTF-8");
 		
 //		System.out.println(signgucode);
-		System.out.println(url);
+//		System.out.println(url);
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -59,7 +59,7 @@ public class TheaterController {
 		
 		br.close();
 		urlConnection.disconnect();
-		
+		// json에 저장 후 필요한 수만큼 가져오기
 		return responseText;
 	}
 	
@@ -99,15 +99,16 @@ public class TheaterController {
 			if(nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element)nNode;
 				
-				model.addAttribute("fcltynm", getTagValue("fcltynm", eElement));
-				model.addAttribute("mt13cnt", getTagValue("mt13cnt", eElement));
-				model.addAttribute("opende", getTagValue("opende", eElement));
-				model.addAttribute("seatscale", getTagValue("seatscale", eElement));
-				model.addAttribute("telno", getTagValue("telno", eElement));
-				model.addAttribute("relateurl", getTagValue("relateurl", eElement));
-				model.addAttribute("adres", getTagValue("adres", eElement));
-				model.addAttribute("la", getTagValue("la", eElement));
-				model.addAttribute("lo", getTagValue("lo", eElement));
+				model.addAttribute("fcltynm", getTagValue("fcltynm", eElement)); // 공연시설명
+				model.addAttribute("mt13cnt", getTagValue("mt13cnt", eElement)); // 공연장 수
+				model.addAttribute("opende", getTagValue("opende", eElement)); // 개관연도
+				model.addAttribute("seatscale", getTagValue("seatscale", eElement)); // 객석 수
+				model.addAttribute("telno", getTagValue("telno", eElement)); // 전화번호
+				model.addAttribute("relateurl", getTagValue("relateurl", eElement)); // 홈페이지
+				model.addAttribute("adres", getTagValue("adres", eElement)); // 주소
+				model.addAttribute("la", getTagValue("la", eElement)); // 위도
+				model.addAttribute("lo", getTagValue("lo", eElement)); // 경도
+				model.addAttribute("fcltychartr", getTagValue("fcltychartr", eElement)); // 시설 특성
 			}
 		}
 		
