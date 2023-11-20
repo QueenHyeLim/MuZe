@@ -15,5 +15,5 @@ public class Reservation {
 	String resPay; //RES_PAY	VARCHAR2(1 BYTE)
 	int resCount; //RES_COUNT	NUMBER
 	
-	String selectDate; //
+	
 }

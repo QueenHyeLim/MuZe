@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
-import com.kh.muze.reservation.model.vo.Reservation;
 import com.kh.muze.seat.model.service.SeatService;
+import com.kh.muze.seat.model.vo.Seat;
 
 @Controller
 public class SeatController {
@@ -21,12 +21,15 @@ public class SeatController {
 		System.out.println(musId);
 		System.out.println(selectDate);
 		
-
+		Seat seat = new Seat();
+		seat.setMusId(musId);
+		seat.setSelectDate(selectDate);
+		/*
 		Reservation reservation = new Reservation();
 		reservation.setMusId(musId);
 		reservation.setSelectDate(selectDate);
-				
-		return new Gson().toJson(seatService.disabledSeat(reservation));
+		*/
+		return new Gson().toJson(seatService.disabledSeat(seat));
 
 	}
 }

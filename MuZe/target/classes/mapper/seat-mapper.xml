@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="seatMapper">
+
+	
+	<resultMap id="disabledSeatMap" type="seat">
+		<result column="SEAT_NO" property="seatNo" />
+		<result column="SEAT_TYPE" property="seatType" />
+		<result column="SEAT_ID" property="seatId" />
+		<result column="RES_NO" property="resNo" />
+		<result column="RES_DATE" property="resDate" />
+	</resultMap>
+	
+
+	
+	<select id="disabledSeat" resultType="seat" resultMap="disabledSeatMap">
+		SELECT 
+				SEAT_NO,
+				SEAT_TYPE, 
+				SEAT_ID, 
+				RES_NO, 
+				RES_DATE 
+		 FROM 
+				SEAT S
+		 JOIN 
+		 		RESERVATION R 
+		USING
+		 		(SEAT_NO)
+		WHERE 
+				R.MUS_ID = #{ musId }
+		  AND 
+		  		RES_DATE = #{ selectDate }
+	</select>
+</mapper>
