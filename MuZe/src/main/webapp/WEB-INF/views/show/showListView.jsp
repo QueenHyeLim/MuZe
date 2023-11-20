@@ -88,6 +88,8 @@ img {
 
 .detail{
 	margin-left: 10px;
+	font-size: 15px;
+	height: 25px;
 }
 
 </style>
@@ -172,7 +174,7 @@ img {
 							  		+ '<div class="des">'
 							  			+'<form action="detail.sh">'
 							  			+'<input type="hidden" id="mt20id" name="mt20id" value="' + $(item).find('mt20id').text() + '"/>'
-			   							+'<p>' + $(item).find('prfnm').text() + '<button class="detail">더보기</button></p>'
+			   							+'<p>' + $(item).find('prfnm').text() + '<button align="center" class="detail btn">상세보기</button></p>'
 			   							+'<p>' + $(item).find('prfpdfrom').text() + ' ~ ' +  $(item).find('prfpdto').text() + '</p>'
 			   							+'<p>' + $(item).find('fcltynm').text() + '</p>'
 			   							+'<p>' + $(item).find('prfstate').text() + '</p>'

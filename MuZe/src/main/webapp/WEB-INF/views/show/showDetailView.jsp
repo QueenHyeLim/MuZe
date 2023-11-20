@@ -112,7 +112,17 @@
 	   					</li>
 	   					
 	   					<li>
-	   						출연진 : ${ prfcast }
+	   						출연진 : 
+							<c:choose>
+								<c:when test="${prfcast != ' '}">
+									${ prfcast }
+								</c:when>
+
+								<c:otherwise>
+									해당 정보 없음
+								</c:otherwise>
+							</c:choose>
+							
 	   					</li>
 	   					<li>
 	   						런타임 : ${ prfruntime }
