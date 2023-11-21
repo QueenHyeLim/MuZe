@@ -102,6 +102,15 @@ public class DiaryController {
 	}
 	
 	
+	@RequestMapping("schedule.di")
+	public String insertSchedule(String time) {
+		
+		System.out.println("뽑은 일정 시간 값 : " + time);
+		
+		
+		return "redirect:diary.di";
+	}
+	
 	
 	
 	
