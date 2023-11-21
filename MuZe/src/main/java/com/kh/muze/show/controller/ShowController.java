@@ -39,11 +39,6 @@ public class ShowController {
 	@RequestMapping(value="slist.sh", produces="text/html; charset=UTF-8")
 	public String showList(String shprfnm, String prfstate, Model model) throws Exception {
 		
-		Calendar calendar = new GregorianCalendar();
-		calendar.add(Calendar.DATE, -1);
-		String yesterday = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
-		//System.out.println(yesterday + " => 어제");
-		
 		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
 		url += "?service=" + SERVICEYKEY;
 
@@ -53,15 +48,9 @@ public class ShowController {
 			url += "&prfstate=" + prfstate;
 		}
 
-		url += "&cpage=1";
-		url += "&rows=88000";
-		if(prfstate != "00") {
-			url += "&prfstate=" + prfstate;
-		}
-
 		url += "&shprfnm=" + URLEncoder.encode(shprfnm, "UTF-8");
 		
-//		System.out.println(url);
+		System.out.println(url);
 //		System.out.println(prfstate.length());
 		
 		URL requestUrl = new URL(url);
