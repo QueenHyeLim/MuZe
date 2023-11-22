@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.muze.member.model.service.MemberService;
@@ -94,6 +95,40 @@ public class MemberController {
 			
 			return "common/errorPage";
 		}
+	}
+	
+	@RequestMapping("delete.me")
+	public String deleteMember(String userPwd, HttpSession session) {
+		
+		Member loginUser = ((Member)session.getAttribute("loginUser"));
+		
+		String encPwd = loginUser.getUserPwd();
+		if(bcryptPasswordEncoder.matches(userPwd, encPwd)) {
+			
+			String userId = loginUser.getUserId();
+			
+			if(memberService.deleteMember(userId) > 0) {
+				session.removeAttribute("loginUser");
+				session.setAttribute("alertdeleteMsg", "탈퇴 되었습니다.");
+				return "redirect:/";
+				
+			} else {
+				session.setAttribute("errorMsg", "탈퇴 처리 실패~");
+				return "commmon/errorPage";
+			}
+			
+		} else {
+			session.setAttribute("alertMsg", "비밀번호가 틀렸어요!!");
+			return "redirect:myInfo.me";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("idCheck.me")
+	public String idCheck(String checkId) {
+		
+		
+		return memberService.idCheck(checkId) > 0 ? "NNNNN" : "NNNNY";
 	}
 
 }
