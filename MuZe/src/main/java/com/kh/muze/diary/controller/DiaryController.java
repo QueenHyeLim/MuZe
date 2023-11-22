@@ -45,6 +45,8 @@ public class DiaryController {
 		}else {
 			model.addAttribute("diaryName","YOU ARE MY DIARY");
 		}
+		
+		
 		return "diary/diaryCalender";
 	}
 	
@@ -62,7 +64,6 @@ public class DiaryController {
 			att.setModifiedName(attController.saveFiles(upfile,session));
 			att.setContentNo(diary.getDiaryNo());
 			att.setAttCategoryNo(10);
-			
 		}else {
 			diary.setAttStatus("N");
 		}
@@ -70,7 +71,7 @@ public class DiaryController {
 		result = diaryService.insertTransaction(att, diary);
 		
 		return "redirect:diary.di";
-	}
+	}	
 	
 	// diary Name insert및 update 메소드
 	@RequestMapping("name.di")
@@ -91,15 +92,11 @@ public class DiaryController {
 	// diary detail내용 select 메소드
 	@ResponseBody
 	@RequestMapping(value="diaryDetail.di", produces="application/json; charset=UTF-8")
-	public String selectDiaryDetail(int diaryNo,
-									String diaryTitle,
+	public String selectDiaryDetail(Diary diary,
 									HttpSession session) {
 		Member member = (Member)session.getAttribute("loginUser");
 		int diaryUser = member.getUserNo();
 		
-		Diary diary = new Diary();
-		diary.setDiaryNo(diaryNo);
-		diary.setDiaryTitle(diaryTitle);
 		diary.setDiaryUser(diaryUser);
 		
 		return new Gson().toJson(diaryService.selectDiaryDetail(diary));

@@ -15,6 +15,10 @@ public class DiaryDao {
 		return sqlSession.insert("diaryMapper.insertDiary",diary);
 	}
 
+	public int insertAttachment(SqlSessionTemplate sqlSession, Attachment att) {
+		return sqlSession.insert("diaryMapper.insertAttachment",att);
+	}
+	
 	public ArrayList<Diary> selectDiary(SqlSessionTemplate sqlSession, int diaryUser) {
 		ArrayList list = (ArrayList)sqlSession.selectList("diaryMapper.selectDiary",diaryUser);
 		return list;
@@ -36,8 +40,5 @@ public class DiaryDao {
 		return sqlSession.selectOne("diaryMapper.selectDiaryDetail",diary);
 	}
 
-	public int insertAttachment(SqlSessionTemplate sqlSession, Attachment att) {
-		return sqlSession.insert("diaryMapper.insertAttachment",att);
-	}
 
 }

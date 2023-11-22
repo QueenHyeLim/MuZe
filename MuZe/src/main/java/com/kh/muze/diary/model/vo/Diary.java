@@ -17,5 +17,6 @@ public class Diary {
 	private String attStatus;     //ATT_YN
 	private String diaryDate;     //DIARY_DATE
 	private String createDate;    //CREATE_DATE
+	private String modifiedName;  // TABLE에는 없음
 
 }

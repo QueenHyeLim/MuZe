@@ -134,16 +134,20 @@
             		title : '${di.diaryTitle}',
             		start : '${di.diaryDate}',
             		end : '${di.diaryDate}',
+            		//borderColor : 'rgb(152, 29, 38)',
             		backgroundColor : 'rgb(152, 29, 38)',
             		color : 'black',
-            		imageurl : ''
+            		image : '${di.modifiedName}'
             	},
             	</c:forEach>
-            ],	
-            eventRender:function(event, eventElement) {                
-            	if(event.imageurl) {                    
-            		eventElement.find("span.fc-title").prepend("<center><img src='" + event.imageurl + "'><center>");    
-            	}            
+            ],
+            eventRender: function(event, element) {
+            	console.log(event.image);
+                // 이벤트 렌더링 시 이미지를 추가
+                if (event.image) {
+                 // element.find('.fc-content').prepend('<img src="' + event.image + '" width="20" height="20">');
+                	// element.find('.fc-day fc-day-fri fc-day-past fc-daygrid-day').prepend('<img src="resources/uploadFiles/2023112216022710000.png" width="20" height="20">');
+                }
             },
             // 클릭한 해당 날짜의 값을 뽑아주는 이벤트 
             dateClick: function(date) {
@@ -182,7 +186,7 @@
                			diaryTitle : info.event.title
                		},
                		success : result =>{
-               			console.log(result);
+               			// console.log(result);
                			$('#replyDiaryDate').text(result.diaryDate);
                			$('#replyDiaryContent').text(result.diaryContent);
                		},
