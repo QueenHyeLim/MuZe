@@ -6,10 +6,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.json.JSONObject;
+import org.json.XML;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.kh.muze.show.controller.ShowController;
+import com.kh.muze.show.model.vo.Show;
 
 @Controller
 public class TheaterController {
@@ -31,19 +35,15 @@ public class TheaterController {
 	
 	// 공연장 목록 불러오기
 	@ResponseBody
-	@RequestMapping(value="rlist.th", produces="text/html; charset=UTF-8")
-	public String theaterList(String shprfnmfct/*, String signgucode*/) throws Exception {
+	@RequestMapping(value="rlist.th", produces="application/json; charset=UTF-8")
+	public String theaterList(String shprfnmfct, Model model) throws Exception {
 		String url = "https://www.kopis.or.kr/openApi/restful/prfplc";
 		url += "?service=" + ShowController.SERVICEYKEY;
 		url += "&cpage=1";
 		url += "&rows=2800";
-//		if(signgucode != "00") {
-//		url += "&signgucode=" + signgucode;
-//		}
 		url += "&shprfnmfct=" + URLEncoder.encode(shprfnmfct, "UTF-8");
 		
-//		System.out.println(signgucode);
-//		System.out.println(url);
+		//System.out.println(url);
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -57,10 +57,26 @@ public class TheaterController {
 			responseText += line;
 		}
 		
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(url);
+		
+		doc.getDocumentElement().normalize();
+		
+		NodeList nList = doc.getElementsByTagName("db");
+		int showCount = nList.getLength();
+		
+		//System.out.println(showCount);
+		
+		model.addAttribute("showCount", showCount);
+		
+		JSONObject xmlToJson = XML.toJSONObject(responseText);
+		String jsonStr = xmlToJson.toString();
 		br.close();
 		urlConnection.disconnect();
+		
 		// json에 저장 후 필요한 수만큼 가져오기
-		return responseText;
+		return jsonStr;
 	}
 	
 	// 공연장 상세정보 불러오기
