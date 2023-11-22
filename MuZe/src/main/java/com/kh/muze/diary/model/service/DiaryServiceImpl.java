@@ -23,20 +23,15 @@ public class DiaryServiceImpl implements DiaryService{
 	@Transactional("transactionManager")
 	public int insertTransaction(Attachment att, Diary diary) {
 		int result1 = 0;
-		int result2 = 0;
-	    try {
-	        result1 = diaryDao.insertDiary(sqlSession, diary);
-	        if (att != null) {
-	            result2 = diaryDao.insertAttachment(sqlSession, att);
-	            if (result2 != 1) {
-	                throw new RuntimeException("Failed to insert into Attachment table");
-	            }
-	        }
+		int result2 = 1;
+		
+        result1 = diaryDao.insertDiary(sqlSession, diary);
+        
+        if (att != null && att.getAttCategoryNo() > 0) {
+            result2 = diaryDao.insertAttachment(sqlSession, att);
+        }
 
-	    } catch (Exception e) {
-	        throw new RuntimeException("insertTransaction failed", e);
-	    }
-	    return result1;
+	    return (result1 * result2);
 	}
 
 	@Override
