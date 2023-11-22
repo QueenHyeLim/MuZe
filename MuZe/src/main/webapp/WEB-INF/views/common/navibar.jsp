@@ -157,6 +157,14 @@
 </style>
 </head>
 <body>
+
+	<c:if test="${ not empty alertdeleteMsg }">
+		<script>
+			alert('${alertdeleteMsg}');
+		</script>
+		<c:remove var="alertdeleteMsg" scope="session"/>
+	</c:if>
+
 	<script>
 	    window.addEventListener("scroll", function(){
 	        var header = document.querySelector('#header');

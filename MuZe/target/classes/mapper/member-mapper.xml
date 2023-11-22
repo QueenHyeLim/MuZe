@@ -45,7 +45,6 @@
 			  	#{email},
 			  	#{phone}
 			  )
-		
 	</insert>
 	
 	<update id="updateMember" parameterType="member">
@@ -57,7 +56,22 @@
 		   	   ,email = #{email}
 		  where
 		  		user_id = #{userId}
-	
 	</update>
-
+	
+	<delete id="deleteMember" parameterType="member">
+		delete
+			   member
+		 where
+		 	   user_id = #{userId}
+	</delete>
+	
+	<select id="idCheck" parameterType="string" resultType="_int">
+		select
+			   count(*)
+		   from
+		   	   member
+		  where
+		  	   user_id = #{checkId}
+	</select>
+	
 </mapper>
