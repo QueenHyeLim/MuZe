@@ -36,4 +36,9 @@ public class ReservationServiceImpl implements ReservationService {
 		return reservationDao.selectMusPrice(sqlSession);
 	}
 
+	@Override
+	public int totalPrice(String selectseat) {
+		return reservationDao.totalPrice(sqlSession, selectseat);
+	}
+
 }
