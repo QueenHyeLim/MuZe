@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,10 +37,15 @@
 		margin-left: -30px;
 	}
 
+
+	#content {
+		padding-top: 15px;
+
 	/*결과*/
 	#result-part{
 		color : white;
 		margin-top: 20px;
+
 	}
 
 	table{
@@ -56,30 +62,9 @@
 	   <div id="blank-area"></div>
 	   <div class="page">
 	   		<div id="search-part">
-				<!--  <div id="select">
-					<select id="signgucode">
-						<option value="00">전체</option>
-						<option value="11">서울</option>
-						<option value="26">부산</option>
-						<option value="27">대구</option>
-						<option value="28">인천</option>
-						<option value="29">광주</option>
-						<option value="30">대전</option>
-						<option value="31">울산</option>
-						<option value="36">세종</option>
-						<option value="41">경기</option>
-						<option value="51">강원</option>
-						<option value="43">충북</option>
-						<option value="44">충남</option>
-						<option value="45">전북</option>
-						<option value="46">전남</option>
-						<option value="47">경북</option>
-						<option value="48">경남</option>
-						<option value="50">제주</option>
-					</select>
-				</div>-->
 	   			<input type="text" placeholder="검색어 입력" name="shprfnmfct" id="shprfnmfct" required>
-	   			<i class="fa-solid fa-magnifying-glass" id="btn"></i>
+
+	   			<i class="fa-solid fa-magnifying-glass" onclick="search();" id="btn"></i>
 	   		</div> 
 	   		
 	   		<div id="result-part">
@@ -106,14 +91,44 @@
 	   		</div>
 	   		
 	   		<div id="paging-part">
+				<ul class="pagination">
+
+					<c:choose>
+						<c:when test="${pi.currentPage eq 1}">
+							<li class="page-item disabled"><a class="page-link">&lt;</li>
+						</c:when>
+
+						<c:otherwise>
+							<li class="page-item"><a class="page-link">&lt;</a></li>
+						</c:otherwise>
+					</c:choose>
+
+					<c:forEach begin="${pi.startPage}" end="${pi.endPage}" var="p">
+							<li class="page-item"><a class="page-link">${p}</a></li>
+					</c:forEach>
+
+					<li class="page-item"><a class="page-link">Next</a></li>
+				</ul>
 	   		</div>
 	   </div>
+
+	   <input type="text" value="${showCount}" id="showCount"/>
 	</div> 
 	
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
+		var currentPage;
+		var listCount;
+		var pageLimit;
+		var contentLimit;
 
+		var maxPage;
+		var startPage;
+		var endPage;
+
+		var ccontent;
+	
 		$(()=>{
 			$('#btn').click(()=>{
 				if($('#shprfnmfct').val() == ''){
@@ -132,7 +147,7 @@
 			})
 		})
 
-
+ 
 
 		// 검색 버튼 클릭 시 이벤트
 		function search(){
@@ -140,46 +155,86 @@
 			$.ajax({
 				url : 'rlist.th',
 				data : {
-					shprfnmfct : $('#shprfnmfct').val(), // 시설명 키워드
-					//signgucode : $('#signgucode').val()
+					shprfnmfct : $('#shprfnmfct').val() // 시설명 키워드
+					//page : 1
 				},
 				success : result => {
 					
-					const itemArr = $(result).find('db');
-					
+					const itemArr = result.dbs.db;
+
 					let value = '';
-					
-					if(itemArr.length != 0){
-						itemArr.each((i, item) => {
-						value += '<tr align="center">'
-						      + '<td>' + $(item).find('fcltynm').text() + '</td>'
-						      + '<td>' + $(item).find('mt13cnt').text() + '</td>'
-						      + '<td>' + $(item).find('sidonm').text() + '</td>'
-						      + '<td>' + $(item).find('gugunnm').text() + '</td>'
-						      + '<td>' + $(item).find('opende').text() + '</td>'
-						      + '<td>'
-						      + '<form action="theatermap">'
-						      + '<input type="hidden" id="mt10id" name="mt10id" value="' + $(item).find('mt10id').text() + '"/>'
-						      + '<button>지도</button>'
-						      + '</form>'
-						      + '</td>'
-						      + '</tr>'
-						})
-					} else {
+
+					// 검색 결과가 없는 경우
+					if(result.dbs.length == 0){
 						value += '<tr>'
-							  + '<td colspan="6" align="center">일치하는 항목이 존재하지 않습니다.</td>'
-							  + '</tr>';
+							+ '<td colspan="6" align="center">일치하는 항목이 존재하지 않습니다.</td>'
+							+ '</tr>';
+					} else {
+
+						currentPage = 1;
+						listCount = itemArr.length;
+						pageLimit = 10;
+						contentLimit = 10;
+
+						maxPage = Math.ceil(listCount / contentLimit);
+						startPage = (currentPage -1) / pageLimit * pageLimit + 1;
+						endPage = startPage + pageLimit - 1;
+
+						ccontet = pageLimit * (currentPage - 1);
+							
+						if(endPage > maxPage) {
+							endPage = maxPage;
+						}
+												
+						console.log('listCount : ' + listCount);
+						console.log('maxPage : ' + maxPage);
+						console.log('startPage : ' + startPage);
+						console.log('endPage : ' + endPage);
+						console.log('ccontent : ' + ccontent)
+
+						if(itemArr.length > 1){
+							/*for(let i in itemArr)*/ for(let i = currentPage -1 ; i < pageLimit; i++){
+							let item = itemArr[i];
+							value += '<tr align="center">'
+								+ '<td>' + item.fcltynm + '</td>'
+								+ '<td>' + item.mt13cnt + '</td>'
+								+ '<td>' + item.sidonm + '</td>'
+								+ '<td>' + item.gugunnm + '</td>'
+								+ '<td>' + item.opende + '</td>'
+								+ '<td>'
+								+ '<form action="theatermap">'
+								+ '<input type="hidden" id="mt10id" name="mt10id" value="' + item.mt10id + '"/>'
+								+ '<button>지도</button>'
+								+ '</form>'
+								+ '</td>'
+								+ '</tr>'
+							}
+						} else {
+							value += '<tr align="center">'
+									+ '<td>' + itemArr.fcltynm + '</td>'
+									+ '<td>' + itemArr.mt13cnt + '</td>'
+									+ '<td>' + itemArr.sidonm + '</td>'
+									+ '<td>' + itemArr.gugunnm + '</td>'
+									+ '<td>' + itemArr.opende + '</td>'
+									+ '<td>'
+									+ '<form action="theatermap">'
+									+ '<input type="hidden" id="mt10id" name="mt10id" value="' + itemArr.mt10id + '"/>'
+									+ '<button>지도</button>'
+									+ '</form>'
+									+ '</td>'
+									+ '</tr>'
+						} 
 					}
-					
+
 					$('tbody').html(value);
-					
+
 				},
 				error : () => {
 					console.log('fail');
 				}
 			})
 			
-		}
+		} 
 		
 		
 	</script>

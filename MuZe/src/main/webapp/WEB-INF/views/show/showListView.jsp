@@ -116,6 +116,9 @@ img {
 	   			<div id="search">
 		   			<input type="text" placeholder="검색어 입력" name=shprfnm id="shprfnm" minlength="2">
 					<i class="fa-solid fa-magnifying-glass" id="btn"></i>
+
+					<!--<span class="material-symbols-outlined" id="btn">search</span>-->
+
 				</div>
 	   		</div>
 	   		
@@ -134,7 +137,15 @@ img {
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		
+		var currentPage;
+		var listCount;
+		var pageLimit;
+		var contentLimit;
+
+		var maxPage;
+		var startPage;
+		var endPage;
+
 		$('#btn').click(() => {
 			if($('#shprfnm').val() == ''){
 				alert('검색어를 입력하세요');
@@ -162,32 +173,72 @@ img {
 					shprfnm : $('#shprfnm').val()
 				},
 				success : function(result){
-					 console.log($(result).find('db'));
-					
-					const itemArr = $(result).find('db');
+					const itemArr = result.dbs.db;
 					
 					let value = '';
 					
-					if(itemArr.length != 0){
-						itemArr.each((i, item) => { 
-						value += '<div class="show">'
-							  		+ '<div class="poster">'
-							  			+ '<img src="' + $(item).find('poster').text() + '">'
-							  		+ '</div>'
-							  		+ '<div class="des">'
-							  			+'<form action="detail.sh">'
-							  			+'<input type="hidden" id="mt20id" name="mt20id" value="' + $(item).find('mt20id').text() + '"/>'
-			   							+'<p>' + $(item).find('prfnm').text() + '<button align="center" class="detail">상세보기</button></p>'
-			   							+'<p>' + $(item).find('prfpdfrom').text() + ' ~ ' +  $(item).find('prfpdto').text() + '</p>'
-			   							+'<p>' + $(item).find('fcltynm').text() + '</p>'
-			   							+'<p>' + $(item).find('prfstate').text() + '</p>'
-			   							+'<p>' + $(item).find('genrenm').text() + '</p>'
-			   							+'</form>'
-			   					   + '</div> <br clear="both">'
-							  + '</div>'
-						})
-					} else {
+					if(result.dbs.length == 0){
 						value += '<span>일치하는 항목이 존재하지 않습니다.</span>'; 
+					} else {
+
+						currentPage = 1;
+						listCount = itemArr.length;
+						pageLimit = 10;
+						contentLimit = 10;
+
+						maxPage = Math.ceil(listCount / contentLimit);
+						startPage = (currentPage -1) / pageLimit * pageLimit + 1;
+						endPage = startPage + pageLimit - 1;
+							
+						if(endPage > maxPage) {
+							endPage = maxPage;
+						}
+						
+						console.log('listCount : ' + listCount);
+						console.log('maxPage : ' + maxPage);
+						console.log('startPage : ' + startPage);
+						console.log('endPage : ' + endPage);
+
+						if(itemArr.length > 1){
+							
+
+							for(let i in itemArr){  // for(let i = 0; i < 10; i++) --> 10개만 출력 ==> i < boardLimit(XXXX)
+								let item = itemArr[i];
+								
+								value += '<div class="show">'
+								  		+ '<div class="poster">'
+								  			+ '<img src="' + item.poster + '">'
+								  		+ '</div>'
+								  		+ '<div class="des">'
+								  			+'<form action="detail.sh">'
+								  			+'<input type="hidden" id="mt20id" name="mt20id" value="' + item.mt20id + '"/>'
+				   							+'<p>' + item.prfnm + '<button align="center" class="detail">상세보기</button></p>'
+				   							+'<p>' + item.prfpdfrom + ' ~ ' +  item.prfpdto + '</p>'
+				   							+'<p>' + item.fcltynm + '</p>'
+				   							+'<p>' + item.prfstate + '</p>'
+				   							+'<p>' + item.genrenm + '</p>'
+											+'<p>' + i + '</p>'
+				   							+'</form>'
+				   					   + '</div> <br clear="both">'
+							  		+ '</div>' 
+							}
+						} else {
+							value += '<div class="show">'
+						  		+ '<div class="poster">'
+						  			+ '<img src="' + itemArr.poster + '">'
+						  		+ '</div>'
+						  		+ '<div class="des">'
+						  			+'<form action="detail.sh">'
+						  			+'<input type="hidden" id="mt20id" name="mt20id" value="' + itemArr.mt20id + '"/>'
+		   							+'<p>' + itemArr.prfnm + '<button align="center" class="detail">상세보기</button></p>'
+		   							+'<p>' + itemArr.prfpdfrom + ' ~ ' +  itemArr.prfpdto + '</p>'
+		   							+'<p>' + itemArr.fcltynm + '</p>'
+		   							+'<p>' + itemArr.prfstate + '</p>'
+		   							+'<p>' + itemArr.genrenm + '</p>'
+		   							+'</form>'
+		   					   + '</div> <br clear="both">'
+					  		+ '</div>' 
+						}
 					}
 					
 					$('.result').html(value);

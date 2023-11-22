@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,9 +37,18 @@ li a {
 </style>
 </head>
 <body>
+
+	<c:if test="${ not empty alertMsg }">
+		<script>
+			alert('${alertMsg}');
+		</script>
+		<c:remove var="alertMsg" scope="session"/>
+	</c:if>
+	
+	
     
-	<ul>
-	<br><br><br><br><br>
+<ul>
+  <br><br><br><br><br>
   <li><a href="http://localhost:8001/muze/">홈 화면</a></li>
   <br><br>
   <li><a href="myInfo.me">내 정보</a></li>
@@ -55,6 +65,7 @@ li a {
 </ul>
 
 <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+
 
     
 </body>

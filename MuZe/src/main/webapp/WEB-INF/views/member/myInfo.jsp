@@ -21,31 +21,18 @@
             padding:5% 10%;
             background-color:white;
         }
-        div a {
-            border-radius: 5px;
-            padding: 7px 15px 11px 11px;
-  	  		text-decoration: none;
-  	  		background-color:red;
-		    color: white;
-		    text-align: center;
-  		}
-  		div a:hover {
-  			text-decoration: none;
-  	  		background-color:red;
-		    color: white;
-		    text-align: center;
-  		}
+        .modal-content{
+        	width: 300%;
+        }
+        .modal-dialog {
+		    margin-left: 600px;
+		    margin-top: 100px;
+		}
+        
     </style>
 </head>
 <body>
 	<jsp:include page="../member/myPage.jsp"/>
-	
-	<c:if test="${ not empty alertMsg }">
-		<script>
-			alert('${alertMsg}');
-		</script>
-		<c:remove var="alertMsg" scope="session"/>
-	</c:if>
 	
 	<div class="content">
         <br><br>
@@ -72,10 +59,41 @@
                 <br>
                 <div class="btns" align="center">
                     <button type="submit" class="btn btn-primary">수정하기</button>
-                    <a href="delete.me">탈퇴하기</a>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">탈퇴하기</button>
                 </div>
 		    </form>
 		</div>
 	</div>
+	
+	<!-- 회원탈퇴 버튼 클릭 시 보여질 Modal -->
+    <div class="modal fade" id="deleteForm">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" align="center">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">정말로 계정을 삭제하시겠습니까?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <form action="delete.me" method="post">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div align="center">
+                            회원 탈퇴 처리 후에는 회원님의 개인정보를 복구할 수 없습니다. <br>
+                            정말로 탈퇴 하시겠습니까? <br>
+                        </div>
+                        <br>
+                            <label for="userPwd" class="mr-sm-2">Password : </label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="탈퇴하시려면 비밀번호를 입력해주세요." id="userPwd" name="userPwd"> <br>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer" align="center">
+                        <button type="submit" class="btn btn-danger">탈퇴하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
