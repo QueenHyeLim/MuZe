@@ -4,11 +4,12 @@ package com.kh.muze.diary.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.diary.model.vo.Diary;
 
 public interface DiaryService {
 	
-	int insertDiary(Diary diary);
+	int insertTransaction(Attachment att, Diary diary);
 	
 	ArrayList<Diary> selectDiary(int diaryUser);
 
