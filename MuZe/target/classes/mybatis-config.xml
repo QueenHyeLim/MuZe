@@ -13,6 +13,7 @@
 		<typeAlias type="com.kh.muze.seat.model.vo.SeatPrice" alias="seatprice" />
 		<typeAlias type="com.kh.muze.reservation.model.vo.Reservation" alias="reservation" />
 		<typeAlias type="com.kh.muze.seat.model.vo.Seat" alias="seat" />
+		<typeAlias type="com.kh.muze.attachment.model.vo.Attachment" alias="attachment"/>
 	</typeAliases>
 	
 	<mappers>

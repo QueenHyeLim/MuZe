@@ -23,16 +23,36 @@
 	   			SEQ_DIARY_NO.NEXTVAL,
 	   			#{diaryTitle},
 	   			#{diaryContent},
-	   			'Y',
-	   			'N',
+	   			'Y',	
+	   			#{attStatus},
 	   			#{diaryDate},
 	   			SYSDATE
 	   			)
 	</insert>
+	<insert id="insertAttachment" parameterType="attachment">
+		INSERT
+		  INTO
+		  		ATTACHMENT
+		  		(
+		  		ATT_NO,
+				CONTENT_NO,
+				ORIGIN_NAME,
+				MODIFIED_NAME,
+				ATT_CATEGORY_NO
+		  		)
+		VALUES
+				(
+				SEQ_ATT_NO.NEXTVAL,
+				SEQ_DIARY_NO.CURRVAL,
+				#{originName},
+				#{modifiedName},
+				#{attCategoryNo}
+				)
+	</insert>
 	<select id="selectDiary" parameterType="_int" resultType="diary">
 		SELECT
 		        DIARY_NO diaryNo,
-		        DC.DIARY_NAME diaryName,
+		        NVL(DC.DIARY_NAME,'YOUR MY DIARY') diaryName,
 		        DIARY_TITLE diaryTitle,
 		        DIRAY_CONTENT diaryContent,
 		        ATT_YN attStatus,

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.kh.muze.attachment.controller.AttachmentController;
+import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.diary.model.service.DiaryService;
 import com.kh.muze.diary.model.vo.Diary;
 import com.kh.muze.member.model.vo.Member;
@@ -21,6 +23,8 @@ public class DiaryController {
 
 	@Autowired
 	private DiaryService diaryService;
+	@Autowired
+	private AttachmentController attController;
 	
 	// diary forwarding하면서 내용 가지고 오기
 	@RequestMapping("diary.di")
@@ -32,7 +36,7 @@ public class DiaryController {
 		model.addAttribute("list",list);
 		
 		if(!list.isEmpty() && list != null) {
-			if(list.get(0).getDiaryName().isEmpty()) {
+			if(list.get(0).getDiaryName().equals("YOU ARE MY DIARY")) {
 				model.addAttribute("diaryName","YOU ARE MY DIARY");
 			}else {
 				String diaryName = list.get(0).getDiaryName();
@@ -46,25 +50,25 @@ public class DiaryController {
 	
 	// diary insert 작성 메소드
 	@RequestMapping("insert.di")
-	public String insertDiary(String diaryTitle,
-							  String diaryContent, // int diaryUser값 뽑기!!
-							  String diaryDate,
+	public String insertDiary(Diary diary,
+							  Attachment att,
 							  MultipartFile upfile,
-							  int diaryUser) {
+							  HttpSession session) {
+		int result = 0;
 		
-		Diary diary = new Diary();
-		diary.setDiaryTitle(diaryTitle);
-		diary.setDiaryContent(diaryContent);
-		diary.setDiaryUser(diaryUser); // 나중에 회원 완성되면 userNo값 넘기기
-		diary.setDiaryDate(diaryDate);
-		
-		if(upfile != null && !upfile.isEmpty()) {
+		if(!upfile.getOriginalFilename().isEmpty() && upfile != null) {
 			diary.setAttStatus("Y");
+			att.setOriginName(upfile.getOriginalFilename());
+			att.setModifiedName(attController.saveFiles(upfile,session));
+			att.setContentNo(diary.getDiaryNo());
+			att.setAttCategoryNo(10);
+			
 		}else {
 			diary.setAttStatus("N");
 		}
 		
-		int result = diaryService.insertDiary(diary);
+		result = diaryService.insertTransaction(att, diary);
+		
 		return "redirect:diary.di";
 	}
 	

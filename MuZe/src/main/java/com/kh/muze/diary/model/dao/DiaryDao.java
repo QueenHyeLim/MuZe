@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.diary.model.vo.Diary;
 @Repository
 public class DiaryDao {
@@ -33,6 +34,10 @@ public class DiaryDao {
 
 	public Diary selectDiaryDetail(SqlSessionTemplate sqlSession, Diary diary) {
 		return sqlSession.selectOne("diaryMapper.selectDiaryDetail",diary);
+	}
+
+	public int insertAttachment(SqlSessionTemplate sqlSession, Attachment att) {
+		return sqlSession.insert("diaryMapper.insertAttachment",att);
 	}
 
 }
