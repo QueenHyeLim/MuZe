@@ -50,6 +50,59 @@
 	.modal-content{
 		color : black;
 	}
+	/*------ slider toggle area --------*/
+	/* The switch - the box around the slider */
+	.switch {
+	  position: relative;
+	  display: inline-block;
+	  width: 50px;
+	  height: 30px;
+	}
+	.slider {
+	  position: absolute;
+	  cursor: pointer;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: #ccc;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+	
+	.slider:before {
+	  position: absolute;
+	  content: "";
+	  height: 20px;
+	  width: 20px;
+	  left: 4px;
+	  bottom: 4px;
+	  background-color: white;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+	
+	input:checked + .slider {
+	  background-color: #2196F3;
+	}
+	
+	input:focus + .slider {
+	  box-shadow: 0 0 1px #2196F3;
+	}
+	
+	input:checked + .slider:before {
+	  -webkit-transform: translateX(26px);
+	  -ms-transform: translateX(26px);
+	  transform: translateX(26px);
+	}
+	.slider.round {
+	  border-radius: 20px;
+	}
+	
+	.slider.round:before {
+	  border-radius: 50%;
+	}
+
 </style>
 </head>
 <body>
@@ -63,8 +116,13 @@
         var today = new Date(); // 현재 날짜
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
+        	  initialView: 'dayGridMonth',
+        	  headerToolbar: {
+        	    left: 'prev,next today',
+        	    center: 'title',
+        	    right: 'dayGridMonth,listWeek'
+        	  },
             timeZone: 'GMT+9',
-            initialView: 'dayGridMonth',
             dragScroll : false,
             editable: false,
             selectable: true,
@@ -75,11 +133,18 @@
             		id : '${di.diaryNo}',
             		title : '${di.diaryTitle}',
             		start : '${di.diaryDate}',
+            		end : '${di.diaryDate}',
             		backgroundColor : 'rgb(152, 29, 38)',
-            		color : 'black	'
+            		color : 'black',
+            		imageurl : ''
             	},
             	</c:forEach>
             ],	
+            eventRender:function(event, eventElement) {                
+            	if(event.imageurl) {                    
+            		eventElement.find("span.fc-title").prepend("<center><img src='" + event.imageurl + "'><center>");    
+            	}            
+            },
             // 클릭한 해당 날짜의 값을 뽑아주는 이벤트 
             dateClick: function(date) {
                 $('#diaryDate').val(date.dateStr);
@@ -101,6 +166,7 @@
               		// result.isDenied : 일정 작성 모달창 뜸
               		$('#schedule-modal').modal('show');
               	  	$('.schedule-modal-title').html(date.dateStr + ' DAY SCHEDULE');
+              	  	$
               	  }
               });
             },
@@ -128,14 +194,55 @@
         });
         calendar.render();
     });
-
     
     // diaryName을 클릭했을때 update diaryName (default : YOU ARE MY DIARY)
     function changeDiaryName(){
     	$('#modal-diaryName').modal('show');
-    }
-
+    };
     
+ 	// 일정 버튼을 클릭했을 때 나오는 시간 값 뽑아내기
+    $(()=>{
+    	const $allDay = $('#allDay-checkbox'); // 하루종일  00:00 toggle
+    	const $time = $('#schedule-time');     // 시간 달력 input="time"
+    	const $timeCheck = $('#time-check');   // check my time(일정 시간 확인 버튼)
+    	const $showTime = $('#show-time');     // 일정 시간 : (show time)
+    	const $submit = $('#schedule-submit'); // 등록(submit)버튼
+    	
+    	// 아무 값도 없을때 default값을 disabled true값으로 만들어 준다
+    	$submit.prop('disabled',true);
+    	$time.val('');
+		$allDay.val('');
+		
+    	// check my time 일정 시간 확인 버튼
+    	$timeCheck.on('click',()=>{
+    		
+    		$allDay.val('00:00'); // 클릭 시 allDay value값을 넣어줌
+    		
+    		if($allDay[0].checked == true && $time[0].value == ''){ 
+    			// allDay가 check가 되어있으며 시간 달력에 값이 없으면 allDay의 value값을 알려줌
+    			$showTime.text('일정 시간 : ' + $allDay[0].value);
+    			$submit.prop('disabled',false);
+    		}
+    		else if($allDay[0].checked == false && $time[0].value == ''){
+    			// allDay가 check가 안되어있고 시간 달력에 값이 없으면 '일정 시간 을 입력해주세요'알림이 뜸
+    			$showTime.text('일정 시간 을 입력해주세요');
+    			$submit.prop('disabled',true);
+    		}
+    		else if($allDay[0].checked == true && $time[0].value != ''){
+    			// allDay가 check되어있고 시간 달력에 값이 넣어져있을때 값이 초기화 되며 '일정 시간 을 하나만 넣어주세요'알림이 뜸
+    			$showTime.text('일정 시간 을 하나만 넣어주세요');
+    			$allDay.prop('checked', false);
+    			$time.val('');
+    			$allDay.val('');
+    			$submit.prop('disabled',true);
+    		}
+    		else{
+    			// 시간 달력에 값이 있으면 그 해당 일정 시간 value값을 알려줌
+    			$showTime.html('일정 시간 : '+$time[0].value);
+    			$submit.prop('disabled',false);
+    		}
+    	});
+    });
 </script>
 <!--------------------------------------달력--------------------------------------------->
 <div class="page" id="content">
@@ -243,29 +350,38 @@
     </div>
 </div>
 <!-- -----------------------------------일정 작성 모달창 ----------------------------------------- -->
+<form action="schedule.di" method="post">
+<input type="hidden" name="">
 <!-- The Modal -->
 <div class="modal" id="schedule-modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <!-- Modal Header -->
-      <div class="modal-header">
+      <div class="modal-header">	
         <h4 class="schedule-modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <!-- Modal body -->
       <div class="modal-body">
-        <p id="clickDate"></p>
-        <input type="time" name="time">
-        <button type="button" name="time" value="24hours" class="btn btn-outline-danger">All day</button><br>
-        <p id="show-time"></p>
+       	<p id="show-time"></p>
+        <input type="time" name="time" id="schedule-time">
+        <button type="button" class="btn btn-light" id="time-check">check my time</button><br>	
+        All Day :
+		<label class="switch" id="allDay">
+		  &nbsp;<input type="checkbox" id="allDay-checkbox" name="time">
+		  <span class="slider round"></span>
+		</label>
+		<div>
+		</div>
       </div>
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-basic" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-outline-danger" id="schedule-submit" onclick="scheduelBtn();">submit</button>
       </div>
     </div>
   </div>
 </div>
+</form>
 </c:if>
 </body>
 </html>

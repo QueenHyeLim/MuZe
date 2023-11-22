@@ -90,7 +90,6 @@ public class DiaryController {
 	public String selectDiaryDetail(int diaryNo,
 									String diaryTitle,
 									HttpSession session) {
-
 		Member member = (Member)session.getAttribute("loginUser");
 		int diaryUser = member.getUserNo();
 		
@@ -103,6 +102,14 @@ public class DiaryController {
 	}
 	
 	
+	@RequestMapping("schedule.di")
+	public String insertSchedule(String time) {
+		
+		System.out.println("뽑은 일정 시간 값 : " + time);
+		
+		
+		return "redirect:diary.di";
+	}
 	
 	
 	

@@ -29,6 +29,11 @@ public class SeatController {
 		reservation.setMusId(musId);
 		reservation.setSelectDate(selectDate);
 
+				
+		return new Gson().toJson(seatService.disabledSeat(reservation));
+
+		return new Gson().toJson(seatService.disabledSeat(seat));
+
 		*/
 		return new Gson().toJson(seatService.disabledSeat(seat));
 

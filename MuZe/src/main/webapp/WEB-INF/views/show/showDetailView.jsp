@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +16,6 @@
 	width : 250px;
 	height : 350px;
 	padding: 10px;
-	border : 1px solid blue;
 }
 
 .info > div{
@@ -27,12 +27,10 @@
 }
 
 .poster {
-	border : 1px solid red;
 	margin-bottom: 10px;
 }
 
 .des {
-	border : 1px solid red;
 	padding : 10px;
 }
 
@@ -47,6 +45,11 @@
 
 #styurl{
 	margin-top: 10px;
+}
+
+#information > h4{
+	padding-top: 10px;
+	padding-left: 10px;
 }
 </style>
 </head>
@@ -84,16 +87,42 @@
 	   					</li>
 	   					
 	   					<li>
+	   						공연 시간 : ${ dtguidance }
+	   					</li>
+	   					
+	   					<li>
 	   						공연장 : ${ fcltynm }
 	   					</li>
 	   					<li>
 	   						장르 : ${ genrenm }
 	   					</li>
+	   					
 	   					<li>
-	   						제작진 : ${ prfcrew }
+	   						제작진 : 
+	   						<c:choose>
+	   							<c:when test="${prfcrew != ' '}">
+									${ prfcrew }
+	   							</c:when>
+	   							
+	   							<c:otherwise>
+									해당 정보 없음
+	   							</c:otherwise>
+	   						</c:choose>
+	   						
 	   					</li>
+	   					
 	   					<li>
-	   						출연진 : ${ prfcast }
+	   						출연진 : 
+							<c:choose>
+								<c:when test="${prfcast != ' '}">
+									${ prfcast }
+								</c:when>
+
+								<c:otherwise>
+									해당 정보 없음
+								</c:otherwise>
+							</c:choose>
+							
 	   					</li>
 	   					<li>
 	   						런타임 : ${ prfruntime }
@@ -102,7 +131,17 @@
 	   						관람 연령 : ${ prfage }
 	   					</li>
 	   					<li>
-	   						제작사 : ${ entrpsnm }
+	   						제작사 : 
+							<c:choose >
+								<c:when test="${entrpsnm != ' '}">
+									${ entrpsnm }
+								</c:when>
+
+								<c:otherwise>
+									해당 정보 없음
+								</c:otherwise>
+							</c:choose>
+							
 	   					</li>
 	   					<li>
 	   						티켓 가격 : ${ pcseguidance }
@@ -115,7 +154,7 @@
 	   		</div>
 	   </div>
 	   
-	   <div class="page" id="styurl">
+	   <div class="page" id="styurl" align="center">
 	   		<img src="${ styurl }">
 	   </div>
 	   <div class="page">03</div>

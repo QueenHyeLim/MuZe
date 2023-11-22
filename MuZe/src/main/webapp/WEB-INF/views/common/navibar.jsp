@@ -206,7 +206,7 @@
                 <li>
                     <a href="">커뮤니티</a>
                     <ul>
-                        <li><a href="#">자유게시판</a></li>
+                        <li><a href="fboardList.bo">자유게시판</a></li>
                         <li><a href="#">티켓 양도</a></li>
                     </ul>
                 </li>

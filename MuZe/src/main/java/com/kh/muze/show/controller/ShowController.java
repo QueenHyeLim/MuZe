@@ -3,16 +3,14 @@ package com.kh.muze.show.controller;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.json.JSONObject;
+import org.json.XML;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,26 +34,20 @@ public class ShowController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="slist.sh", produces="text/html; charset=UTF-8")
+	@RequestMapping(value="slist.sh", produces="application/json; charset=UTF-8")
 	public String showList(String shprfnm, String prfstate, Model model) throws Exception {
-		
-		Calendar calendar = new GregorianCalendar();
-		calendar.add(Calendar.DATE, -1);
-		String yesterday = new SimpleDateFormat("yyyyMMdd").format(calendar.getTime());
-		//System.out.println(yesterday + " => 어제");
 		
 		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
 		url += "?service=" + SERVICEYKEY;
-//		url += "&stdate=" + yesterday;
-//		url += "&eddate="  + yesterday;
+
 		url += "&cpage=1";
 		url += "&rows=88000";
-		url += "&prfstate=" + prfstate;
+		if(prfstate != "00") {
+			url += "&prfstate=" + prfstate;
+		}
 		url += "&shprfnm=" + URLEncoder.encode(shprfnm, "UTF-8");
 		
-//		System.out.println(prfstate);
-//		System.out.println(url);
-//		System.out.println(shprfnm);
+		//System.out.println(url);
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -69,10 +61,23 @@ public class ShowController {
 			responseText += line;
 		}
 		
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(url);
+		
+		doc.getDocumentElement().normalize();
+		
+		NodeList nList = doc.getElementsByTagName("db");
+	
+		JSONObject xmlToJson = XML.toJSONObject(responseText);
+		String jsonStr = xmlToJson.toString();
+		
 		br.close();
 		urlConnection.disconnect();
 		
-		return responseText;
+		//System.out.println(jsonStr);
+		
+		return jsonStr;
 	}
 	
 	@RequestMapping(value="detail.sh", produces="text/html; charset=UTF-8")
@@ -81,6 +86,8 @@ public class ShowController {
 		       url += mt20id;
 		       url += "?service=" + SERVICEYKEY;
 		
+		//System.out.println(url);       
+		       
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 		urlConnection.setRequestMethod("GET");
