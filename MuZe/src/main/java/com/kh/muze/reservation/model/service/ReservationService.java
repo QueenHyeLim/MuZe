@@ -15,5 +15,7 @@ public interface ReservationService {
 
 	ArrayList<SeatPrice> selectMusPrice();
 
+	int totalPrice(String selectseat);
+
 
 }
