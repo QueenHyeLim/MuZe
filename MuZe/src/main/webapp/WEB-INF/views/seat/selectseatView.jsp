@@ -311,10 +311,11 @@
             	
             </div>
             <div class="gopay">
-            	<form action="#" method="POST">
+            	<form action="payment.rs" method="POST">
+            		<!--<input type="hidden" name="userNo" value="${ sessionScope.loginUser.userNo }">  -->
             		<input type="hidden" name="musId" value="${ musInfo.musId }">
             		<input type="hidden" name="selectdate" value="${ selectdate }">
-            		<input type="hidden" name="selectseat" id="selectseat" value="">
+            		<input type="hidden" name="selectseat" id="selectseat">
             		<button type="submit" id="gopay" onclick="return goPay();">결제하기</button>
             	</form>
             </div>
@@ -323,10 +324,37 @@
 		<script>
 			function goPay(){
 				let selectseats = $('.checked_seat');
+				const ffff = $('.selected-seat').children();
+				
+				/*
 				if(selectseats.length > 0){
 					console.log($('.checked_seat'));
 					let cf = confirm('${ musInfo.musTitle }' + '\n${ selectdate } \n' + selectseats.text() + '예매하시겠습니까?');
-					
+					var cfseat = '';
+					for(let i in selectseats){
+						cfseat += $(selectseats[i]).text();
+						//console.log(cfseat);
+					}
+					$('#selectseat').val(cfseat);
+					if(cf == true){
+						
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+				*/
+				if(ffff.length > 0){
+					let arr = [];
+					ffff.map((s,i) =>{
+						arr.push(i.innerText);
+					})
+					$('#selectseat').val(arr.map((v, i) => {
+						return v;
+					}));
+					console.log($('#selectseat').val());
+					let cf = confirm('${ musInfo.musTitle }' + '\n${ selectdate } \n' + selectseats.text() + '예매하시겠습니까?');
 					if(cf == true){
 						
 						return true;
