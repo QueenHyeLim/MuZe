@@ -159,5 +159,9 @@
 	   </div>
 	   <div class="page">03</div>
 	</div> 
+
+	<script>
+		console.log($('#styrul').val());
+	</script>
 </body>
 </html>
