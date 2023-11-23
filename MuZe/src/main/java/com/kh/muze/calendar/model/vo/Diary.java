@@ -1,4 +1,4 @@
-package com.kh.muze.diary.model.vo;
+package com.kh.muze.calendar.model.vo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

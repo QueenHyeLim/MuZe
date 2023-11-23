@@ -108,6 +108,18 @@
 	  display: block;
 	  margin : auto;
 	}
+	.diaryImage-area{
+		width : 100%;
+		height : 400px;
+	}
+	#diaryImg{
+		background-size: contain;
+		background-repeat: no-repeat;
+	}
+	#schedule-input{
+		width : 100%;
+		margin-top : 20px;
+	}
 </style>
 </head>
 <body>
@@ -133,8 +145,8 @@
         	    right: 'dayGridMonth,listWeek'
         	  },
             timeZone: 'GMT+9',
-            dragScroll : false,
-            navLinks: true, 
+            dragScroll : true,
+            navLinks: false, 
             editable: false,
             selectable: true,
     		// 화면에 들어왔을떄 보여질수 있게 select diary 
@@ -159,8 +171,14 @@
           		var result = '';
           		var html = '';
           		// 제목의 length가 긴 경우를 위해 잘라서 넣기
+          		var htmlTag = '<b>' + arg.timeText + '</b class="eventTitle-area">';
        			result = eventTitle.slice(0, 8);
-       			html += '<b>' + arg.timeText + '</b class="eventTitle-area">' + result + '...';
+          		if(eventTitle.length > 10){
+       				html += htmlTag + result + '...';
+          		}
+          		else{
+          			html += htmlTag + eventTitle;
+          		}
 	            if (arg.event.extendedProps.imageUrl) {
 	              html += '<img src="' + arg.event.extendedProps.imageUrl + '" class="event-image" />';
 	            }
@@ -168,6 +186,7 @@
           },
             // 클릭한 해당 날짜의 값을 뽑아주는 이벤트 
             dateClick: function(date) {
+            	console.log(date);
                 $('#diaryDate').val(date.dateStr);
                 Swal.fire({
               	  title: date.dateStr + "날에 작성할 <br> 다이어리 / 일정 중 고르시오.",
@@ -187,6 +206,7 @@
               		// result.isDenied : 일정 작성 모달창 뜸
               		$('#schedule-modal').modal('show');
               	  	$('.schedule-modal-title').html(date.dateStr + ' DAY SCHEDULE');
+              	  	$('#scDate').val(date.dateStr);
               	  }
               });
             },
@@ -202,11 +222,13 @@
                			diaryTitle : info.event.title
                		},
                		success : result =>{
-               			// console.log(result);
+               			console.log(result.modifiedName);
                			$('#replyDiaryDate').text(result.diaryDate);
                			$('#replyDiaryContent').text(result.diaryContent);
-               			console.log(result.modifiedName);
-               			$('#diaryImage').attr('src',result.modifiedName);
+               			if(result.modifiedName != null){
+               				$('#diaryImg').attr('src', result.modifiedName);
+               				$('.diaryImage-area').hide();
+               			}
                		},
                		error : () =>{
                			alert('실패');
@@ -374,7 +396,7 @@
 </div>
 <!-- -----------------------------------일정 작성 모달창 ----------------------------------------- -->
 <form action="schedule.di" method="post">
-<input type="hidden" name="">
+<input type="hidden" name="scDate" id="scDate">
 <!-- The Modal -->
 <div class="modal" id="schedule-modal">
   <div class="modal-dialog">
@@ -387,14 +409,15 @@
       <!-- Modal body -->
       <div class="modal-body">
        	<p id="show-time"></p>
-        <input type="time" name="time" id="schedule-time">
+        <input type="time" name="scTime" id="schedule-time">
         <button type="button" class="btn btn-light" id="time-check">check my time</button><br>	
         All Day :
 		<label class="switch" id="allDay">
-		  &nbsp;<input type="checkbox" id="allDay-checkbox" name="time">
+		  &nbsp;<input type="checkbox" id="allDay-checkbox" name="scTime">
 		  <span class="slider round"></span>
 		</label>
 		<div>
+			<input type="text" name="scTitle" id="schedule-input" placeholder="일정 내용을 적어주세요.">
 		</div>
       </div>
       <!-- Modal footer -->
