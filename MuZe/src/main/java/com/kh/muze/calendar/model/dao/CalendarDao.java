@@ -25,6 +25,10 @@ public class CalendarDao {
 		return list;
 	}
 
+	public ArrayList<Schedule> selectSchedule(SqlSessionTemplate sqlSession, int diaryUser) {
+		return (ArrayList)sqlSession.selectList("calendarMapper.selectSchedule",diaryUser);
+	}
+	
 	public int insertDiaryName(SqlSessionTemplate sqlSession, HashMap map) {
 		return sqlSession.insert("calendarMapper.insertDiaryName",map);
 	}
@@ -44,6 +48,7 @@ public class CalendarDao {
 	public int insertSchedule(SqlSessionTemplate sqlSession, Schedule sc) {
 		return sqlSession.insert("calendarMapper.insertSchedule",sc);
 	}
+
 
 
 }

@@ -120,6 +120,10 @@
 		width : 100%;
 		margin-top : 20px;
 	}
+	.td-area-size{
+		widht : 100px;
+		height : 100px;
+	}
 </style>
 </head>
 <body>
@@ -151,7 +155,7 @@
             selectable: true,
     		// 화면에 들어왔을떄 보여질수 있게 select diary 
             events: [
-            	<c:forEach var="di" items="${list}">
+            	<c:forEach var="di" items="${diaryList}">
             	{
             		id : '${di.diaryNo}',
             		title : '${di.diaryTitle}',
@@ -165,6 +169,16 @@
 		            },
             	},
             	</c:forEach>
+            	<c:forEach var="sc" items="${scheduleList}">
+            	{
+            		id : '999',
+            		title : '${sc.scTime} [' + '${sc.scTitle} ]',
+            		start : '${sc.scDate}',
+            		end : '${sc.scDate}',
+            		backgroundColor : 'green',
+            		color : 'black',
+            	},
+            	</c:forEach>
             ],
           	eventContent: function (arg) {
           		var eventTitle = arg.event.title;
@@ -172,9 +186,9 @@
           		var html = '';
           		// 제목의 length가 긴 경우를 위해 잘라서 넣기
           		var htmlTag = '<b>' + arg.timeText + '</b class="eventTitle-area">';
-       			result = eventTitle.slice(0, 8);
+       			//result = eventTitle.slice(0, 8);
           		if(eventTitle.length > 10){
-       				html += htmlTag + result + '...';
+       				html += htmlTag + eventTitle.slice(0, 8) + '...';
           		}
           		else{
           			html += htmlTag + eventTitle;
@@ -212,28 +226,36 @@
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
-            	$('#modal-content').modal('show');
-            	$('#replyDiaryTitle').text(info.event.title);
-               	$.ajax({
-               		url : 'diaryDetail.di',
-               		type : 'POST',
-               		data : {
-               			diaryNo : info.event.id,
-               			diaryTitle : info.event.title
-               		},
-               		success : result =>{
-               			console.log(result.modifiedName);
-               			$('#replyDiaryDate').text(result.diaryDate);
-               			$('#replyDiaryContent').text(result.diaryContent);
-               			if(result.modifiedName != null){
-               				$('#diaryImg').attr('src', result.modifiedName);
-               				$('.diaryImage-area').hide();
-               			}
-               		},
-               		error : () =>{
-               			alert('실패');
-               		}
-            	});
+            	// id가 999인건 일정 정보 아닌것은 다이어리
+            	if(info.event.id != '999'){
+	            	$('#modal-content').modal('show');
+	            	$('#replyDiaryTitle').text(info.event.title);
+	               	$.ajax({
+	               		url : 'diaryDetail.di',
+	               		type : 'POST',
+	               		data : {
+	               			diaryNo : info.event.id,
+	               			diaryTitle : info.event.title
+	               		},
+	               		success : result =>{
+	               			console.log(result.modifiedName);
+	               			$('#replyDiaryDate').text(result.diaryDate);
+	               			$('#replyDiaryContent').text(result.diaryContent);
+	               			if(result.modifiedName != null){
+	               				$('#diaryImg').attr('src', result.modifiedName);
+	               			}
+	               			else{
+	               				$('.diaryImage-area').hide();
+	               			}
+	               		},
+	               		error : () =>{
+	               			alert('실패dd');
+	               		}
+	            	});
+            	}
+               	else{
+               		// 일정 detail modal 보여주기
+               	}
             }
         });
         calendar.render();
@@ -287,6 +309,14 @@
     		}
     	});
     });
+ 	
+ 	$(()=>{
+ 		console.log($('tbody[role="rowgroup"]'));
+ 		$('tbody[role="rowgroup"] td').css({
+ 			'width' : '100px',
+ 			'height' : '100px'
+ 		});
+ 	});
 </script>
 <!--------------------------------------달력--------------------------------------------->
 <div class="page" id="content">
@@ -375,6 +405,7 @@
                 <h4 class="modal-title" id="replyDiaryTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <br><br>
+                
             </div>
             
             <!-- Modal body -->

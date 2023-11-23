@@ -24,4 +24,6 @@ public interface CalendarService {
 
 	int insertSchedule(Schedule sc);
 
+	ArrayList<Schedule> selectSchedule(int diaryUser);
+
 }
