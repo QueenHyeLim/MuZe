@@ -1,4 +1,4 @@
-package com.kh.muze.diary.controller;
+package com.kh.muze.calendar.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,14 +15,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.kh.muze.attachment.controller.AttachmentController;
 import com.kh.muze.attachment.model.vo.Attachment;
-import com.kh.muze.diary.model.service.DiaryService;
-import com.kh.muze.diary.model.vo.Diary;
+import com.kh.muze.calendar.model.service.CalendarService;
+import com.kh.muze.calendar.model.vo.Diary;
+import com.kh.muze.calendar.model.vo.Schedule;
 import com.kh.muze.member.model.vo.Member;
 @Controller
-public class DiaryController {
+public class CalendarController {
 
 	@Autowired
-	private DiaryService diaryService;
+	private CalendarService calendarService;
 	@Autowired
 	private AttachmentController attController;
 	
@@ -32,7 +33,7 @@ public class DiaryController {
 		// forwarding해주면서 다이어리에 있는 데이터를 select해서 보여주기
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int diaryUser = loginUser.getUserNo();
-		ArrayList<Diary> list = diaryService.selectDiary(diaryUser);
+		ArrayList<Diary> list = calendarService.selectDiary(diaryUser);
 		model.addAttribute("list",list);
 		
 		if(!list.isEmpty() && list != null) {
@@ -68,7 +69,7 @@ public class DiaryController {
 			diary.setAttStatus("N");
 		}
 		
-		result = diaryService.insertTransaction(att, diary);
+		result = calendarService.insertTransaction(att, diary);
 		
 		return "redirect:diary.di";
 	}	
@@ -81,10 +82,10 @@ public class DiaryController {
 		map.put("userNo", userNo);
 		map.put("diaryName", diaryName);
 		
-		if(diaryService.selectDiaryName(map) > 0) {
-			diaryService.updateDiaryName(map);
+		if(calendarService.selectDiaryName(map) > 0) {
+			calendarService.updateDiaryName(map);
 		}else {
-			diaryService.insertDiaryName(map);
+			calendarService.insertDiaryName(map);
 		}
 		return "redirect:diary.di";
 	}
@@ -99,15 +100,23 @@ public class DiaryController {
 		
 		diary.setDiaryUser(diaryUser);
 		
-		return new Gson().toJson(diaryService.selectDiaryDetail(diary));
+		return new Gson().toJson(calendarService.selectDiaryDetail(diary));
 	}
 	
 	
 	@RequestMapping("schedule.di")
-	public String insertSchedule(String time) {
+	public String insertSchedule(Schedule sc,HttpSession session) {
 		
-		System.out.println("뽑은 일정 시간 값 : " + time);
+		Member member = (Member)session.getAttribute("loginUser");
+		int userNo = member.getUserNo();
 		
+		// ,00:00으로 출력되는 시간을 → 00:00으로 바꿔주기
+		if(sc.getScTime().equals(",00:00")) {
+			sc.setScTime("00:00");
+		}
+		sc.setUserNo(userNo);
+		
+		calendarService.insertSchedule(sc);
 		
 		return "redirect:diary.di";
 	}
