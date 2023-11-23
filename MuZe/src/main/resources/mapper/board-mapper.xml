@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+
+	<resultMap type="board" id="boardResultSet">
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_WRITER" property="boardWriter"/>
+		<result column="CATE_NO" property="cateNo"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="COUNT" property="count"/>
+	</resultMap>
+
+	<select id="selectFboardCount" resultType="_int">
+		SELECT
+				COUNT(*)
+		FROM
+				BOARD
+		WHERE
+				CATE_NO = 30
+		AND
+				BOARD_STATUS = 'Y'
+	</select>
+	
+	<select id="selectFboardList" resultMap="boardResultSet">
+		SELECT
+				BOARD_NO,
+				BOARD_WRITER,
+				BOARD_TITLE,
+				TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE",
+				COUNT
+		FROM
+				BOARD
+		WHERE
+				CATE_NO = 30
+		AND
+				BOARD_STATUS = 'Y'
+		ORDER
+		   BY
+		   		BOARD_NO DESC
+	</select>
+</mapper>
