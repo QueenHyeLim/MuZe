@@ -30,7 +30,6 @@ public class DiaryServiceImpl implements DiaryService{
         if (att != null && att.getAttCategoryNo() > 0) {
             result2 = diaryDao.insertAttachment(sqlSession, att);
         }
-
 	    return (result1 * result2);
 	}
 

@@ -103,11 +103,15 @@
 		SELECT
 		        DIARY_NO diaryNo,
 		        DIARY_TITLE diaryTitle,
+		        MODIFIED_NAME modifiedName,
 		        DIRAY_CONTENT diaryContent,
 		        ATT_YN attStatus,
 		        DIARY_DATE diaryDate
 		  FROM
 		        DIARY D
+		  FULL
+		  JOIN
+		        ATTACHMENT ATT ON (D.DIARY_NO = ATT.CONTENT_NO)
 		 WHERE
 		        DIARY_USER = #{diaryUser}
 		   AND
