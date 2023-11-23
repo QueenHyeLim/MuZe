@@ -102,12 +102,22 @@
 	.slider.round:before {
 	  border-radius: 50%;
 	}
-
+	.event-image {
+	  width : 100px;
+	  height : 100px;
+	  display: block;
+	  margin : auto;
+	}
 </style>
 </head>
 <body>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+-->
 <jsp:include page="../common/navibar.jsp"/>
 <c:if test="${not empty sessionScope.loginUser}">
 <script>
@@ -124,6 +134,7 @@
         	  },
             timeZone: 'GMT+9',
             dragScroll : false,
+            navLinks: true, 
             editable: false,
             selectable: true,
     		// 화면에 들어왔을떄 보여질수 있게 select diary 
@@ -137,18 +148,24 @@
             		//borderColor : 'rgb(152, 29, 38)',
             		backgroundColor : 'rgb(152, 29, 38)',
             		color : 'black',
-            		image : '${di.modifiedName}'
+		            extendedProps: {
+	            		imageUrl : '${di.modifiedName}'
+		            },
             	},
             	</c:forEach>
             ],
-            eventRender: function(event, element) {
-            	console.log(event.image);
-                // 이벤트 렌더링 시 이미지를 추가
-                if (event.image) {
-                 // element.find('.fc-content').prepend('<img src="' + event.image + '" width="20" height="20">');
-                	// element.find('.fc-day fc-day-fri fc-day-past fc-daygrid-day').prepend('<img src="resources/uploadFiles/2023112216022710000.png" width="20" height="20">');
-                }
-            },
+          	eventContent: function (arg) {
+          		var eventTitle = arg.event.title;
+          		var result = '';
+          		var html = '';
+          		// 제목의 length가 긴 경우를 위해 잘라서 넣기
+       			result = eventTitle.slice(0, 8);
+       			html += '<b>' + arg.timeText + '</b class="eventTitle-area">' + result + '...';
+	            if (arg.event.extendedProps.imageUrl) {
+	              html += '<img src="' + arg.event.extendedProps.imageUrl + '" class="event-image" />';
+	            }
+            return { html: html };
+          },
             // 클릭한 해당 날짜의 값을 뽑아주는 이벤트 
             dateClick: function(date) {
                 $('#diaryDate').val(date.dateStr);
@@ -170,7 +187,6 @@
               		// result.isDenied : 일정 작성 모달창 뜸
               		$('#schedule-modal').modal('show');
               	  	$('.schedule-modal-title').html(date.dateStr + ' DAY SCHEDULE');
-              	  	$
               	  }
               });
             },
@@ -189,6 +205,8 @@
                			// console.log(result);
                			$('#replyDiaryDate').text(result.diaryDate);
                			$('#replyDiaryContent').text(result.diaryContent);
+               			console.log(result.modifiedName);
+               			$('#diaryImage').attr('src',result.modifiedName);
                		},
                		error : () =>{
                			alert('실패');
@@ -343,7 +361,8 @@
 	            <div class="diary-body">
 	            	<span id="replyDiaryContent"></span>
 	            </div>
-	            <div class="diaryImage-area">
+	            <div class="diaryImage-area" style="border:1px solid black">
+	            	<img src="" id="diaryImg"/>
 	            </div>
             </div>
             <!-- Modal footer -->
