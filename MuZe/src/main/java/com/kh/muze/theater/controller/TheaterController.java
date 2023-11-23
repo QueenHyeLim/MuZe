@@ -43,7 +43,7 @@ public class TheaterController {
 		url += "&rows=2800";
 		url += "&shprfnmfct=" + URLEncoder.encode(shprfnmfct, "UTF-8");
 		
-		//System.out.println(url);
+//		System.out.println(url);
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -64,11 +64,6 @@ public class TheaterController {
 		doc.getDocumentElement().normalize();
 		
 		NodeList nList = doc.getElementsByTagName("db");
-		int showCount = nList.getLength();
-		
-		//System.out.println(showCount);
-		
-		model.addAttribute("showCount", showCount);
 		
 		JSONObject xmlToJson = XML.toJSONObject(responseText);
 		String jsonStr = xmlToJson.toString();
