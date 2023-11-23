@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>MUZE 결제페이지</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
     .wrapper{
         width : 1302px;
@@ -28,6 +29,10 @@
     .checkedseat-info > div{
        
         font-size: 20px;
+    }
+    
+    h3{
+    	color : fff;
     }
     .mus-title, .select-date, .selected-seat-list{
         width : 100%;
@@ -84,6 +89,7 @@
     .payment-agree{
         margin-top: 15px;
         font-size: 1.75rem;
+        color : fff;
     }
 
     input[type=checkbox] {
@@ -209,8 +215,8 @@
 		                <input type="checkbox" name="payagree" id="payagree"><span id="allaree" for="payagree">결제대행 서비스 및 이용약관 동의</span>
 		            </div>
 		            <div class="payment-terms">
-		                <div class="terms_1">전자 금융거래 이용에 동의합니다. <a id="finanace-agree"href="">약관보기<a></div>
-		                <div class="terms_2">개안정보 수집 및 이용에 동의합니다. <a id="personal-agree"href="">약관보기</a></div>
+		                <div class="terms_1">전자 금융거래 이용에 동의합니다. <a id="finanace-agree" href="">약관보기<a></div>
+		                <div class="terms_2">개안정보 수집 및 이용에 동의합니다. <a id="personal-agree" href="">약관보기</a></div>
 		                <div class="terms_3">취소 수수료 및 취소기한을 확인하였으며 이에 동의합니다. <a id="cancel-agree" href="">약관보기</a> </div>
 		            </div>
 		        </div>
@@ -219,7 +225,7 @@
 		
 		            </div>
 		
-		            <form action="">
+		            <form action="kakao/kakaoPay">
 		                <div class="total-price">
 		                    최종 결제금액
 		                    <div class="pay-price">
@@ -231,11 +237,91 @@
 		                    결제수단
 		                    <strong>카카오페이</strong>
 		                </div>
-		                <button id="paybtn" type="submit">결제하기</button>
+		                <input type="hidden" name="musTitle" value="${ musInfo.musTitle }">
+		                <input type="hidden" name="selectdate" value="${ selectdate }">
+		                <input type="hidden" name="selectseat" value="${ selectseat }">
+		                <input type="hidden" name="totalPrice" value="${ totalPrice }">
+		                <button type="submit" id="paybtn1">결제하기</button><!--  /*onclick="return payment();" */ -->
 		            </form>
+		                <button type="submit" id="paybtn" onclick="return payment();">결제하기</button>	<!--  /*onclick="return payment();" */ -->
 		        </div>
 		    </div>
 	 	</div>
 	</div>
 </body>
+
+<script>
+    $(document).ready(() => {
+        let $card = $('#card');
+        let $cellphone = $('#cellphone');
+        let $bank = $('#bank');
+
+        let $fastpay = $('#fastpay');
+        let $paymentRadios = $('[name="pay"]');
+        
+        let $paymentsDetail = $('.payments-detail');
+
+        $paymentRadios.attr('disabled', true);
+
+        $fastpay.on('change', () => {
+            if ($fastpay.is(':checked')) {
+                $paymentRadios.attr('disabled', false);
+                $paymentsDetail.show();
+                
+            } else {
+                $paymentRadios.attr('disabled', true);
+                $paymentsDetail.hide();
+                if($card.is(':checked') || $cellphone.is(':checked') || $bank.is(':checked')){
+                    $paymentRadios.attr('disabled', true);
+                    $paymentsDetail.hide(); 
+                }
+            }
+        });
+    });
+    // let fastpay = document.getElementById('fastpay');
+    // console.log(fastpay);
+    // if(fastpay != checked){
+    //     document.getElementsByClassName('payments-detail')
+    // }
+    
+    /*
+    function payment(){
+    	e.preventDefault();
+    	
+    	if($('#payagree').prop('checked') == false){
+    		alert('이용약관에 동의해주세요!');
+    		return false;
+    	} 
+    	else {
+    		return true;
+    	}
+    }
+    */
+    
+    function payment() {
+    	
+    	
+    	$.ajax({
+    		url : 'kakao',
+    		type : 'POST',
+    		data : {
+    			musTitle : '${ musInfo.musTitle }',
+    			//selectdate : '${ selectdate }',
+    			selectseat : '${ selectseat }',
+    			totalPrice : '${ totalPrice }'
+    		},
+    		success : (data) => {
+    			console.log(data);
+    			location.href = data.next_redirect_pc_url;
+    			return true;
+    		},
+    		error : (data)=> {
+    			console.log(data);
+    		}
+    	});
+    };
+    
+    
+    
+    </script>
 </html>
