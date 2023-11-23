@@ -30,17 +30,24 @@ public class CalendarController {
 	// diary forwarding하면서 내용 가지고 오기
 	@RequestMapping("diary.di")
 	public String diary(Model model,HttpSession session) {
+		
 		// forwarding해주면서 다이어리에 있는 데이터를 select해서 보여주기
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int diaryUser = loginUser.getUserNo();
-		ArrayList<Diary> list = calendarService.selectDiary(diaryUser);
-		model.addAttribute("list",list);
 		
-		if(!list.isEmpty() && list != null) {
-			if(list.get(0).getDiaryName().equals("YOU ARE MY DIARY")) {
+		
+		// DIARY LIST SELECT
+		ArrayList<Diary> diaryList = calendarService.selectDiary(diaryUser);
+		model.addAttribute("diaryList",diaryList);
+		// SCHEDULE LIST SELECT
+		ArrayList<Schedule> scheduleList = calendarService.selectSchedule(diaryUser);
+		model.addAttribute("scheduleList",scheduleList);
+		
+		if(!diaryList.isEmpty() && diaryList != null) {
+			if(diaryList.get(0).getDiaryName().equals("YOU ARE MY DIARY")) {
 				model.addAttribute("diaryName","YOU ARE MY DIARY");
 			}else {
-				String diaryName = list.get(0).getDiaryName();
+				String diaryName = diaryList.get(0).getDiaryName();
 				model.addAttribute("diaryName",diaryName);
 			}
 		}else {

@@ -119,4 +119,37 @@
 		   AND
 		   		DIARY_YN = 'Y'
 	</select>
+	<insert id="insertSchedule" parameterType="schedule">
+		INSERT
+		  INTO
+		  		SCHEDULE
+		  		(
+		  		SCHEDULE_NO,
+				USER_NO,
+				SC_DATE,
+				SC_TIME,
+				SC_TITLE,
+				SC_CREATE_DATE
+		  		)
+		VALUES
+				(
+				SEQ_SCHEDULE_NO.NEXTVAL,
+				#{userNo},
+				#{scDate},
+				#{scTime},
+				#{scTitle},
+				SYSDATE
+				)
+	</insert>
+	<select id="selectSchedule" parameterType="_int" resultType="schedule">
+		SELECT
+		        SC_TITLE scTitle,
+		        SC_DATE scDate,
+				SC_TIME scTime,
+				SC_TITLE scTitle
+		  FROM
+		  		SCHEDULE
+		 WHERE
+		 		USER_NO = #{diaryUser}
+	</select>
 </mapper>

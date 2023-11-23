@@ -64,6 +64,11 @@ public class CalendarServiceImpl implements CalendarService{
 		return calendarDao.insertSchedule(sqlSession,sc);
 	}
 
+	@Override
+	public ArrayList<Schedule> selectSchedule(int diaryUser) {
+		return calendarDao.selectSchedule(sqlSession,diaryUser);
+	}
+
 
 
 
