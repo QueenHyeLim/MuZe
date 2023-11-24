@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="calendarMapper">
+	<insert id="insertDiary" parameterType="diary">
+		INSERT
+		  INTO
+		  		DIARY
+		  		(
+		  		DIARY_USER,
+				DIARY_NO,
+				DIARY_TITLE,
+				DIRAY_CONTENT,
+				DIARY_YN,
+				ATT_YN,
+				DIARY_DATE,
+				CREATE_DATE
+		  		)
+	   VALUES
+	   			(
+	   			#{diaryUser},
+	   			SEQ_DIARY_NO.NEXTVAL,
+	   			#{diaryTitle},
+	   			#{diaryContent},
+	   			'Y',	
+	   			#{attStatus},
+	   			#{diaryDate},
+	   			SYSDATE
+	   			)
+	</insert>
+	<insert id="insertAttachment" parameterType="attachment">
+		INSERT
+		  INTO
+		  		ATTACHMENT
+		  		(
+		  		ATT_NO,
+				CONTENT_NO,
+				ORIGIN_NAME,
+				MODIFIED_NAME,
+				ATT_CATEGORY_NO
+		  		)
+		VALUES
+				(
+				SEQ_ATT_NO.NEXTVAL,
+				SEQ_DIARY_NO.CURRVAL,
+				#{originName},
+				#{modifiedName},
+				#{attCategoryNo}
+				)
+	</insert>
+	<select id="selectDiary" parameterType="_int" resultType="diary">
+		SELECT
+		        DIARY_NO diaryNo,
+		        NVL(DC.DIARY_NAME,'YOUR MY DIARY') diaryName,
+		        NVL(ATT.MODIFIED_NAME, '') modifiedName,
+		        DIARY_TITLE diaryTitle,
+		        DIRAY_CONTENT diaryContent,
+		        ATT_YN attStatus,
+		        DIARY_DATE diaryDate
+		 FROM
+		        DIARY D
+		 FULL 
+		 JOIN  
+		        DIARY_NAME_CATEGORY DC ON (USER_NO = DIARY_USER)
+		 FULL
+		 JOIN 
+		        ATTACHMENT ATT ON (D.DIARY_NO = ATT.CONTENT_NO)
+		 WHERE
+		        D.DIARY_USER = #{userNo} OR DC.USER_NO = #{userNo}
+	</select>
+	<insert id="insertDiaryName" parameterType="map">
+		INSERT
+		  INTO
+		  		DIARY_NAME_CATEGORY
+		  		(
+		  		USER_NO,
+		  		DIARY_NAME
+		  		)
+		VALUES
+				(
+				#{userNo},
+				#{diaryName}
+				)
+	</insert>
+	<select id="selectDiaryName" parameterType="map" resultType="_int">
+		SELECT
+		        COUNT(*)
+		  FROM
+		        DIARY_NAME_CATEGORY
+		 WHERE
+		        USER_NO = #{userNo}
+	</select>
+	<update id="updateDiaryName" parameterType="map">
+		UPDATE 
+		        DIARY_NAME_CATEGORY
+		   SET
+		        DIARY_NAME = #{diaryName}
+		 WHERE
+		        USER_NO = #{userNo}
+	</update>
+	<select id="selectDiaryDetail" parameterType="diary" resultType="diary">
+		SELECT
+		        DIARY_NO diaryNo,
+		        DIARY_TITLE diaryTitle,
+		        MODIFIED_NAME modifiedName,
+		        DIRAY_CONTENT diaryContent,
+		        ATT_YN attStatus,
+		        DIARY_DATE diaryDate
+		  FROM
+		        DIARY D
+		  FULL
+		  JOIN
+		        ATTACHMENT ATT ON (D.DIARY_NO = ATT.CONTENT_NO)
+		 WHERE
+		        DIARY_USER = #{diaryUser}
+		   AND
+		   		DIARY_TITLE = #{diaryTitle}
+		   AND
+		   		DIARY_YN = 'Y'
+	</select>
+	<insert id="insertSchedule" parameterType="schedule">
+		INSERT
+		  INTO
+		  		SCHEDULE
+		  		(
+		  		SCHEDULE_NO,
+				USER_NO,
+				SC_DATE,
+				SC_TIME,
+				SC_TITLE,
+				SC_CREATE_DATE
+		  		)
+		VALUES
+				(
+				SEQ_SCHEDULE_NO.NEXTVAL,
+				#{userNo},
+				#{scDate},
+				#{scTime},
+				#{scTitle},
+				SYSDATE
+				)
+	</insert>
+	<select id="selectSchedule" parameterType="_int" resultType="schedule">
+		SELECT
+		        SC_TITLE scTitle,
+		        SC_DATE scDate,
+				SC_TIME scTime,
+				SC_TITLE scTitle
+		  FROM
+		  		SCHEDULE
+		 WHERE
+		 		USER_NO = #{diaryUser}
+	</select>
+</mapper>

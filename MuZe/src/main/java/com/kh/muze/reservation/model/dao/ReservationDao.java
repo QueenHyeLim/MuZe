@@ -29,4 +29,17 @@ public class ReservationDao {
 		return (ArrayList)sqlSession.selectList("reservationMapper.disabledSeat", reservation);
 	}
 	*/
+
+	public int totalPrice(SqlSessionTemplate sqlSession, String selectseat) {
+		String[] seatIds = selectseat.split(",");
+		
+		int totalPrice = 0;
+		for (String seatId : seatIds) {
+	        // Call the SQL query for each seat and add the result to the totalPrice
+	        int seatPrice = sqlSession.selectOne("reservationMapper.totalPrice", seatId);
+	        totalPrice += seatPrice;
+	    }
+
+	    return totalPrice;
+	}
 }

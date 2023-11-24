@@ -102,12 +102,38 @@
 	.slider.round:before {
 	  border-radius: 50%;
 	}
-
+	.event-image {
+	  width : 100px;
+	  height : 100px;
+	  display: block;
+	  margin : auto;
+	}
+	.diaryImage-area{
+		width : 100%;
+		height : 400px;
+	}
+	#diaryImg{
+		background-size: contain;
+		background-repeat: no-repeat;
+	}
+	#schedule-input{
+		width : 100%;
+		margin-top : 20px;
+	}
+	.td-area-size{
+		widht : 100px;
+		height : 100px;
+	}
 </style>
 </head>
 <body>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+-->
 <jsp:include page="../common/navibar.jsp"/>
 <c:if test="${not empty sessionScope.loginUser}">
 <script>
@@ -123,30 +149,58 @@
         	    right: 'dayGridMonth,listWeek'
         	  },
             timeZone: 'GMT+9',
-            dragScroll : false,
+            dragScroll : true,
+            navLinks: false, 
             editable: false,
             selectable: true,
     		// 화면에 들어왔을떄 보여질수 있게 select diary 
             events: [
-            	<c:forEach var="di" items="${list}">
+            	<c:forEach var="di" items="${diaryList}">
             	{
             		id : '${di.diaryNo}',
             		title : '${di.diaryTitle}',
             		start : '${di.diaryDate}',
             		end : '${di.diaryDate}',
+            		//borderColor : 'rgb(152, 29, 38)',
             		backgroundColor : 'rgb(152, 29, 38)',
             		color : 'black',
-            		imageurl : ''
+		            extendedProps: {
+	            		imageUrl : '${di.modifiedName}'
+		            },
             	},
             	</c:forEach>
-            ],	
-            eventRender:function(event, eventElement) {                
-            	if(event.imageurl) {                    
-            		eventElement.find("span.fc-title").prepend("<center><img src='" + event.imageurl + "'><center>");    
-            	}            
-            },
+            	<c:forEach var="sc" items="${scheduleList}">
+            	{
+            		id : '999',
+            		title : '${sc.scTime} [' + '${sc.scTitle} ]',
+            		start : '${sc.scDate}',
+            		end : '${sc.scDate}',
+            		backgroundColor : 'green',
+            		color : 'black',
+            	},
+            	</c:forEach>
+            ],
+          	eventContent: function (arg) {
+          		var eventTitle = arg.event.title;
+          		var result = '';
+          		var html = '';
+          		// 제목의 length가 긴 경우를 위해 잘라서 넣기
+          		var htmlTag = '<b>' + arg.timeText + '</b class="eventTitle-area">';
+       			//result = eventTitle.slice(0, 8);
+          		if(eventTitle.length > 10){
+       				html += htmlTag + eventTitle.slice(0, 8) + '...';
+          		}
+          		else{
+          			html += htmlTag + eventTitle;
+          		}
+	            if (arg.event.extendedProps.imageUrl) {
+	              html += '<img src="' + arg.event.extendedProps.imageUrl + '" class="event-image" />';
+	            }
+            return { html: html };
+          },
             // 클릭한 해당 날짜의 값을 뽑아주는 이벤트 
             dateClick: function(date) {
+            	console.log(date);
                 $('#diaryDate').val(date.dateStr);
                 Swal.fire({
               	  title: date.dateStr + "날에 작성할 <br> 다이어리 / 일정 중 고르시오.",
@@ -166,30 +220,42 @@
               		// result.isDenied : 일정 작성 모달창 뜸
               		$('#schedule-modal').modal('show');
               	  	$('.schedule-modal-title').html(date.dateStr + ' DAY SCHEDULE');
-              	  	$
+              	  	$('#scDate').val(date.dateStr);
               	  }
               });
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
-            	$('#modal-content').modal('show');
-            	$('#replyDiaryTitle').text(info.event.title);
-               	$.ajax({
-               		url : 'diaryDetail.di',
-               		type : 'POST',
-               		data : {
-               			diaryNo : info.event.id,
-               			diaryTitle : info.event.title
-               		},
-               		success : result =>{
-               			console.log(result);
-               			$('#replyDiaryDate').text(result.diaryDate);
-               			$('#replyDiaryContent').text(result.diaryContent);
-               		},
-               		error : () =>{
-               			alert('실패');
-               		}
-            	});
+            	// id가 999인건 일정 정보 아닌것은 다이어리
+            	if(info.event.id != '999'){
+	            	$('#modal-content').modal('show');
+	            	$('#replyDiaryTitle').text(info.event.title);
+	               	$.ajax({
+	               		url : 'diaryDetail.di',
+	               		type : 'POST',
+	               		data : {
+	               			diaryNo : info.event.id,
+	               			diaryTitle : info.event.title
+	               		},
+	               		success : result =>{
+	               			console.log(result.modifiedName);
+	               			$('#replyDiaryDate').text(result.diaryDate);
+	               			$('#replyDiaryContent').text(result.diaryContent);
+	               			if(result.modifiedName != null){
+	               				$('#diaryImg').attr('src', result.modifiedName);
+	               			}
+	               			else{
+	               				$('.diaryImage-area').hide();
+	               			}
+	               		},
+	               		error : () =>{
+	               			alert('실패dd');
+	               		}
+	            	});
+            	}
+               	else{
+               		// 일정 detail modal 보여주기
+               	}
             }
         });
         calendar.render();
@@ -243,6 +309,14 @@
     		}
     	});
     });
+ 	
+ 	$(()=>{
+ 		console.log($('tbody[role="rowgroup"]'));
+ 		$('tbody[role="rowgroup"] td').css({
+ 			'width' : '100px',
+ 			'height' : '100px'
+ 		});
+ 	});
 </script>
 <!--------------------------------------달력--------------------------------------------->
 <div class="page" id="content">
@@ -331,6 +405,7 @@
                 <h4 class="modal-title" id="replyDiaryTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <br><br>
+                
             </div>
             
             <!-- Modal body -->
@@ -339,7 +414,8 @@
 	            <div class="diary-body">
 	            	<span id="replyDiaryContent"></span>
 	            </div>
-	            <div class="diaryImage-area">
+	            <div class="diaryImage-area" style="border:1px solid black">
+	            	<img src="" id="diaryImg"/>
 	            </div>
             </div>
             <!-- Modal footer -->
@@ -351,7 +427,7 @@
 </div>
 <!-- -----------------------------------일정 작성 모달창 ----------------------------------------- -->
 <form action="schedule.di" method="post">
-<input type="hidden" name="">
+<input type="hidden" name="scDate" id="scDate">
 <!-- The Modal -->
 <div class="modal" id="schedule-modal">
   <div class="modal-dialog">
@@ -364,14 +440,15 @@
       <!-- Modal body -->
       <div class="modal-body">
        	<p id="show-time"></p>
-        <input type="time" name="time" id="schedule-time">
+        <input type="time" name="scTime" id="schedule-time">
         <button type="button" class="btn btn-light" id="time-check">check my time</button><br>	
         All Day :
 		<label class="switch" id="allDay">
-		  &nbsp;<input type="checkbox" id="allDay-checkbox" name="time">
+		  &nbsp;<input type="checkbox" id="allDay-checkbox" name="scTime">
 		  <span class="slider round"></span>
 		</label>
 		<div>
+			<input type="text" name="scTitle" id="schedule-input" placeholder="일정 내용을 적어주세요.">
 		</div>
       </div>
       <!-- Modal footer -->

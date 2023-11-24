@@ -119,4 +119,18 @@
 		  		RES_DATE = #{ selectDate }
 	</select>
 	-->
+	
+	<select id="totalPrice" parameterType="string" resultType="_int">
+		SELECT
+       			 PRICE
+ 		 FROM
+        		 SEATPRICE
+		 WHERE
+        		KIND = (SELECT
+                        		SEAT_TYPE
+                 		 FROM
+                        		SEAT
+               			 WHERE
+                        		SEAT_ID = #{seatId})
+	</select>
 </mapper>

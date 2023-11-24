@@ -40,6 +40,7 @@
 
 	#content {
 		padding-top: 15px;
+	}
 
 	/*결과*/
 	#result-part{
@@ -50,6 +51,13 @@
 
 	table{
 		width: 1302px;
+	}
+
+	/*페이징바 영역*/
+	#paging-part{
+		margin: auto;
+		width: 300px;
+		padding-top: 30px;
 	}
 	
 </style>
@@ -90,35 +98,23 @@
 	   			</div>
 	   		</div>
 	   		
-	   		<div id="paging-part">
-				<ul class="pagination">
-
-					<c:choose>
-						<c:when test="${pi.currentPage eq 1}">
-							<li class="page-item disabled"><a class="page-link">&lt;</li>
-						</c:when>
-
-						<c:otherwise>
-							<li class="page-item"><a class="page-link">&lt;</a></li>
-						</c:otherwise>
-					</c:choose>
-
-					<c:forEach begin="${pi.startPage}" end="${pi.endPage}" var="p">
-							<li class="page-item"><a class="page-link">${p}</a></li>
-					</c:forEach>
-
-					<li class="page-item"><a class="page-link">Next</a></li>
-				</ul>
-	   		</div>
 	   </div>
 
-	   <input type="text" value="${showCount}" id="showCount"/>
+	   <div class="page">
+		<div id="paging-part">
+			<ul class="pagination">
+
+
+			</ul>
+		   </div>
+	   </div>
+
 	</div> 
 	
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		var currentPage;
+		var currentPage = 1;
 		var listCount;
 		var pageLimit;
 		var contentLimit;
@@ -127,8 +123,6 @@
 		var startPage;
 		var endPage;
 
-		var ccontent;
-	
 		$(()=>{
 			$('#btn').click(()=>{
 				if($('#shprfnmfct').val() == ''){
@@ -136,6 +130,7 @@
 					$('#shprfnmfct').focus();
 				} else {
 					search();
+					currentPage = 1;
 				}
 			})
 
@@ -145,6 +140,10 @@
 					$('#btn').click();
 				}
 			})
+
+			if(currentPage == $('.paging').val()){
+				$('.paging').addClass('active');
+			}
 		})
 
  
@@ -156,59 +155,150 @@
 				url : 'rlist.th',
 				data : {
 					shprfnmfct : $('#shprfnmfct').val() // 시설명 키워드
-					//page : 1
 				},
 				success : result => {
 					
 					const itemArr = result.dbs.db;
 
-					let value = '';
-
 					// 검색 결과가 없는 경우
-					if(result.dbs.length == 0){
+
+					abcde(null, result, itemArr);
+
+
+
+				},
+				error : () => {
+					console.log('fail');
+				}
+			})
+
+			
+		} 
+
+		function abcde(page, result, itemArr){
+
+			let value = '';
+			let paging = '';
+
+			// 검색 결과가 0일 때
+			if(result.dbs.length == 0){
 						value += '<tr>'
 							+ '<td colspan="6" align="center">일치하는 항목이 존재하지 않습니다.</td>'
 							+ '</tr>';
-					} else {
+			} else {
 
-						currentPage = 1;
-						listCount = itemArr.length;
-						pageLimit = 10;
-						contentLimit = 10;
+				listCount = itemArr.length;
+				pageLimit = 10;
+				contentLimit = 10;
 
-						maxPage = Math.ceil(listCount / contentLimit);
-						startPage = (currentPage -1) / pageLimit * pageLimit + 1;
-						endPage = startPage + pageLimit - 1;
+				maxPage = parseInt(Math.ceil(listCount / contentLimit));
+				startPage = parseInt((currentPage - 1) / pageLimit) * pageLimit + 1;
+				//console.log('hihi :' + parseInt((currentPage - 1) / pageLimit));
+				endPage = startPage + pageLimit - 1;
 
-						ccontet = pageLimit * (currentPage - 1);
-							
-						if(endPage > maxPage) {
-							endPage = maxPage;
-						}
-												
-						console.log('listCount : ' + listCount);
-						console.log('maxPage : ' + maxPage);
-						console.log('startPage : ' + startPage);
-						console.log('endPage : ' + endPage);
-						console.log('ccontent : ' + ccontent)
+				if(endPage > maxPage) {
+					endPage = maxPage;
+				}
 
-						if(itemArr.length > 1){
-							/*for(let i in itemArr)*/ for(let i = currentPage -1 ; i < pageLimit; i++){
-							let item = itemArr[i];
-							value += '<tr align="center">'
-								+ '<td>' + item.fcltynm + '</td>'
-								+ '<td>' + item.mt13cnt + '</td>'
-								+ '<td>' + item.sidonm + '</td>'
-								+ '<td>' + item.gugunnm + '</td>'
-								+ '<td>' + item.opende + '</td>'
-								+ '<td>'
-								+ '<form action="theatermap">'
-								+ '<input type="hidden" id="mt10id" name="mt10id" value="' + item.mt10id + '"/>'
-								+ '<button>지도</button>'
-								+ '</form>'
-								+ '</td>'
-								+ '</tr>'
+					if(itemArr.length > 1){
+						// 검색 결과가 10개 이상일 때
+						if(itemArr.length >= 10) {
+							if(currentPage != maxPage){
+								for(let i = (currentPage -1) * contentLimit ; i < contentLimit * currentPage; i++){
+									let item = itemArr[i];
+									// console.log(item);
+
+									// if(item.fcltynm != undefined && i == (listCount - 1)){
+									// 	for(let i )
+									// }
+
+									
+									// 마지막 페이지가 아닐 때
+									value += '<tr align="center">'
+										+ '<td>' + item.fcltynm + '</td>'
+										+ '<td>' + item.mt13cnt + '</td>'
+										+ '<td>' + item.sidonm + '</td>'
+										+ '<td>' + item.gugunnm + '</td>'
+										+ '<td>' + item.opende + '</td>'
+										+ '<td>'
+										+ '<form action="theatermap">'
+										+ '<input type="hidden" id="mt10id" name="mt10id" value="' + item.mt10id + '"/>'
+										+ '<button>지도</button>'
+										+ '</form>'
+										+ '</td>'
+										+ '</tr>'
+									}
+
+								 // 마지막 페이지일 때
+								} else if(listCount % contentLimit != 0 && currentPage == maxPage){
+									for(let j = (maxPage-1) * contentLimit; j < (maxPage-1) * contentLimit + listCount % contentLimit; j++){
+										let items = itemArr[j];
+										value += '<tr align="center">'
+										+ '<td>' + items.fcltynm + '</td>'
+										+ '<td>' + items.mt13cnt + '</td>'
+										+ '<td>' + items.sidonm + '</td>'
+										+ '<td>' + items.gugunnm + '</td>'
+										+ '<td>' + items.opende + '</td>'
+										+ '<td>'
+										+ '<form action="theatermap">'
+										+ '<input type="hidden" id="mt10id" name="mt10id" value="' + items.mt10id + '"/>'
+										+ '<button>지도</button>'
+										+ '</form>'
+										+ '</td>'
+										+ '</tr>'
+									}
+								} else {
+									for(let i = (currentPage -1) * 10 ; i < contentLimit * currentPage; i++){
+									let item = itemArr[i];
+									// console.log(item);
+									
+									value += '<tr align="center">'
+										+ '<td>' + item.fcltynm + '</td>'
+										+ '<td>' + item.mt13cnt + '</td>'
+										+ '<td>' + item.sidonm + '</td>'
+										+ '<td>' + item.gugunnm + '</td>'
+										+ '<td>' + item.opende + '</td>'
+										+ '<td>'
+										+ '<form action="theatermap">'
+										+ '<input type="hidden" id="mt10id" name="mt10id" value="' + item.mt10id + '"/>'
+										+ '<button>지도</button>'
+										+ '</form>'
+										+ '</td>'
+										+ '</tr>'
+									}
+								}
+								
+								if(currentPage == 1){
+									paging += '<li class="page-item disabled lt"><a class="page-link">&lt;</li>';
+								} else {
+									paging += '<li class="page-item lt"><a class="page-link">&lt;</a></li>';
+								}
+
+								for(let i = startPage; i < endPage + 1; i++){
+									paging += '<li class="page-item paging" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
+								}
+								
+								paging += '<li class="page-item gt"><a class="page-link">&gt;</a></li>';
+
+							} else if(itemArr.length < 10) {
+								for(let k in itemArr){
+									let item = itemArr[k];
+									value += '<tr align="center">'
+										+ '<td>' + item.fcltynm + '</td>'
+										+ '<td>' + item.mt13cnt + '</td>'
+										+ '<td>' + item.sidonm + '</td>'
+										+ '<td>' + item.gugunnm + '</td>'
+										+ '<td>' + item.opende + '</td>'
+										+ '<td>'
+										+ '<form action="theatermap">'
+										+ '<input type="hidden" id="mt10id" name="mt10id" value="' + item.mt10id + '"/>'
+										+ '<button>지도</button>'
+										+ '</form>'
+										+ '</td>'
+										+ '</tr>'
+								}
 							}
+							
 						} else {
 							value += '<tr align="center">'
 									+ '<td>' + itemArr.fcltynm + '</td>'
@@ -227,16 +317,49 @@
 					}
 
 					$('tbody').html(value);
+					$('.pagination').html(paging);
 
-				},
-				error : () => {
-					console.log('fail');
-				}
-			})
-			
-		} 
+					$('.paging').click(function(){
+						
+					})
+		}
+
 		
+		$(document).on('click', '.paging',function(){
+						currentPage = $(this).val();
+						//console.log(currentPage);
+						search();
+
+
+						console.log($(this).children());
+
+						if(currentPage == $(this).val()){
+							$(this).addClass('active');
+							$(this).children().css('font-weight', 'bold');
+						}
+		})
+
+		$(document).on('click', '.lt',function(){
+			if(currentPage == 1){
+				alert('첫 번째 페이지입니다.');
+			} else {
+				currentPage = currentPage - 1;
+				//console.log(currentPage);
+				search();
+			}
+			
+		})
+
+		$(document).on('click', '.gt',function(){
+			if(currentPage < maxPage){
+					currentPage = currentPage + 1;
+					//console.log(currentPage);
+					search();
+			} else {
+				alert('maxPage입니다.')
+			}
+		})
 		
 	</script>
 </body>
-</html>
+</html> 

@@ -95,6 +95,13 @@ img {
 	border: 1px solid black;
 }
 
+/*페이징바 영역*/
+#paging-part{
+	margin: auto;
+	width: 300px;
+	padding-top: 30px;
+}
+
 </style>
 </head>
 <body>
@@ -130,14 +137,20 @@ img {
 	   			</div>
 	   		</div>
 	   		
-	   		<div id="paging-part">
-	   		</div>
+			<div class="page">
+				<div id="paging-part">
+					<ul class="pagination">
+
+					</ul>
+				</div>
+			</div>
+
 	   </div>
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		var currentPage;
+		var currentPage = 1;
 		var listCount;
 		var pageLimit;
 		var contentLimit;
@@ -152,6 +165,7 @@ img {
 				$('#shprfnm').focus();
 			} else {
 				search();
+				currentPage = 1;
 			}
 		})
 
@@ -162,6 +176,7 @@ img {
 					$('#btn').click();
 				}
 			})
+
 		})
 		
 		// 검색 버튼 클릭 이벤트
@@ -174,38 +189,46 @@ img {
 				},
 				success : function(result){
 					const itemArr = result.dbs.db;
+					console.log(itemArr);
+					searchList(null, result, itemArr);
 					
-					let value = '';
 					
-					if(result.dbs.length == 0){
-						value += '<span>일치하는 항목이 존재하지 않습니다.</span>'; 
-					} else {
+					
+				},
+				error : function(){
+					console.log('fail');
+				}
+			})
+		}
 
-						currentPage = 1;
-						listCount = itemArr.length;
-						pageLimit = 10;
-						contentLimit = 10;
+		function searchList(page, result, itemArr){
+			
+			let value = '';
+			let paging = '';
+					
+			// 검색 결과가 0일 때
+			if(result.dbs.length == 0){
+				value += '<span>일치하는 항목이 존재하지 않습니다.</span>'; 
+			} else {
 
-						maxPage = Math.ceil(listCount / contentLimit);
-						startPage = (currentPage -1) / pageLimit * pageLimit + 1;
-						endPage = startPage + pageLimit - 1;
+				listCount = itemArr.length;
+				pageLimit = 10;
+				contentLimit = 10;
+
+				maxPage = parseInt(Math.ceil(listCount / contentLimit));
+				startPage = parseInt((currentPage -1) / pageLimit) * pageLimit + 1;
+				endPage = startPage + pageLimit - 1;
 							
-						if(endPage > maxPage) {
-							endPage = maxPage;
-						}
-						
-						console.log('listCount : ' + listCount);
-						console.log('maxPage : ' + maxPage);
-						console.log('startPage : ' + startPage);
-						console.log('endPage : ' + endPage);
+				if(endPage > maxPage) {
+					endPage = maxPage;
+				}
 
-						if(itemArr.length > 1){
-							
-
-							for(let i in itemArr){  // for(let i = 0; i < 10; i++) --> 10개만 출력 ==> i < boardLimit(XXXX)
+				if(itemArr.length > 1){
+					if(itemArr.length >= 10){
+						if(currentPage != maxPage){
+							for(let i = (currentPage -1) * contentLimit; i < contentLimit * currentPage; i++){
 								let item = itemArr[i];
-								
-								value += '<div class="show">'
+									value += '<div class="show">'
 								  		+ '<div class="poster">'
 								  			+ '<img src="' + item.poster + '">'
 								  		+ '</div>'
@@ -221,34 +244,124 @@ img {
 				   							+'</form>'
 				   					   + '</div> <br clear="both">'
 							  		+ '</div>' 
+							} 
+						} else if(listCount % contentLimit != 0 && currentPage == maxPage){
+							for(let i = (maxPage - 1) * contentLimit; i < (maxPage - 1) * contentLimit + listCount % contentLimit; i++){
+								let item = itemArr[i];
+								value += '<div class="show">'
+						  			  + '<div class="poster">'
+						  			  + '<img src="' + item.poster + '">'
+						  			  + '</div>'
+						  			  + '<div class="des">'
+						  			  +'<form action="detail.sh">'
+						  			  +'<input type="hidden" id="mt20id" name="mt20id" value="' + item.mt20id + '"/>'
+		   							  +'<p>' + item.prfnm + '<button align="center" class="detail">상세보기</button></p>'
+		   						      +'<p>' + item.prfpdfrom + ' ~ ' +  item.prfpdto + '</p>'
+		   							  +'<p>' + item.fcltynm + '</p>'
+		   							  +'<p>' + item.prfstate + '</p>'
+		   							  +'<p>' + item.genrenm + '</p>'
+		   							  +'</form>'
+		   					  		  + '</div> <br clear="both">'
+					  				  + '</div>'
 							}
 						} else {
+							for(let i = (currentPage - 1) * contentLimit; i < contentLimit * currentPage; i++){
+								let item = itemArr[i];
+								value += '<div class="show">'
+						  			  + '<div class="poster">'
+						  			  + '<img src="' + itemArr.poster + '">'
+						  			  + '</div>'
+						  			  + '<div class="des">'
+						  			  +'<form action="detail.sh">'
+						  			  +'<input type="hidden" id="mt20id" name="mt20id" value="' + itemArr.mt20id + '"/>'
+		   							  +'<p>' + itemArr.prfnm + '<button align="center" class="detail">상세보기</button></p>'
+		   						      +'<p>' + itemArr.prfpdfrom + ' ~ ' +  itemArr.prfpdto + '</p>'
+		   							  +'<p>' + itemArr.fcltynm + '</p>'
+		   							  +'<p>' + itemArr.prfstate + '</p>'
+		   							  +'<p>' + itemArr.genrenm + '</p>'
+		   							  +'</form>'
+		   					  		  + '</div> <br clear="both">'
+					  				  + '</div>'
+							}
+						}
+
+						if(currentPage == 1){
+							paging += '<li class="page-item disabled lt"><a class="page-link">&lt;</li>';
+						} else {
+							paging += '<li class="page-item lt"><a class="page-link">&lt;</a></li>';
+						}
+
+						for(let i = startPage; i < endPage + 1; i++){
+							paging += '<li class="page-item paging" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
+						}
+								
+						paging += '<li class="page-item gt"><a class="page-link">&gt;</a></li>';
+
+					} else if(itemArr.length < 10){
+						for(let i in itemArr){
+							let item = itemArr[i];
 							value += '<div class="show">'
-						  		+ '<div class="poster">'
-						  			+ '<img src="' + itemArr.poster + '">'
-						  		+ '</div>'
-						  		+ '<div class="des">'
-						  			+'<form action="detail.sh">'
-						  			+'<input type="hidden" id="mt20id" name="mt20id" value="' + itemArr.mt20id + '"/>'
-		   							+'<p>' + itemArr.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-		   							+'<p>' + itemArr.prfpdfrom + ' ~ ' +  itemArr.prfpdto + '</p>'
-		   							+'<p>' + itemArr.fcltynm + '</p>'
-		   							+'<p>' + itemArr.prfstate + '</p>'
-		   							+'<p>' + itemArr.genrenm + '</p>'
-		   							+'</form>'
-		   					   + '</div> <br clear="both">'
-					  		+ '</div>' 
+						  		  + '<div class="poster">'
+						  		  + '<img src="' + item.poster + '">'
+						  		  + '</div>'
+						  		  + '<div class="des">'
+						  		  +'<form action="detail.sh">'
+						  		  +'<input type="hidden" id="mt20id" name="mt20id" value="' + item.mt20id + '"/>'
+						  		  +'<p>' + item.prfnm + '<button align="center" class="detail">상세보기</button></p>'
+						  		  +'<p>' + item.prfpdfrom + ' ~ ' +  item.prfpdto + '</p>'
+						  		  +'<p>' + item.fcltynm + '</p>'
+						  		  +'<p>' + item.prfstate + '</p>'
+						  		  +'<p>' + item.genrenm + '</p>'
+						  		  +'</form>'
+						  		  + '</div> <br clear="both">'
+						  		  + '</div>'
 						}
 					}
-					
-					$('.result').html(value);
-					
-				},
-				error : function(){
-					console.log('fail');
+							
+				} else {
+					value += '<div class="show">'
+						  + '<div class="poster">'
+							+ '<img src="' + itemArr.poster + '">'
+							+ '</div>'
+							+ '<div class="des">'
+							+'<form action="detail.sh">'
+						  	+'<input type="hidden" id="mt20id" name="mt20id" value="' + itemArr.mt20id + '"/>'
+						  	+'<p>' + itemArr.prfnm + '<button align="center" class="detail">상세보기</button></p>'
+						  	+'<p>' + itemArr.prfpdfrom + ' ~ ' +  itemArr.prfpdto + '</p>'
+						  	+'<p>' + itemArr.fcltynm + '</p>'
+						  	+'<p>' + itemArr.prfstate + '</p>'
+						  	+'<p>' + itemArr.genrenm + '</p>'
+						  	+'</form>'
+						  	+ '</div> <br clear="both">'
+						  	+ '</div>'
 				}
-			})
+			}	
+			$('.result').html(value);
+			$('.pagination').html(paging);
 		}
+
+		$(document).on('click', '.paging', function(){
+			currentPage = $(this).val();
+			search();
+		})
+
+		$(document).on('click', '.lt', function(){
+			if(currentPage == 1){
+				alert('첫 번째 페이지입니다.');
+			} else {
+				currentPage = currentPage - 1;
+				search();
+			}
+		})
+
+		$(document).on('click', '.gt', function(){
+			if(currentPage < maxPage){
+				currentPage = currentPage + 1;
+				search();
+			} else {
+				alert('마지막 페이지입니다.');
+			}
+		})
 	</script>
 	 
 	
