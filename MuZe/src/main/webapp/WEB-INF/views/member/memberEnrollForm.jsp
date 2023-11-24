@@ -46,12 +46,15 @@
                     <input type="text" class="form-control" id="userId" placeholder="아이디" name="userId" required>
                     <button type="button" id="idCheck">중복 체크</button>
 	                </div>
-	                
                     <div id="checkResult" style="font-size:1em; display:none;"></div> <br>
 
                     <label for="userPwd">* 비밀번호</label>
                     <input type="password" class="form-control" id="userPwd" placeholder="비밀번호" name="userPwd" required> <br>
-
+                    
+                    <label for="userPwdConfirm">* 비밀번호 확인</label>
+		            <input type="password" class="form-control" id="userPwdConfirm" placeholder="비밀번호 확인" name="userPwdConfirm" required>
+		            <div id="pwdCheckResult" style="font-size: 1em;"></div> <br>
+					
                     <label for="userName">* 이름</label>
                     <input type="text" class="form-control" id="userName" placeholder="이름" name="userName" required> <br>
 
@@ -69,16 +72,18 @@
             </form>
         </div>
         <br><br>
-	
     </div>
     
     <script>
+    
     	$(function (){
-    		
-    		const $idInput = $(".form-group #userId");
+    		const $idInput = $(".form-group #userId");    		
     		const $checkResult = $('#checkResult');
     		const $enrollFormSubmit = $('#enroll-form :submit');
     		const $idCheckButton = $('#idCheck');
+    		const $userPwdInput = $('#userPwd');
+            const $userPwdConfirmInput = $('#userPwdConfirm');
+            const $pwdCheckResult = $('#pwdCheckResult');
     		
     			$idCheckButton.click(function () {
 					const userIdValue = $idInput.val();
@@ -101,41 +106,43 @@
 	                    $enrollFormSubmit.attr('disabled', true);
 	                    return;
 	                }
-    			
+	                
 				if($idInput.val().length >= 5) {
-					
 					$.ajax({
 						url : 'idCheck.me',
 						data : {checkId : $idInput.val()},
 						success : function(result){
-							
-							
 							if(result.substr(4) === 'N'){ 
 								$checkResult.show().css('color', 'red').text('중복된 아이디가 존재합니다. 다시 입력해 주세요.');
 								$enrollFormSubmit.attr('disabled', true);
-							}
-							
-							else { 
+							} else { 
 								$checkResult.show().css('color', 'lightgreen').text('사용 가능한 아이디 입니다.');
 								$enrollFormSubmit.removeAttr('disabled');
 							}
-							
 						},
 						error : function(){
 							console.log('아이디 중복체크 AJAX통신 실패~ ');
 						}
 					});
-					
-					
-				}
-				else {
+				} else {
 					$checkResult.hide();
 					$enrollFormSubmit.attr('disabled', true);
 				}
     		});
+    			
+    				$userPwdConfirmInput.keyup(function () {
+    	            const userPwdValue = $userPwdInput.val();
+    	            const userPwdConfirmValue = $userPwdConfirmInput.val();
+
+    	            if (userPwdValue === userPwdConfirmValue) {
+    	                $pwdCheckResult.css('color', 'lightgreen').text('비밀번호가 일치합니다.');
+    	                $enrollFormSubmit.removeAttr('disabled');
+    	            } else {
+    	                $pwdCheckResult.css('color', 'red').text('비밀번호가 일치하지 않습니다.');
+    	                $enrollFormSubmit.attr('disabled', true);
+    	            }
+    	        });
     	});
-    	
-    
     </script>
 
 </body>
