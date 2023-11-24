@@ -58,7 +58,7 @@ public class ReservationController {
 		
 		int totalPrice = reservationService.totalPrice(selectseat);
 		if(totalPrice > 0) {
-			mv.addObject("musInfo", reservationService.selectMus(musId)).setViewName(musId);
+			mv.addObject("musInfo", reservationService.selectMus(musId)).setViewName("payment/paymentView");
 			mv.addObject("selectdate", selectdate).setViewName("payment/paymentView");
 			mv.addObject("selectseat", selectseat).setViewName("payment/paymentView");
 			mv.addObject("totalPrice", totalPrice).setViewName("payment/paymentView");

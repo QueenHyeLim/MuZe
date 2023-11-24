@@ -7,19 +7,37 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.kh.muze.kakao.model.dao.KakaoDao;
+import com.kh.muze.kakao.model.vo.ApproveResponse;
+import com.kh.muze.kakao.model.vo.ReadyResponse;
 
 @Service
 public class KakaoServiceImpl implements KakaoService {
 
 	private static String SERVICE_APP_ADMIN_KEY = "d1e312a7f32f5f7b5f297a111ae6429f";
 	
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	
+	@Autowired
+	private KakaoDao kakaoDao;
+	
 	@Override
-	public String goKakaoPay(String musTitle, String selectseat, int total_amount, String partner_order_id) {
+	public String goKakaoPay(String musTitle, String selectseat, int total_amount, String partner_order_id, HttpSession session) throws ParseException {
 		
 		String apiURL = "https://kapi.kakao.com/v1/payment/ready";
 		
@@ -49,14 +67,36 @@ public class KakaoServiceImpl implements KakaoService {
 	            return "Error processing the response";
 	        }
 	       */
-	       return responseUrl;
+		
+	    JSONParser parser = new JSONParser();
+	    JSONObject element = (JSONObject) parser.parse(responseUrl);
+
+	    String tid = element.get("tid").toString();
+	    String nextRedirectpcUrl = element.get("next_redirect_pc_url").toString();
+	    String orderId = partner_order_id; // Corrected the key name
+
+	    ReadyResponse readyResponse = new ReadyResponse();
+	    readyResponse.setTid(tid);
+	    readyResponse.setNextRedirectpcUrl(nextRedirectpcUrl);//(next_redirect_pc_url);
+	    readyResponse.setPartnerOrderId(orderId);//(order_id); // Corrected the method name
+	    System.out.println("tid >>" + readyResponse.getTid()); // Corrected the method name
+	    System.out.println("들어오라서비스");
+	    
+	    session.setAttribute("ReadyResponse", readyResponse);
+	    /*
+	    int paystandby = kakaoDao.insertReady(sqlSession, readyResponse);
+	    if (paystandby > 0) {
+	        System.out.println("paystandby " + readyResponse.getNextRedirectpcUrl() + readyResponse.getTid());
+	    }
+	    */
+	    return responseUrl;
 	}
 	
 	private String post(String apiURL, Map<String, String> requestHeaders, String musTitle, String selectseat, int total_amount, String partner_order_id) {
 		HttpURLConnection con = connect(apiURL);
 		String postParams = "cid=TC0ONETIME" + "&partner_order_id=muzeorder" + "&partner_user_id=" + partner_order_id + "&item_name=" + musTitle + "&item_code=" + selectseat
 						  + "&quantity=1" + "&total_amount=" + String.valueOf(total_amount) + "&tax_free_amount=0" 
-						  + "&approval_url=http://localhost:8006" + "&fail_url=http://localhost:8006" + "&cancel_url=http://localhost:8006";
+						  + "&approval_url=http://localhost:8006/muze/payapprove" + "&fail_url=http://localhost:8006/muze/payfail" + "&cancel_url=http://localhost:8006/pay/cancel";
 		try {
 			con.setRequestMethod("POST");
 			for(Map.Entry<String, String> header : requestHeaders.entrySet()) {
@@ -112,24 +152,52 @@ public class KakaoServiceImpl implements KakaoService {
 		}
 	}
 	
-	/*
-	private static String makeHttpGetRequest(String url) throws IOException {
-        StringBuilder response = new StringBuilder();
 
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.setRequestMethod("GET");
+	
+	@Override
+	public String payApprove(String tid, String pgToken, String userId) {
+		
+		String apiURL = "https://kapi.kakao.com/v1/payment/approve";
+		
+		Map<String, String> requestHeaders = new HashMap<>();
+		requestHeaders.put("Authorization", "KakaoAK " + "d1e312a7f32f5f7b5f297a111ae6429f");
+		requestHeaders.put("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		String responseUrl = postBody(apiURL, requestHeaders, tid, pgToken, userId);
+		
+		return responseUrl;
+	}
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-        } finally {
-            connection.disconnect();
-        }
+	private String postBody(String apiURL, Map<String, String> requestHeaders, String tid, String pgToken,
+			String userId) {
 
-        return response.toString();
-    }
-    */
+		HttpURLConnection con = connect(apiURL);
+		String postParams = "cid=TC0ONETIME" + "&tid=" + tid + "&partner_order_id=muzeorder" + "&partner_user_id=" + userId + "&pg_token=" + pgToken;
+		
+		try {
+			con.setRequestMethod("POST");
+			for(Map.Entry<String, String> header : requestHeaders.entrySet()) {
+				con.setRequestProperty(header.getKey(), header.getValue());
+			}
+			con.setDoOutput(true);
+			try(DataOutputStream wr = new DataOutputStream(con.getOutputStream())){
+				wr.write(postParams.getBytes());
+				wr.flush();
+			} 
+			
+			int responseCode = con.getResponseCode();
+			if(responseCode == HttpURLConnection.HTTP_OK) {
+				return readBody(con.getInputStream());
+			} else {
+				return readBody(con.getErrorStream());
+			}
+
+		} catch (IOException e) {
+			throw new RuntimeException("API 요청과 응답 실패", e);
+		} finally {
+			con.disconnect();
+		}
+	}
+	
 }
     

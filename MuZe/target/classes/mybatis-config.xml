@@ -7,7 +7,7 @@
 	</settings>
 	
 	<typeAliases>
-    	<typeAlias type="com.kh.muze.calendar.model.vo.Diary" alias="diary"/>
+    <typeAlias type="com.kh.muze.calendar.model.vo.Diary" alias="diary"/>
 		<typeAlias type="com.kh.muze.calendar.model.vo.Schedule" alias="schedule"/>
 		<typeAlias type="com.kh.muze.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.muze.show.model.vo.Show" alias="show" />
@@ -18,10 +18,11 @@
 	</typeAliases>
 	
 	<mappers>
-    	<mapper resource="/mapper/calendar-mapper.xml"/>
+    <mapper resource="/mapper/calendar-mapper.xml"/>
 		<mapper resource="/mapper/member-mapper.xml" />
 		<mapper resource="/mapper/reservation-mapper.xml" />
 		<mapper resource="/mapper/seat-mapper.xml" />
+	<!-- <mapper resource="/mapper/kakao-mapper.xml" />-->
 	</mappers>
 	
 </configuration>

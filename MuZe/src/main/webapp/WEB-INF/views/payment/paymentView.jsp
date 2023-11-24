@@ -306,14 +306,18 @@
     		type : 'POST',
     		data : {
     			musTitle : '${ musInfo.musTitle }',
-    			//selectdate : '${ selectdate }',
+    			musId : '${musInfo.musId}',
+    			selectdate : '${ selectdate }',
     			selectseat : '${ selectseat }',
     			totalPrice : '${ totalPrice }'
     		},
     		success : (data) => {
     			console.log(data);
     			location.href = data.next_redirect_pc_url;
+    			
     			return true;
+    			
+    			
     		},
     		error : (data)=> {
     			console.log(data);

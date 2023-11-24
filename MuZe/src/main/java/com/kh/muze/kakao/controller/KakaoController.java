@@ -2,14 +2,17 @@ package com.kh.muze.kakao.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.kh.muze.kakao.model.service.KakaoService;
+import com.kh.muze.kakao.model.vo.ReadyResponse;
 import com.kh.muze.member.model.vo.Member;
+import com.kh.muze.reservation.model.vo.Order;
 
 @Controller
 public class KakaoController {
@@ -19,13 +22,31 @@ public class KakaoController {
 	
 	@ResponseBody
 	@RequestMapping(value="kakao", produces="application/json; charset=UTF-8")
-	public String gokakaoPay(String musTitle, String selectseat, String totalPrice, HttpSession session) {
+	public String gokakaoPay(String musTitle, String musId, String selectdate, String selectseat, String totalPrice, HttpSession session) throws ParseException {
 		int total_amount = Integer.parseInt(totalPrice);
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String partner_order_id = loginUser.getUserId(); 
-		System.out.println("나와라얍" + kakaoService.goKakaoPay(musTitle, selectseat,total_amount, partner_order_id));
-		String pay_access = kakaoService.goKakaoPay(musTitle, selectseat, total_amount, partner_order_id);
-		return pay_access;
+		
+		Order order = new Order();
+		order.setOrderTitle(musTitle);
+		order.setOrderMusId(musId);
+		order.setOrderDate(selectdate);
+		order.setOrderSeat(selectseat);
+		order.setOrderPrice(totalPrice);
+		
+		session.setAttribute("OrderList", order);
+		
+		System.out.println("나와라얍" + kakaoService.goKakaoPay(musTitle, selectseat,total_amount, partner_order_id, session));
+		String pay_approve = kakaoService.goKakaoPay(musTitle, selectseat, total_amount, partner_order_id, session);
+		
+		/*
+		ReadyResponse readyResponse = new ReadyResponse();
+		readyResponse.set
+		ReadyResponse started = session.setAttribute("readyResponse", ReadyResponse);
+		*/
+		
+		
+		return pay_approve;
 	}
 	
 	/*
@@ -53,6 +74,38 @@ public class KakaoController {
 	}
 	*/
 	
+	@RequestMapping("payapprove")
+	public String payApprove(@RequestParam("pg_token") String pgToken, HttpSession session) {
+		
+		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
+		String tid = ((ReadyResponse)session.getAttribute("ReadyResponse")).getTid();
+		String payApprove = kakaoService.payApprove(tid, pgToken, userId);
+		/*
+		ReadyResponse ReadyResponse = new ReadyResponse();
+		ReadyResponse.setNext_redirect_pc_url(next_redirect_pc_url);
+		ReadyResponse.setPartner_order_id("muzeorder");
+		ReadyResponse.setTid(tid);
+		
+		session.setAttribute("ReadyResponse", ReadyResponse);
+		*/
+		System.out.println("payApprove : " + payApprove);
+		// 1. 예매테이블, 티켁테이블
+		return "payment/payAccessView";
+	}
+	/*
+	@RequestMapping("payaccess")
+	public String payAccess() {
+		
+	}
 	
+	@RequestMapping("payfail")
+	public String payFail() {
+		
+	}
 	
+	@RequestMapping("paycancel")
+	public String payCancel() {
+		
+	}
+	*/
 }
