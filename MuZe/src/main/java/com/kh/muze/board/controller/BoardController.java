@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.muze.board.model.service.BoardService;
 import com.kh.muze.board.model.vo.Board;
@@ -20,7 +21,7 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping("fboardList.bo")
-	public String selectFboardList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model) {
+	public String selectFboardList(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectFboardCount(), currentPage, 10, 10);
 		
@@ -44,4 +45,18 @@ public class BoardController {
 	public String insertFboardForm() {
 		return "board/freeWriteView";
 	}
+	
+	@RequestMapping("fDetail.bo")
+	public ModelAndView selectFboard(int fbno, ModelAndView mv) {
+		if(boardService.increaseCount(fbno) > 0) {
+			mv.addObject("b", boardService.selectFboard(fbno))
+			  .setViewName("board/freeDetailView");
+		} else {
+			mv.addObject("alertdeleteMsg", "자유게시판 상세보기 실패")
+			  .setViewName("board/freeListView");
+		}
+		return mv;
+	}
+	
+	
 }

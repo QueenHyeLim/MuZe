@@ -23,7 +23,7 @@
 		<mapper resource="/mapper/member-mapper.xml" />
 		<mapper resource="/mapper/reservation-mapper.xml" />
 		<mapper resource="/mapper/seat-mapper.xml" />
-		<mapper resource="/mapper/board-mapper.xml" />
+		<mapper resource="/mapper/board-mapper.xml"/>
 	</mappers>
 	
 </configuration>

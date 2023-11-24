@@ -86,12 +86,11 @@ table{
         	$(()=>{
         		$('#fboardList > tbody > tr').click(function(){
         			location.href="fDetail.bo?fbno=" + $(this).children('.fbno').text();
-        			//console.log($(this).children('.fbno').text());
         		})
         	})
         </script>
         
-        <div class="page" align="center">
+        <div class="page">
         	<div class="paging-part">
         		<ul class="pagination">
         			<c:choose>
