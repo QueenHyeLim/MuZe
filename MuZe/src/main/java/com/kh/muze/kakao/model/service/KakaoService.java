@@ -12,6 +12,8 @@ public interface KakaoService {
 
 	String payApprove(String tid, String pgToken, String userId);
 
+	ApproveResponse payAccess(String payApprove) throws ParseException;
+
 
 
 
