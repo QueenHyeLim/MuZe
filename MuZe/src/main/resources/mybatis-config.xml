@@ -16,6 +16,7 @@
 		<typeAlias type="com.kh.muze.seat.model.vo.Seat" alias="seat" />
 		<typeAlias type="com.kh.muze.attachment.model.vo.Attachment" alias="attachment"/>
 		<typeAlias type="com.kh.muze.board.model.vo.Board" alias="board"/>
+		<typeAlias type="com.kh.muze.board.model.vo.Reply" alias="reply"/>
 	</typeAliases>
 	
 	<mappers>

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.kh.muze.board.model.dao.BoardDao;
 import com.kh.muze.board.model.vo.Board;
+import com.kh.muze.board.model.vo.Reply;
 import com.kh.muze.common.model.vo.PageInfo;
 
 @Service
@@ -60,6 +61,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int deleteFBoard(int fbno) {
 		return boardDao.deleteFBoard(sqlSession, fbno);
+	}
+
+	@Override
+	public int ajaxInsertFReply(Reply r) {
+		return boardDao.ajaxInsertFReply(sqlSession, r);
 	}
 
 }

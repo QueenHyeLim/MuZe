@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.muze.board.model.service.BoardService;
 import com.kh.muze.board.model.vo.Board;
+import com.kh.muze.board.model.vo.Reply;
 import com.kh.muze.common.model.vo.PageInfo;
 import com.kh.muze.common.template.Pagination;
 
@@ -25,7 +27,7 @@ public class BoardController {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectFboardCount(), currentPage, 10, 10);
 		
-		System.out.println(currentPage);
+//		System.out.println(currentPage);
 		
 		model.addAttribute("list", boardService.selectFboardList(pi));
 		model.addAttribute("pi", pi);
@@ -87,6 +89,12 @@ public class BoardController {
 			session.setAttribute("alertdeleteMsg", "게시글을 삭제하지 못했습니다.");
 		}
 		return "redirect:fboardList.bo";
+	}
+	
+	@ResponseBody 
+	@RequestMapping(value="fRInsert.bo")
+	public String ajaxInsertFReply(Reply r) {
+		return boardService.ajaxInsertFReply(r) > 0 ? "success" : "fail";
 	}
 	
 }
