@@ -2,6 +2,8 @@ package com.kh.muze.reservation.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.muze.reservation.model.vo.Order;
+import com.kh.muze.seat.model.vo.Seat;
 import com.kh.muze.seat.model.vo.SeatPrice;
 import com.kh.muze.show.model.vo.Show;
 
@@ -16,6 +18,11 @@ public interface ReservationService {
 	ArrayList<SeatPrice> selectMusPrice();
 
 	int totalPrice(String selectseat);
+	
+	int insertReservation(Order order);
+
+	ArrayList<Seat> putSeatNo(String selectseat);
+
 
 
 }

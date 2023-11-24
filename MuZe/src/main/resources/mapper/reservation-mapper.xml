@@ -133,4 +133,20 @@
                			 WHERE
                         		SEAT_ID = #{seatId})
 	</select>
+	
+	<insert id="insertReservation" parameterType="string">
+		
+	
+	</insert> 
+	
+	<select id="putSeatNo" parameterType="string" resultType="seat">
+		SELECT 
+				SEAT_NO seatNo
+		  FROM 
+		  		SEAT 
+		 WHERE 
+		 		SEAT_ID = #{seatId}
+	</select>
+	
+		
 </mapper>
