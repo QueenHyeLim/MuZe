@@ -1,4 +1,4 @@
-package com.kh.muze.diary.model.service;
+package com.kh.muze.calendar.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,13 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.muze.attachment.model.vo.Attachment;
-import com.kh.muze.diary.model.dao.DiaryDao;
-import com.kh.muze.diary.model.vo.Diary;
+import com.kh.muze.calendar.model.dao.CalendarDao;
+import com.kh.muze.calendar.model.vo.Diary;
+import com.kh.muze.calendar.model.vo.Schedule;
 @Service
-public class DiaryServiceImpl implements DiaryService{
+public class CalendarServiceImpl implements CalendarService{
 
 	@Autowired
-	private DiaryDao diaryDao;
+	private CalendarDao calendarDao;
 	@Autowired
 	private SqlSessionTemplate sqlSession;	
 
@@ -25,38 +26,47 @@ public class DiaryServiceImpl implements DiaryService{
 		int result1 = 0;
 		int result2 = 1;
 		
-        result1 = diaryDao.insertDiary(sqlSession, diary);
+        result1 = calendarDao.insertDiary(sqlSession, diary);
         
         if (att != null && att.getAttCategoryNo() > 0) {
-            result2 = diaryDao.insertAttachment(sqlSession, att);
+            result2 = calendarDao.insertAttachment(sqlSession, att);
         }
-
 	    return (result1 * result2);
 	}
 
 	@Override
 	public ArrayList<Diary> selectDiary(int diaryUser) {
-		return diaryDao.selectDiary(sqlSession,diaryUser);
+		return calendarDao.selectDiary(sqlSession,diaryUser);
 	}
 
 	@Override
 	public int insertDiaryName(HashMap map) {
-		return diaryDao.insertDiaryName(sqlSession,map);
+		return calendarDao.insertDiaryName(sqlSession,map);
 	}
 
 	@Override
 	public int selectDiaryName(HashMap map) {
-		return diaryDao.selectDiaryName(sqlSession,map);
+		return calendarDao.selectDiaryName(sqlSession,map);
 	}
 
 	@Override
 	public int updateDiaryName(HashMap map) {
-		return diaryDao.updateDiaryName(sqlSession,map);
+		return calendarDao.updateDiaryName(sqlSession,map);
 	}
 
 	@Override
 	public Diary selectDiaryDetail(Diary diary) {
-		return diaryDao.selectDiaryDetail(sqlSession,diary);
+		return calendarDao.selectDiaryDetail(sqlSession,diary);
+	}
+
+	@Override
+	public int insertSchedule(Schedule sc) {
+		return calendarDao.insertSchedule(sqlSession,sc);
+	}
+
+	@Override
+	public ArrayList<Schedule> selectSchedule(int diaryUser) {
+		return calendarDao.selectSchedule(sqlSession,diaryUser);
 	}
 
 
