@@ -15,6 +15,7 @@
 		<typeAlias type="com.kh.muze.reservation.model.vo.Reservation" alias="reservation" />
 		<typeAlias type="com.kh.muze.seat.model.vo.Seat" alias="seat" />
 		<typeAlias type="com.kh.muze.attachment.model.vo.Attachment" alias="attachment"/>
+		<typeAlias type="com.kh.muze.board.model.vo.Board" alias="board"/>
 	</typeAliases>
 	
 	<mappers>
@@ -22,7 +23,7 @@
 		<mapper resource="/mapper/member-mapper.xml" />
 		<mapper resource="/mapper/reservation-mapper.xml" />
 		<mapper resource="/mapper/seat-mapper.xml" />
-	<!-- <mapper resource="/mapper/kakao-mapper.xml" />-->
+		<mapper resource="/mapper/board-mapper.xml"/>
 	</mappers>
 	
 </configuration>
