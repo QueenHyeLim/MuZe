@@ -26,4 +26,8 @@ public interface CalendarService {
 
 	ArrayList<Schedule> selectSchedule(int diaryUser);
 
+	int deleteSchedule(HashMap map);
+
+	int deleteDiary(HashMap map);
+
 }
