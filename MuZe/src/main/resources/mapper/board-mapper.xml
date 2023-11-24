@@ -42,4 +42,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		   BY
 		   		BOARD_NO DESC
 	</select>
+	
+	<update id="increaseCount" parameterType="_int">
+		UPDATE
+				BOARD
+		SET
+				COUNT = COUNT + 1
+		WHERE
+				BOARD_NO = #{boardNo}
+		AND
+				BOARD_STATUS = 'Y'
+	</update>
+	
+	<select id="selectFboard" parameterType="_int" resultMap="boardResultSet">
+		SELECT
+				BOARD_NO,
+				BOARD_WRITER,
+				BOARD_TITLE,
+				BOARD_CONTENT,
+				CREATE_DATE,
+				COUNT
+		FROM
+				BOARD
+		WHERE
+				BOARD_NO = #{boardNo}
+	</select>
 </mapper>

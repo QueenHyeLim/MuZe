@@ -29,6 +29,7 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public ArrayList<Board> selectFboardList(PageInfo pi) {
+		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
@@ -39,6 +40,16 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int insertFboard(Board b) {
 		return boardDao.insertFboard(sqlSession, b);
+	}
+
+	@Override
+	public int increaseCount(int fbno) {
+		return boardDao.increaseCount(sqlSession, fbno);
+	}
+
+	@Override
+	public Board selectFboard(int fbno) {
+		return boardDao.selectFboard(sqlSession, fbno);
 	}
 
 }
