@@ -36,7 +36,7 @@ public class TheaterController {
 	// 공연장 목록 불러오기
 	@ResponseBody
 	@RequestMapping(value="rlist.th", produces="application/json; charset=UTF-8")
-	public String theaterList(String shprfnmfct, Model model) throws Exception {
+	public String ajaxTheaterList(String shprfnmfct, Model model) throws Exception {
 		String url = "https://www.kopis.or.kr/openApi/restful/prfplc";
 		url += "?service=" + ShowController.SERVICEYKEY;
 		url += "&cpage=1";

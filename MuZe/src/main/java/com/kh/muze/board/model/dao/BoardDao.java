@@ -31,4 +31,13 @@ public class BoardDao {
 		return sqlSession.selectOne("boardMapper.selectFboard", fbno);
 	}
 
+	public int updateFBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.update("boardMapper.updateFBoard", b);
+	}
+
+	public int deleteFBoard(SqlSessionTemplate sqlSession, int fbno) {
+		return sqlSession.update("boardMapper.deleteFBoard", fbno);
+	}
+
+
 }

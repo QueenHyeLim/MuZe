@@ -16,4 +16,9 @@ public interface BoardService {
 	int increaseCount(int fbno);
 
 	Board selectFboard(int fbno);
+
+	int updateFBoard(Board b);
+
+	int deleteFBoard(int fbno);
+
 }

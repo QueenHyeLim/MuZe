@@ -106,7 +106,7 @@ table{
         				<li class="page-item"><a class="page-link" href="fboardList.bo?cPage=${p}">${p}</a><li>
         			</c:forEach>
         			
-        			<li class="page-item"><a class="page-link" href="#">&gt;</a></li>
+        			<li class="page-item"><a class="page-link" href="fboardList.bo?cPage=${$pi.currentPage+1}">&gt;</a></li>
         		</ul>
         	</div>
         </div>

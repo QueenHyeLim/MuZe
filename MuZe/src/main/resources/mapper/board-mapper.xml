@@ -67,4 +67,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 				BOARD_NO = #{boardNo}
 	</select>
+	
+	<insert id="insertFboard" parameterType="board">
+		INSERT
+		  INTO
+		  		BOARD
+		  		(
+		  		BOARD_NO,
+		  		BOARD_TITLE,
+		  		BOARD_CONTENT,
+		  		BOARD_WRITER,
+		  		CATE_NO
+		  		)
+		VALUES
+				(
+				SEQ_BOARD_NO.NEXTVAL,
+				#{boardTitle},
+				#{boardContent},
+				#{boardWriter},
+				30
+				)
+	</insert>
+	
+	<update id="updateFBoard" parameterType="board">
+		UPDATE
+				BOARD
+		SET
+				BOARD_TITLE = #{boardTitle},
+				BOARD_CONTENT = #{boardContent}
+		WHERE
+				BOARD_NO = #{boardNo}
+	</update>
+	
+	<update id="deleteFBoard" parameterType="_int">
+		UPDATE
+				BOARD
+		SET
+				BOARD_STATUS = 'N'
+		WHERE
+				BOARD_NO = #{boardNo}
+	</update>
 </mapper>
