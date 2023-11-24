@@ -35,7 +35,7 @@ public class ShowController {
 	
 	@ResponseBody
 	@RequestMapping(value="slist.sh", produces="application/json; charset=UTF-8")
-	public String showList(String shprfnm, String prfstate, Model model) throws Exception {
+	public String ajaxShowList(String shprfnm, String prfstate, Model model) throws Exception {
 		
 		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
 		url += "?service=" + SERVICEYKEY;

@@ -52,4 +52,14 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectFboard(sqlSession, fbno);
 	}
 
+	@Override
+	public int updateFBoard(Board b) {
+		return boardDao.updateFBoard(sqlSession, b);
+	}
+
+	@Override
+	public int deleteFBoard(int fbno) {
+		return boardDao.deleteFBoard(sqlSession, fbno);
+	}
+
 }
