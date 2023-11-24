@@ -113,8 +113,9 @@
 		height : 400px;
 	}
 	#diaryImg{
-		background-size: contain;
-		background-repeat: no-repeat;
+		background-size: cover;	
+		width : 100%;
+		height : 100%;
 	}
 	#schedule-input{
 		width : 100%;
@@ -171,12 +172,13 @@
             	</c:forEach>
             	<c:forEach var="sc" items="${scheduleList}">
             	{
-            		id : '999',
+            		id : '${sc.scheduleNo}',
             		title : '${sc.scTime} [' + '${sc.scTitle} ]',
             		start : '${sc.scDate}',
             		end : '${sc.scDate}',
             		backgroundColor : 'green',
             		color : 'black',
+            		groupId : '999'
             	},
             	</c:forEach>
             ],
@@ -186,7 +188,6 @@
           		var html = '';
           		// 제목의 length가 긴 경우를 위해 잘라서 넣기
           		var htmlTag = '<b>' + arg.timeText + '</b class="eventTitle-area">';
-       			//result = eventTitle.slice(0, 8);
           		if(eventTitle.length > 10){
        				html += htmlTag + eventTitle.slice(0, 8) + '...';
           		}
@@ -200,7 +201,7 @@
           },
             // 클릭한 해당 날짜의 값을 뽑아주는 이벤트 
             dateClick: function(date) {
-            	console.log(date);
+            	console.log("date : " ,date);
                 $('#diaryDate').val(date.dateStr);
                 Swal.fire({
               	  title: date.dateStr + "날에 작성할 <br> 다이어리 / 일정 중 고르시오.",
@@ -226,10 +227,14 @@
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
+            	console.log(info.event.id);
             	// id가 999인건 일정 정보 아닌것은 다이어리
-            	if(info.event.id != '999'){
+            	if(info.event.groupId != '999'){
 	            	$('#modal-content').modal('show');
 	            	$('#replyDiaryTitle').text(info.event.title);
+	            	$('#deleteDiary').on('click', () =>{
+	            		location.href = 'deleteDiary.di?diaryNo=' + info.event.id;
+	            	});
 	               	$.ajax({
 	               		url : 'diaryDetail.di',
 	               		type : 'POST',
@@ -238,7 +243,7 @@
 	               			diaryTitle : info.event.title
 	               		},
 	               		success : result =>{
-	               			console.log(result.modifiedName);
+	               			//console.log(result.modifiedName);
 	               			$('#replyDiaryDate').text(result.diaryDate);
 	               			$('#replyDiaryContent').text(result.diaryContent);
 	               			if(result.modifiedName != null){
@@ -249,12 +254,19 @@
 	               			}
 	               		},
 	               		error : () =>{
-	               			alert('실패dd');
+	               			alert('실패');
 	               		}
 	            	});
             	}
                	else{
                		// 일정 detail modal 보여주기
+               		$('#replySchedule-modal').modal('show');
+           			$('#replySchedule-content').text(info.event.title);
+           			$('#scDate-area').text(info.event.scDate);
+           			// 삭제 버튼을 눌렀을때 loaction이동
+           			$('#deleteScBtn').on('click' ,function(){
+           				location.href = 'deleteSchedule.sc?scheduleNo=' + info.event.id;
+           			})
                	}
             }
         });
@@ -274,6 +286,7 @@
     	const $showTime = $('#show-time');     // 일정 시간 : (show time)
     	const $submit = $('#schedule-submit'); // 등록(submit)버튼
     	
+    	
     	// 아무 값도 없을때 default값을 disabled true값으로 만들어 준다
     	$submit.prop('disabled',true);
     	$time.val('');
@@ -286,7 +299,7 @@
     		
     		if($allDay[0].checked == true && $time[0].value == ''){ 
     			// allDay가 check가 되어있으며 시간 달력에 값이 없으면 allDay의 value값을 알려줌
-    			$showTime.text('일정 시간 : ' + $allDay[0].value);
+    			$showTime.text($allDay[0].value);
     			$submit.prop('disabled',false);
     		}
     		else if($allDay[0].checked == false && $time[0].value == ''){
@@ -304,14 +317,30 @@
     		}
     		else{
     			// 시간 달력에 값이 있으면 그 해당 일정 시간 value값을 알려줌
-    			$showTime.html('일정 시간 : '+$time[0].value);
+    			$showTime.text($time[0].value);
     			$submit.prop('disabled',false);
+    			$('#hiddenTime').val($showTime[0].innerText);
     		}
     	});
+    	
+    	// 두가지의 time의 value가 있을때 submit button을 disabled
+    	if($allDay[0].checked == true && $time[0].value != ''){
+    		$submit.prop('disabled',true);
+    	}
+    	
     });
  	
+ 	function scheduelBtn(){
+ 		// console.log($('#hiddenTime').val($('#show-time')[0].innerText));
+ 		$('#hiddenTime').val($('#show-time')[0].innerText);
+ 	}
+ 	
+ 	function scheduleDeleteBtn(){
+ 		location.href = ''
+ 	}
+ 	
  	$(()=>{
- 		console.log($('tbody[role="rowgroup"]'));
+ 		//console.log($('tbody[role="rowgroup"]'));
  		$('tbody[role="rowgroup"] td').css({
  			'width' : '100px',
  			'height' : '100px'
@@ -390,7 +419,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>	
 </form>
 
 
@@ -405,9 +434,7 @@
                 <h4 class="modal-title" id="replyDiaryTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <br><br>
-                
             </div>
-            
             <!-- Modal body -->
             <div class="modal-body">
                 <p id="replyDiaryDate" style="text-align:right;"></p>
@@ -418,15 +445,20 @@
 	            	<img src="" id="diaryImg"/>
 	            </div>
             </div>
-            <!-- Modal footer -->
+            <button type="button" class="btn btn-outline-danger" id="deleteDiary">삭제</button>
+            <button type="submit" class="btn btn-outline-danger" id="upDateDiary">수정</button>
+            
+            
+            <!-- Modal footer 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
             </div>
+            -->
         </div>
     </div>
 </div>
 <!-- -----------------------------------일정 작성 모달창 ----------------------------------------- -->
-<form action="schedule.di" method="post">
+<form action="schedule.sc" method="post">
 <input type="hidden" name="scDate" id="scDate">
 <!-- The Modal -->
 <div class="modal" id="schedule-modal">
@@ -436,20 +468,23 @@
       <div class="modal-header">	
         <h4 class="schedule-modal-title"></h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <br><br>
       </div>
       <!-- Modal body -->
       <div class="modal-body">
-       	<p id="show-time"></p>
-        <input type="time" name="scTime" id="schedule-time">
+      	<input type="hidden" name="scTime" id="hiddenTime">
+       	일정 시간 : <b id="show-time"></b><br>
+        <input type="time" id="schedule-time">
         <button type="button" class="btn btn-light" id="time-check">check my time</button><br>	
         All Day :
 		<label class="switch" id="allDay">
-		  &nbsp;<input type="checkbox" id="allDay-checkbox" name="scTime">
+		  &nbsp;<input type="checkbox" id="allDay-checkbox">
 		  <span class="slider round"></span>
 		</label>
 		<div>
-			<input type="text" name="scTitle" id="schedule-input" placeholder="일정 내용을 적어주세요.">
-		</div>
+			<input type="text" name="scTitle" id="schedule-input" placeholder="일정 내용을 적어주세요." required>
+		</div>	
+        <p>*check my time버튼 확인 후 submit버튼을 눌러주시기 바랍니다.</p>
       </div>
       <!-- Modal footer -->
       <div class="modal-footer">
@@ -459,6 +494,29 @@
   </div>
 </div>
 </form>
+<!-- ---------------------------------------일정 확인 모달창 -------------------------------------------- -->
+<div class="modal fade" id="replySchedule-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+	  <button style="margin-left:450px; margin-top:10px;" type="button" class="close" data-dismiss="modal">&times;</button>
+	  <p id="scDate-area"></p>
+      <div class="modal-body">
+      	<h5>● 일정</h5>
+        <h5 id="replySchedule-content"></h5>
+      </div>
+      <br>
+   	<button  class="btn btn-outline-danger" id="deleteScBtn">삭제</button>
+      
+      <!-- Modal footer
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+       -->
+      
+    </div>
+  </div>
+</div>
 </c:if>
 </body>
 </html>

@@ -49,6 +49,16 @@ public class CalendarDao {
 		return sqlSession.insert("calendarMapper.insertSchedule",sc);
 	}
 
+	public int deleteSchedule(SqlSessionTemplate sqlSession, HashMap map) {
+		return sqlSession.delete("calendarMapper.deleteSchedule",map);
+	}
+
+	public int deleteDiary(SqlSessionTemplate sqlSession, HashMap map) {
+		return sqlSession.update("calendarMapper.deleteDiary",map);
+	}
+	
+	
+
 
 
 }

@@ -69,6 +69,16 @@ public class CalendarServiceImpl implements CalendarService{
 		return calendarDao.selectSchedule(sqlSession,diaryUser);
 	}
 
+	@Override
+	public int deleteSchedule(HashMap map) {
+		return calendarDao.deleteSchedule(sqlSession,map);
+	}
+
+	@Override
+	public int deleteDiary(HashMap map) {
+		return calendarDao.deleteDiary(sqlSession,map);
+	}
+
 
 
 

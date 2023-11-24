@@ -143,6 +143,7 @@
 	</insert>
 	<select id="selectSchedule" parameterType="_int" resultType="schedule">
 		SELECT
+				SCHEDULE_NO scheduleNo,
 		        SC_TITLE scTitle,
 		        SC_DATE scDate,
 				SC_TIME scTime,
@@ -152,4 +153,22 @@
 		 WHERE
 		 		USER_NO = #{diaryUser}
 	</select>
+	<delete id="deleteSchedule" parameterType="map">
+		DELETE
+				SCHEDULE
+		 WHERE
+		 		USER_NO = #{userNo}
+		   AND
+		   		SCHEDULE_NO = #{scheduleNo}
+	</delete>
+	<update id="deleteDiary" parameterType="map">
+		UPDATE 
+				DIARY
+		   SET 
+		   		DIARY_YN = 'N' 
+		 WHERE 
+		 		DIARY_USER = #{diaryUser}
+		   AND 
+		   		DIARY_NO = #{diaryNo}
+	</update>
 </mapper>
