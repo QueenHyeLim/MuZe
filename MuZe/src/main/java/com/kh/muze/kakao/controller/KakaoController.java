@@ -14,6 +14,7 @@ import com.kh.muze.kakao.model.service.KakaoService;
 import com.kh.muze.kakao.model.vo.ApproveResponse;
 import com.kh.muze.kakao.model.vo.ReadyResponse;
 import com.kh.muze.member.model.vo.Member;
+import com.kh.muze.reservation.model.service.ReservationService;
 import com.kh.muze.reservation.model.vo.Order;
 
 @Controller
@@ -21,6 +22,9 @@ public class KakaoController {
 	
 	@Autowired
 	private KakaoService kakaoService;
+	
+	@Autowired
+	private ReservationService reservationService;
 	
 	@ResponseBody
 	@RequestMapping(value="kakao", produces="application/json; charset=UTF-8")
@@ -35,6 +39,10 @@ public class KakaoController {
 		order.setOrderDate(selectdate); //(selectdate);
 		order.setOrderSeat(selectseat);
 		order.setOrderPrice(totalPrice);
+		order.setOrderUserNo(loginUser.getUserNo());
+		// 예약 좌석 번호 ArrayList
+		order.setSeatZip(reservationService.putSeatNo(selectseat));
+		
 		
 		session.setAttribute("OrderList", order);
 		System.out.println( "order나와>>" + order);
@@ -100,7 +108,13 @@ public class KakaoController {
 		mv.addObject("ApproveResponse", appResponse).setViewName("payment/payAccessView");
 		//mv.addObject("orderdate", orderdate).setViewName("payment/payAccessView");
 		// 1. 예매테이블, 티켁테이블
-		
+		/*
+		if(reservationService.insertReservation(order) > 0) {
+			
+		} else {
+			// errorMsg
+		}
+		*/
 		return mv; //"payment/payAccessView";
 	}
 	/*
