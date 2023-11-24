@@ -37,6 +37,11 @@
 	padding-left : 10px;
 }
 
+/*댓글 영역*/
+.form-control{
+	resize : none;
+}
+
 
 </style>
 </head>
@@ -73,6 +78,18 @@
 	   		<div class="reply-area">
 	   			<p>댓글수</p>
 				<hr/>
+				
+				<c:choose>
+					<c:when test="${ empty sessionScope.loginUser }">
+						<textarea class="form-control" cols="55" rows="2" readonly>로그인 후 이용 가능한 서비스입니다.</textarea>
+						<button>등록하기</button>
+					</c:when>
+					
+					<c:otherwise>
+						<textarea class="form-control" id="rContent" cols="55" rows="2"></textarea>
+						<button onclick="insertFReply();">등록하기</button>
+					</c:otherwise>
+				</c:choose>
 
 				
 				<div class="reply-content">
@@ -86,6 +103,11 @@
 	</div>
 	
 	<script>
+	
+	$(() => {
+		selectReplyList();
+	});
+	
 		$(function(){
 			$('#delete').click(function(){
 				var result = confirm('게시글을 삭제하시겠습니까?');
@@ -95,6 +117,46 @@
 				}
 			})
 		})
+		
+		function insertFReply(){
+			
+			console.log($('#boardNo').val());
+			console.log($('#rContent').val());
+			
+			if($('#rContent').val().trim() != ''){
+				$.ajax({
+					url : 'fRInsert.bo',
+					data : {
+						boardNo : $('#boardNo').val(),
+						repContent : $('#rContent').val(),
+						userId : '${sessionScope.loginUser.userId}'
+					},
+					success : result => {
+						console.log(result);
+					},
+					error : () => {
+						console.log('error');
+					}
+				})
+			} else {
+				alert('댓글을 작성해주세요.');
+			}
+		}
+		
+		function selectReplyList(){
+			$.ajax({
+				url : 'fRList.bo',
+				data : {
+					fbno : $('#boardNo')
+				},
+				success : result => {
+					console.log(result);
+				},
+				error : () => {
+					console.log('error');
+				}
+			})
+		}
 	</script>
 	 
 </body>
