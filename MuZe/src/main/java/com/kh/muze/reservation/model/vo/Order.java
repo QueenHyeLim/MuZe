@@ -12,10 +12,10 @@ public class Order {
 	private String orderTitle; //, String selectdate, String selectseat, String totalPrice,
 	private String orderMusId; 
 	private String orderDate; //
-	private String orderSeat;
+	private String orderSeat; //H12, H13
 	private String orderPrice;
 	private String orderUser; //주문 회원의 ID
-	
+	private String musTheater; //극장명
 	private int orderUserNo;
-	private ArrayList<Seat> seatZip;
+	private ArrayList<Seat> seatZip;// 좌석번호
 }
