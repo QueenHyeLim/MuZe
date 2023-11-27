@@ -29,8 +29,6 @@ public class BoardController {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectFboardCount(), currentPage, 10, 10);
 		
-//		System.out.println(currentPage);
-		
 		model.addAttribute("list", boardService.selectFboardList(pi));
 		model.addAttribute("pi", pi);
 		
@@ -113,6 +111,16 @@ public class BoardController {
 			session.setAttribute("alertdeletemsg", "댓글을 삭제하지 못했습니다");
 		}
 		return "redirect:" + request.getHeader("Referer");
+	}
+	
+	@RequestMapping("dealList.bo")
+	public String selectDealList() {
+		return "board/dealListView";
+	}
+	
+	@RequestMapping("dealInsertForm.bo")
+	public String dealInsertForm() {
+		return "board/dealEnrollFormView";
 	}
 	
 }

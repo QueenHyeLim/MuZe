@@ -224,7 +224,7 @@ img {
 				}
 
 				if(itemArr.length > 1){
-					if(itemArr.length >= 10){
+					if(itemArr.length > 10){
 						if(currentPage != maxPage){
 							for(let i = (currentPage -1) * contentLimit; i < contentLimit * currentPage; i++){
 								let item = itemArr[i];
@@ -297,7 +297,7 @@ img {
 								
 						paging += '<li class="page-item gt"><a class="page-link">&gt;</a></li>';
 
-					} else if(itemArr.length < 10){
+					} else if(10 >= itemArr.length){
 						for(let i in itemArr){
 							let item = itemArr[i];
 							value += '<div class="show">'
