@@ -240,7 +240,6 @@ img {
 				   							+'<p>' + item.fcltynm + '</p>'
 				   							+'<p>' + item.prfstate + '</p>'
 				   							+'<p>' + item.genrenm + '</p>'
-											+'<p>' + i + '</p>'
 				   							+'</form>'
 				   					   + '</div> <br clear="both">'
 							  		+ '</div>' 
