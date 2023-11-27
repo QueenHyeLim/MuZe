@@ -5,12 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
- 
-@AllArgsConstructor @NoArgsConstructor @ToString @Getter @Setter
-public class Reply {
-	private int brepNo;
+
+@NoArgsConstructor @AllArgsConstructor @Setter @Getter @ToString
+public class Report {
+
+	private int repNo;
 	private int boardNo;
-	private String userId;
-	private String repContent;
-	private String creaetDate;
+	private int userNo;
+	private int repType;
 }

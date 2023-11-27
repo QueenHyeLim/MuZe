@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.kh.muze.board.model.dao.BoardDao;
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Reply;
+import com.kh.muze.board.model.vo.Report;
 import com.kh.muze.common.model.vo.PageInfo;
 
 @Service
@@ -66,6 +67,21 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int ajaxInsertFReply(Reply r) {
 		return boardDao.ajaxInsertFReply(sqlSession, r);
+	}
+
+	@Override
+	public ArrayList<Reply> selectFReplyList(int boardNo) { 
+		return boardDao.selectFReplyList(sqlSession, boardNo);
+	}
+
+	@Override
+	public int deleteFReply(int fRno) { 
+		return boardDao.deleteFReply(sqlSession, fRno);
+	}
+
+	@Override
+	public int insertFbReport(Report r) {
+		return boardDao.insertFbReport(sqlSession, r); 
 	}
 
 }

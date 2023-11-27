@@ -56,6 +56,14 @@ public class CalendarDao {
 	public int deleteDiary(SqlSessionTemplate sqlSession, HashMap map) {
 		return sqlSession.update("calendarMapper.deleteDiary",map);
 	}
+
+	public int updateDiary(SqlSessionTemplate sqlSession, Diary diary) {
+		return sqlSession.update("calendarMapper.updateDiary",diary);
+	}
+
+	public int updateAttachment(SqlSessionTemplate sqlSession, Attachment att) {
+		return sqlSession.update("calendarMapper.updateAttachment", att);
+	}
 	
 	
 

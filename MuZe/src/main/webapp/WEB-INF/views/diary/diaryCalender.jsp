@@ -125,6 +125,41 @@
 		widht : 100px;
 		height : 100px;
 	}
+	#btn-area{
+		text-align : center;
+	}
+	#updateBtn-area{
+		width : 50%;
+		display :inline-block;
+		float : right;
+		
+	}
+	#deleteBtn-area{
+		width :50%;
+		display :inline-block;
+	}
+	#updateDiary{
+		width : 100%;
+	}
+	#deleteDiary{
+		width : 100%;
+	}
+	#updateImage-area{
+		width : 200px;
+		height : 200px;
+		border : 1px solid black;
+		margin-right : 40px;
+	}
+	#updateformImg{
+		width : 100%;
+		height : 100%;
+		background-size : contain;
+	}
+	#updateformContent{
+		width : 100%;
+		height : 300px;
+		resize : none;
+	}
 </style>
 </head>
 <body>
@@ -232,8 +267,13 @@
             	if(info.event.groupId != '999'){
 	            	$('#modal-content').modal('show');
 	            	$('#replyDiaryTitle').text(info.event.title);
-	            	$('#deleteDiary').on('click', () =>{
-	            		location.href = 'deleteDiary.di?diaryNo=' + info.event.id;
+	            	$('#updateformTitle').val(info.event.title);
+	            	$('#deleteDiary').on('click', () => {
+	            		location.href = 'deleteDiary.di?dNo=' + info.event.id;
+	            	});
+	            	$('#updateDiary').on('click', () => {
+	            		$('#modal-content').modal('hide');
+	            		$('#update-form').modal('show');
 	            	});
 	               	$.ajax({
 	               		url : 'diaryDetail.di',
@@ -242,18 +282,25 @@
 	               			diaryNo : info.event.id,
 	               			diaryTitle : info.event.title
 	               		},
-	               		success : result =>{
-	               			//console.log(result.modifiedName);
+	               		success : result => {
+	               			// 응답 화면
 	               			$('#replyDiaryDate').text(result.diaryDate);
 	               			$('#replyDiaryContent').text(result.diaryContent);
+	               			// 수정 화면
+	               			$('#updateformContent').val(result.diaryContent);
+	               			$('#updateDiaryNo').val(result.diaryNo);
 	               			if(result.modifiedName != null){
 	               				$('#diaryImg').attr('src', result.modifiedName);
+	               				$('#updateformImg').attr('src', result.modifiedName);
+	               				$('#modifiedName').val(result.modifiedName);
+	               				$('#attachmentNo').val(result.attNo);
 	               			}
 	               			else{
 	               				$('.diaryImage-area').hide();
+	               				$('#updateImage-area').hide();
 	               			}
 	               		},
-	               		error : () =>{
+	               		error : () => {
 	               			alert('실패');
 	               		}
 	            	});
@@ -265,7 +312,7 @@
            			$('#scDate-area').text(info.event.scDate);
            			// 삭제 버튼을 눌렀을때 loaction이동
            			$('#deleteScBtn').on('click' ,function(){
-           				location.href = 'deleteSchedule.sc?scheduleNo=' + info.event.id;
+           				location.href = 'deleteSchedule.sc?sNo=' + info.event.id;
            			})
                	}
             }
@@ -335,9 +382,6 @@
  		$('#hiddenTime').val($('#show-time')[0].innerText);
  	}
  	
- 	function scheduleDeleteBtn(){
- 		location.href = ''
- 	}
  	
  	$(()=>{
  		//console.log($('tbody[role="rowgroup"]'));
@@ -421,8 +465,6 @@
         </div>
     </div>	
 </form>
-
-
 <!---------------------------------다이어리 작성 확인 모달창------------------------------------>
 <div class="modal fade" id="modal-content">
     <div class="modal-dialog modal-lg">
@@ -445,18 +487,52 @@
 	            	<img src="" id="diaryImg"/>
 	            </div>
             </div>
-            <button type="button" class="btn btn-outline-danger" id="deleteDiary">삭제</button>
-            <button type="submit" class="btn btn-outline-danger" id="upDateDiary">수정</button>
-            
-            
-            <!-- Modal footer 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+            <div id="btn-area">
+            <div id="updateBtn-area">
+	            <button type="submit" class="btn btn-outline-danger" id="updateDiary">수정</button>
             </div>
-            -->
+            <div id="deleteBtn-area">
+	            <button type="button" class="btn btn-outline-danger" id="deleteDiary">삭제</button>
+            </div>
+            </div>
         </div>
     </div>
 </div>
+<!---------------------------------다이어리 수정 모달창------------------------------------>
+<form action="updateDiary.di" method="post" enctype="multipart/form-data">
+    <div class="modal fade" id="update-form">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <!-- USER_NO HIDDEN / DIARY_DATE HIDDEN -->
+			<input type="hidden" name="diaryNo" id="updateDiaryNo"/>
+			<input type="hidden" name="attNo" id="attachmentNo" />
+			<input type="hidden" name="modifiedName" id="modifiedName"/>
+                <!-- Modal Header -->
+                <div class="modal-header" style="text-align: center;" id="diary-header">
+                    <h4 class="modal-title" style="color:black">WRITE YOUR MUZE ON YOUR DIARY</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                                              제목 <br>
+                    <input type="text" placeholder="제목을 입력해세요..." name="diaryTitle" id="updateformTitle" class="diary-body" required> 
+                   	<br/><br/>
+                    <input type="file" name="upfile" id="diary-file"> <br/><br/>
+                    <div id="updateImage-area">
+                    	<img src="" id="updateformImg"/>
+                    </div>
+                    <br>
+                   	 내용 <br>
+                    <textarea name="diaryContent" id="updateformContent" cols="30" rows="10" class="diary-body" placeholder="내용을 입력하세요..." required></textarea>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">upload</button>
+                </div>
+            </div>
+        </div>
+    </div>	
+</form>
 <!-- -----------------------------------일정 작성 모달창 ----------------------------------------- -->
 <form action="schedule.sc" method="post">
 <input type="hidden" name="scDate" id="scDate">

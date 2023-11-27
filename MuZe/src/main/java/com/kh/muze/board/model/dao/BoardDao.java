@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Reply;
+import com.kh.muze.board.model.vo.Report;
 
 @Repository
 public class BoardDao {
@@ -42,6 +43,18 @@ public class BoardDao {
 
 	public int ajaxInsertFReply(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.insert("boardMapper.insertFReply", r);
+	}
+
+	public ArrayList<Reply> selectFReplyList(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectFReplyList", boardNo);
+	}
+
+	public int deleteFReply(SqlSessionTemplate sqlSession, int fRno) {
+		return sqlSession.delete("boardMapper.deleteFReply", fRno);
+	}
+
+	public int insertFbReport(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.insert("boardMapper.insertFbReport", r);
 	}
 
 
