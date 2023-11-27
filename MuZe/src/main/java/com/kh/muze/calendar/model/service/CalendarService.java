@@ -30,4 +30,6 @@ public interface CalendarService {
 
 	int deleteDiary(HashMap map);
 
+	int updateTransaction(Attachment att, Diary diary);
+
 }
