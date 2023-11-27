@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.kh.muze.reservation.model.vo.Reservation;
-import com.kh.muze.seat.model.vo.SeatPrice;
+import com.kh.muze.reservation.model.vo.Order;
+import com.kh.muze.seat.model.vo.Seat;
 import com.kh.muze.seat.model.vo.SeatPrice;
 import com.kh.muze.show.model.vo.Show;
 
@@ -41,5 +41,34 @@ public class ReservationDao {
 	    }
 
 	    return totalPrice;
+	}
+	
+	
+	public int insertReservation(SqlSessionTemplate sqlSession, Order order) {
+		/*
+		String orderseat = order.getOrderSeat();
+		String[] selectedSeat = orderseat.split(",");
+		*/
+		ArrayList<Seat> list = order.getSeatZip();
+		int reserSuccess = 0;
+		for(Seat seatNo : list) {
+			int result = sqlSession.insert("reservationMapper.insertReservation", seatNo);
+			reserSuccess += result;
+		}
+		
+		return reserSuccess;
+	}
+	
+	
+	public ArrayList<Seat> putSeatNo(SqlSessionTemplate sqlSession, String selectseat) {
+		
+		String[] seatIds = selectseat.split(",");
+		
+		ArrayList<Seat> seatList = new ArrayList<Seat>();
+		for(String seatId : seatIds) {
+			Seat seat = sqlSession.selectOne("reservationMapper.putSeatNo", seatId);
+			seatList.add(seat);
+		}
+		return seatList;
 	}
 }

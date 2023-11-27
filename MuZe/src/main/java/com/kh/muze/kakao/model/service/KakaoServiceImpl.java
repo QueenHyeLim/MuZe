@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.kh.muze.kakao.model.dao.KakaoDao;
 import com.kh.muze.kakao.model.vo.ApproveResponse;
 import com.kh.muze.kakao.model.vo.ReadyResponse;
+import com.kh.muze.reservation.model.vo.Order;
 
 @Service
 public class KakaoServiceImpl implements KakaoService {
@@ -197,6 +197,36 @@ public class KakaoServiceImpl implements KakaoService {
 		} finally {
 			con.disconnect();
 		}
+	}
+
+	@Override
+	public ApproveResponse payAccess(String payApprove) throws ParseException {
+		
+		JSONParser parser = new JSONParser();
+		JSONObject element = (JSONObject)parser.parse(payApprove);
+		
+		String ticketId = element.get("aid").toString();
+		String userId = element.get("partner_user_id").toString();
+		String payType = element.get("payment_method_type").toString();
+		String showName = element.get("item_name").toString();
+		String seats = element.get("item_code").toString();
+		//String amount = element.get("amount").toString();
+		JSONObject amount = (JSONObject)element.get("amount");
+		int allPrice = Integer.parseInt(amount.get("total").toString());
+		String payAprTime = element.get("created_at").toString();
+		String payAccTime = element.get("approved_at").toString();
+		
+		ApproveResponse appResponse = new ApproveResponse();
+		appResponse.setAid(ticketId);
+		appResponse.setPartner_user_id(userId);
+		appResponse.setPayment_method_type(payType);
+		appResponse.setItem_name(showName);
+		appResponse.setItem_code(seats);
+		appResponse.setTotal_amount(allPrice);
+		appResponse.setCreated_at(payAprTime);
+		appResponse.setApproved_at(payAccTime);
+		
+		return appResponse;
 	}
 	
 }

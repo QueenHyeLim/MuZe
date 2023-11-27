@@ -8,10 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.muze.kakao.model.service.KakaoService;
+import com.kh.muze.kakao.model.vo.ApproveResponse;
 import com.kh.muze.kakao.model.vo.ReadyResponse;
 import com.kh.muze.member.model.vo.Member;
+import com.kh.muze.reservation.model.service.ReservationService;
 import com.kh.muze.reservation.model.vo.Order;
 
 @Controller
@@ -20,22 +23,31 @@ public class KakaoController {
 	@Autowired
 	private KakaoService kakaoService;
 	
+	@Autowired
+	private ReservationService reservationService;
+	
 	@ResponseBody
 	@RequestMapping(value="kakao", produces="application/json; charset=UTF-8")
 	public String gokakaoPay(String musTitle, String musId, String selectdate, String selectseat, String totalPrice, HttpSession session) throws ParseException {
 		int total_amount = Integer.parseInt(totalPrice);
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String partner_order_id = loginUser.getUserId(); 
-		
+		System.out.println("selectdate>>" + selectdate);
 		Order order = new Order();
-		order.setOrderTitle(musTitle);
+		order.setOrderTitle(musTitle);//musTitle);
 		order.setOrderMusId(musId);
-		order.setOrderDate(selectdate);
+		order.setOrderDate(selectdate); //(selectdate);
 		order.setOrderSeat(selectseat);
 		order.setOrderPrice(totalPrice);
+		order.setOrderUserNo(loginUser.getUserNo());
+		// 예약 좌석 번호 ArrayList
+		order.setSeatZip(reservationService.putSeatNo(selectseat));
+		
 		
 		session.setAttribute("OrderList", order);
-		
+		System.out.println( "order나와>>" + order);
+		Order order2 = (Order)session.getAttribute("OrderList");
+		System.out.println("orderdate 세션>>" + order2.getOrderDate());
 		System.out.println("나와라얍" + kakaoService.goKakaoPay(musTitle, selectseat,total_amount, partner_order_id, session));
 		String pay_approve = kakaoService.goKakaoPay(musTitle, selectseat, total_amount, partner_order_id, session);
 		
@@ -75,7 +87,7 @@ public class KakaoController {
 	*/
 	
 	@RequestMapping("payapprove")
-	public String payApprove(@RequestParam("pg_token") String pgToken, HttpSession session) {
+	public ModelAndView payApprove(@RequestParam("pg_token") String pgToken, HttpSession session, ModelAndView mv) throws ParseException {
 		
 		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
 		String tid = ((ReadyResponse)session.getAttribute("ReadyResponse")).getTid();
@@ -88,9 +100,22 @@ public class KakaoController {
 		
 		session.setAttribute("ReadyResponse", ReadyResponse);
 		*/
+		Order order = (Order)session.getAttribute("OrderList");
+		String orderdate = order.getOrderDate();
+		System.out.println("orderdate 세션>>" + order.getOrderDate());
 		System.out.println("payApprove : " + payApprove);
+		ApproveResponse appResponse = kakaoService.payAccess(payApprove);
+		mv.addObject("ApproveResponse", appResponse).setViewName("payment/payAccessView");
+		//mv.addObject("orderdate", orderdate).setViewName("payment/payAccessView");
 		// 1. 예매테이블, 티켁테이블
-		return "payment/payAccessView";
+		/*
+		if(reservationService.insertReservation(order) > 0) {
+			
+		} else {
+			// errorMsg
+		}
+		*/
+		return mv; //"payment/payAccessView";
 	}
 	/*
 	@RequestMapping("payaccess")

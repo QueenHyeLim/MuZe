@@ -10,7 +10,7 @@ import lombok.ToString;
 public class Board {
 	
 	private int boardNo;
-	private int boardWriter;
+	private String boardWriter;
 	private int cateNo;
 	private String boardTitle;
 	private String boardContent;

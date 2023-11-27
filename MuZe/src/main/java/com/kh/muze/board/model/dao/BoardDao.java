@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.muze.board.model.vo.Board;
+import com.kh.muze.board.model.vo.Reply;
 
 @Repository
 public class BoardDao {
@@ -30,5 +31,18 @@ public class BoardDao {
 	public Board selectFboard(SqlSessionTemplate sqlSession, int fbno) {
 		return sqlSession.selectOne("boardMapper.selectFboard", fbno);
 	}
+
+	public int updateFBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.update("boardMapper.updateFBoard", b);
+	}
+
+	public int deleteFBoard(SqlSessionTemplate sqlSession, int fbno) {
+		return sqlSession.update("boardMapper.deleteFBoard", fbno);
+	}
+
+	public int ajaxInsertFReply(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.insert("boardMapper.insertFReply", r);
+	}
+
 
 }

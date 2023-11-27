@@ -41,15 +41,17 @@
     <div class="page" id="content">
         <div id="blank-area"></div>
         <div class="page" id="content-area" align="center">
-            <form action="finsert.bo" method="post">
+            <form action="fUpdate.bo" method="post">
                 <div id="enroll">
-                    <input type="text" placeholder="제목을 입력하세요" name="boardTitle" id="boardTitle" required/>
-                    <textarea style="resize:none;" name="boardContent" id="boardContent" required placeholder="내용을 입력하세요"></textarea>
-                    <input type="hidden" name="boardWriter" value="${ sessionScope.loginUser.userId }"/>
+                    <input type="text" placeholder="제목을 입력하세요" name="boardTitle" id="boardTitle" value="${b.boardTitle}" required/>
+                    <textarea style="resize:none;" name="boardContent" id="boardContent" required placeholder="내용을 입력하세요" >${ b.boardContent }</textarea>
+                    <input type="hidden" name="boardWriter" value="${ sessionScope.loginUser.userId}"/>
+                    <input type="hidden" name="boardNo" value="${ b.boardNo }"/>
                 </div>
 
                 <div id="btn-area" align="right">
-                    <button type="submit">등록하기</button>
+                    <button type="submit">수정하기</button>
+                    <button type="reset">이전으로</button>
                 </div>
 
             </form>

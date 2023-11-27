@@ -26,6 +26,7 @@
         width : 100%;
         height : 20%;
         padding: 15px;
+        color : #fff;
     }
     .make-rs-header{
         width : 100%;
@@ -48,6 +49,7 @@
         width : 100%;
         height : 60%;
         text-align : center;
+        background-color : #fff;
     }
 
 </style>
@@ -65,28 +67,40 @@
 	            </div>
 	            <table class="make-content">
 	                <tr>
+	                    <th>티켓번호</th>
+	                    <td>${ ApproveResponse.aid }</td>
+	                </tr>
+	                <tr>
 	                    <th>고객명</th>
-	                    <td></td>
+	                    <td>${ sessionScope.loginUser.userName }</td>
 	                </tr>
 	                <tr>
 	                    <th>공연명</th>
-	                    <td></td>
+	                    <td>${ ApproveResponse.item_name }</td>
 	                </tr>
 	                <tr>
 	                    <th>공연일자</th>
-	                    <td></td>
+	                    <td>${ sessionScope.OrderList.orderDate }</td>
 	                </tr>
 	                <tr>
 	                    <th>예매좌석</th>
-	                    <td></td>
+	                    <td>${ ApproveResponse.item_code }</td>
 	                </tr>
 	                <tr>
 	                    <th>결제수단</th>
-	                    <td></td>
+	                    <td>${ ApproveResponse.payment_method_type }</td>
 	                </tr>
 	                <tr>
 	                    <th>결제금액</th>
-	                    <td></td>
+	                    <td>${ ApproveResponse.total_amount }</td>
+	                </tr>
+	                <tr>
+	                    <th>결제요청일시</th>
+	                    <td>${ ApproveResponse.created_at }</td>
+	                </tr>
+	                <tr>
+	                    <th>결제승인일시</th>
+	                    <td>${ ApproveResponse.approved_at }</td>
 	                </tr>
 	            </table>
 	

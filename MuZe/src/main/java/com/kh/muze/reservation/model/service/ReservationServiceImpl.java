@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.kh.muze.reservation.model.dao.ReservationDao;
+import com.kh.muze.reservation.model.vo.Order;
+import com.kh.muze.seat.model.vo.Seat;
 import com.kh.muze.seat.model.vo.SeatPrice;
 import com.kh.muze.show.model.vo.Show;
 
@@ -39,6 +41,16 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public int totalPrice(String selectseat) {
 		return reservationDao.totalPrice(sqlSession, selectseat);
+	}
+	
+	@Override
+	public int insertReservation(Order order) {
+		return reservationDao.insertReservation(sqlSession, order);
+	}
+	
+	@Override
+	public ArrayList<Seat> putSeatNo(String selectseat) {
+		return reservationDao.putSeatNo(sqlSession, selectseat);
 	}
 
 }
