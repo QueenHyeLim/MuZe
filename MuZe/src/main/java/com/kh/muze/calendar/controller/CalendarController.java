@@ -1,5 +1,6 @@
 package com.kh.muze.calendar.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,6 +27,8 @@ public class CalendarController {
 	private CalendarService calendarService;
 	@Autowired
 	private AttachmentController attController;
+	// Attachment category Number
+	// private static final int attNo = 10;
 	
 	// diary forwarding하면서 내용 가지고 오기
 	@RequestMapping("calendar.ca")
@@ -42,15 +45,20 @@ public class CalendarController {
 		ArrayList<Schedule> scheduleList = calendarService.selectSchedule(diaryUser);
 		model.addAttribute("scheduleList",scheduleList);
 		
+
 		
 		if(!diaryList.isEmpty() && diaryList != null) {
+			// 어차피 SQL에서 if null일 때  YOU ARE MY DIARY로 뽑았기 때문에 그대로 diaryName을 입력해주면 된다
+			String diaryName = diaryList.get(0).getDiaryName();
+			
 			if(diaryList.get(0).getDiaryName().equals("YOU ARE MY DIARY")) {
-				model.addAttribute("diaryName","YOU ARE MY DIARY");
+				model.addAttribute("diaryName", diaryName);
 			}else {
-				String diaryName = diaryList.get(0).getDiaryName();
 				model.addAttribute("diaryName",diaryName);
 			}
+			
 		}else {
+			// diaryList가 null이면 아예 YOU ARE MY DIARY로 값을 입력하여 넘겨준다
 			model.addAttribute("diaryName","YOU ARE MY DIARY");
 		}
 		
@@ -64,7 +72,6 @@ public class CalendarController {
 							  Attachment att,
 							  MultipartFile upfile,
 							  HttpSession session) {
-		int result = 0;
 		
 		if(!upfile.getOriginalFilename().isEmpty() && upfile != null) {
 			diary.setAttStatus("Y");
@@ -76,10 +83,45 @@ public class CalendarController {
 			diary.setAttStatus("N");
 		}
 		
-		result = calendarService.insertTransaction(att, diary);
+		calendarService.insertTransaction(att, diary);
 		
 		return "redirect:calendar.ca";
 	}	
+	
+	
+	// diary 수정 update 메소드
+	@RequestMapping("updateDiary.di")
+	public String updateDiary(Diary diary,
+							  Attachment att,
+							  MultipartFile upfile,
+							  HttpSession session) {
+		
+		Member member = (Member)session.getAttribute("loginUser");
+		int diaryUser = member.getUserNo();
+		diary.setDiaryUser(diaryUser);
+		
+		// 첨부파일이 존재할 경우
+		if(upfile != null && !upfile.getOriginalFilename().isEmpty()) {
+			// 새로운 첨부파일이 있으며 기존 첨부파일도 있을 경우
+			if(att.getAttNo() > 0) {
+				new File(session.getServletContext().getRealPath(att.getModifiedName())).delete();
+			}
+			// 새로운 첨부파일이 있을 경우 객체에 값을 담아준다
+			diary.setAttStatus("Y");
+			att.setOriginName(upfile.getOriginalFilename());
+			att.setModifiedName(attController.saveFiles(upfile, session));
+			att.setContentNo(diary.getDiaryNo());
+			att.setAttCategoryNo(10);
+		}else {
+			// 첨부파일이 없을 경우 attStatus를 "N"으로 값을 넣어준다
+			diary.setAttStatus("N");
+		}
+		
+		calendarService.updateTransaction(att,diary);
+		
+		return "redirect:calendar.ca";
+	}
+	
 	
 	// diary Name insert및 update 메소드
 	@RequestMapping("name.di")
@@ -116,11 +158,8 @@ public class CalendarController {
 		
 		Member member = (Member)session.getAttribute("loginUser");
 		int userNo = member.getUserNo();
-		System.out.println(sc);
-		// ,00:00으로 출력되는 시간을 → 00:00으로 바꿔주기
-		if(sc.getScTime().equals(",00:00")) {
-			sc.setScTime("00:00");
-		}
+		
+		// 만약을 대비해 내용을 입력 값이 없을땐 "-"를 넣어준다
 		if(sc.getScTitle().equals("")) {
 			sc.setScTitle("-");
 		}
@@ -132,14 +171,14 @@ public class CalendarController {
 	}
 	
 	@RequestMapping("deleteSchedule.sc")
-	public String deleteSchedule(int scheduleNo,HttpSession session) {
+	public String deleteSchedule(int sNo,HttpSession session) {
 		
 		Member member = (Member)session.getAttribute("loginUser");
 		int userNo = member.getUserNo();
 		
 		HashMap map = new HashMap();
 		map.put("userNo" ,userNo);
-		map.put("scheduleNo",scheduleNo);
+		map.put("scheduleNo",sNo);
 		
 		calendarService.deleteSchedule(map);
 		
@@ -147,18 +186,19 @@ public class CalendarController {
 	}
 	
 	@RequestMapping("deleteDiary.di")
-	public String deleteDiary(int diaryNo, HttpSession session) {
+	public String deleteDiary(int dNo, HttpSession session) {
 		Member member = (Member)session.getAttribute("loginUser");
 		int diaryUser = member.getUserNo();
 		
 		HashMap map = new HashMap();
 		map.put("diaryUser" ,diaryUser);
-		map.put("diaryNo",diaryNo);
+		map.put("diaryNo",dNo);
 		
 		calendarService.deleteDiary(map);
 		
 		return "redirect:calendar.ca";
 	}
+	
 	
 	
 	

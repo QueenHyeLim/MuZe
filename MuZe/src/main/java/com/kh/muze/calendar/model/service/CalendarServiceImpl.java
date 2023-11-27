@@ -33,6 +33,21 @@ public class CalendarServiceImpl implements CalendarService{
         }
 	    return (result1 * result2);
 	}
+	
+	@Override
+	@Transactional("transactionManager")
+	public int updateTransaction(Attachment att, Diary diary) {
+		int result1 = 0;
+		int result2 = 1;
+		
+		result1 = calendarDao.updateDiary(sqlSession,diary);
+		
+		if(att != null && att.getAttCategoryNo() > 0 && !att.getOriginName().isEmpty()) {
+			result2 = calendarDao.updateAttachment(sqlSession,att);
+		}
+		
+		return (result1 * result2);
+	}
 
 	@Override
 	public ArrayList<Diary> selectDiary(int diaryUser) {
@@ -78,6 +93,7 @@ public class CalendarServiceImpl implements CalendarService{
 	public int deleteDiary(HashMap map) {
 		return calendarDao.deleteDiary(sqlSession,map);
 	}
+
 
 
 

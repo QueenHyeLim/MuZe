@@ -67,7 +67,9 @@
 		 JOIN 
 		        ATTACHMENT ATT ON (D.DIARY_NO = ATT.CONTENT_NO)
 		 WHERE
-		        D.DIARY_USER = #{userNo} OR DC.USER_NO = #{userNo}
+		        (D.DIARY_USER = #{userNo} OR DC.USER_NO = #{userNo})
+		   AND
+		   		D.DIARY_YN = 'Y'
 	</select>
 	<insert id="insertDiaryName" parameterType="map">
 		INSERT
@@ -102,6 +104,7 @@
 	<select id="selectDiaryDetail" parameterType="diary" resultType="diary">
 		SELECT
 		        DIARY_NO diaryNo,
+		        NVL(ATT.ATT_NO , 0) attNo,
 		        DIARY_TITLE diaryTitle,
 		        MODIFIED_NAME modifiedName,
 		        DIRAY_CONTENT diaryContent,
@@ -116,6 +119,8 @@
 		        DIARY_USER = #{diaryUser}
 		   AND
 		   		DIARY_TITLE = #{diaryTitle}
+		   AND
+		   		DIARY_NO = #{diaryNo}
 		   AND
 		   		DIARY_YN = 'Y'
 	</select>
@@ -170,5 +175,30 @@
 		 		DIARY_USER = #{diaryUser}
 		   AND 
 		   		DIARY_NO = #{diaryNo}
+		   AND
+		   		DIARY_YN = 'Y'
+	</update>
+	<update id="updateDiary" parameterType="diary">
+		UPDATE
+		        DIARY
+		   SET
+		        DIARY_TITLE = #{diaryTitle},
+		        DIRAY_CONTENT = #{diaryContent},
+		        ATT_YN = #{attStatus}
+		 WHERE
+		        DIARY_USER = #{diaryUser}
+		   AND
+		        DIARY_NO = #{diaryNo}
+	</update>
+	<update id="updateAttachment" parameterType="attachment">
+		UPDATE
+		        ATTACHMENT
+		   SET
+		        ORIGIN_NAME = #{originName},
+		        MODIFIED_NAME = #{modifiedName}
+		 WHERE
+		        CONTENT_NO = #{contentNo}
+		   AND
+		   		ATT_CATEGORY_NO = #{attCategoryNo}
 	</update>
 </mapper>
