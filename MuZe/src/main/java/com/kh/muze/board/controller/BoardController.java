@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.kh.muze.board.model.service.BoardService;
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Reply;
+import com.kh.muze.board.model.vo.Report;
 import com.kh.muze.common.model.vo.PageInfo;
 import com.kh.muze.common.template.Pagination;
 
@@ -112,15 +113,24 @@ public class BoardController {
 		}
 		return "redirect:" + request.getHeader("Referer");
 	}
-	
+	@RequestMapping("fbReport.bo")
+	public String insertFbReport(Report r, HttpSession session, HttpServletRequest request) {
+		if(boardService.insertFbReport(r) > 0) {
+			session.setAttribute("alertdeleteMsg", "게시글을 신고했습니다");
+		} else {
+			session.setAttribute("alertdeleteMsg", "게시글 신고를 실패했습니다.");
+		}
+		
+		return "redirect:" + request.getHeader("Referer");
+
+	}
+    
 	@RequestMapping("dealList.bo")
 	public String selectDealList() {
 		return "board/dealListView";
 	}
-	
-	@RequestMapping("dealInsertForm.bo")
+  
+		@RequestMapping("dealInsertForm.bo")
 	public String dealInsertForm() {
 		return "board/dealEnrollFormView";
-	}
-	
 }
