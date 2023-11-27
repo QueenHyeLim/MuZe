@@ -44,5 +44,13 @@ public class BoardDao {
 		return sqlSession.insert("boardMapper.insertFReply", r);
 	}
 
+	public ArrayList<Reply> selectFReplyList(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectFReplyList", boardNo);
+	}
+
+	public int deleteFReply(SqlSessionTemplate sqlSession, int fRno) {
+		return sqlSession.delete("boardMapper.deleteFReply", fRno);
+	}
+
 
 }

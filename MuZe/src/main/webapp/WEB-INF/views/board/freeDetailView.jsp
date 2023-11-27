@@ -26,10 +26,15 @@
 	border : 1px solid red;
 	background-color : beige;
 	display: block;
+	margin-top: 20px;
 }
 
 #title, #writer, #createDate{
 	display: block;
+}
+
+#writer{
+	font-weight: 500;
 }
 
 .title-area, .content-area, .reply-area{
@@ -37,9 +42,48 @@
 	padding-left : 10px;
 }
 
+#createDate{
+	display: inline;
+	margin-right: 15px;
+}
+
 /*댓글 영역*/
+.repText > * {
+	float: left;
+}
+
 .form-control{
 	resize : none;
+	width: 90%;
+}
+
+.replyPart{
+	width: 90%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.reply-items{
+	margin-top : 5px;
+	border: 1px solid red;
+	padding-left: 5px;
+}
+
+.reply-items > button{
+	float: right;
+	margin-top: 5px;
+	margin-right: 10px;
+}
+
+.repWriter{
+	font-weight: 800;
+	margin-top: 5px;
+}
+
+.replyContent{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-top: 10px;
 }
 
 
@@ -65,6 +109,7 @@
 	   			<span id="createDate">${b.createDate }</span>
 	   			<span>조회수 ${b.count }</span>
 				<input type="hidden" value="${b.boardNo}" id="boardNo"/>
+				<a>신고</a>
 	   		</div>
 	   		
 	   		<hr>
@@ -76,30 +121,30 @@
 	   		<hr>
 	   		
 	   		<div class="reply-area">
-	   			<p>댓글수</p>
+	   			<span>댓글</span> <span id="repCount"></span>
 				<hr/>
 				
 				<c:choose>
 					<c:when test="${ empty sessionScope.loginUser }">
-						<textarea class="form-control" cols="55" rows="2" readonly>로그인 후 이용 가능한 서비스입니다.</textarea>
-						<button>등록하기</button>
+						<div id="repText">
+							<textarea class="form-control" cols="50" rows="2" style="width: 90%;" readonly>로그인 후 이용 가능한 서비스입니다.</textarea>
+							<button>등록하기</button>
+						</div>
+						
 					</c:when>
 					
 					<c:otherwise>
-						<textarea class="form-control" id="rContent" cols="55" rows="2"></textarea>
+						<textarea class="form-control" id="rContent" cols="50" rows="2" style="width: 90%;"></textarea>
 						<button onclick="insertFReply();">등록하기</button>
 					</c:otherwise>
 				</c:choose>
 
-				
-				<div class="reply-content">
-					<h6>작성자</h6>
-					<p>내용</p>
-					<span>작성일</span>
+				<div class="replyPart">
+
 				</div>
+				
 	   		</div>
 	   </div>
-	   <div class="page">03</div>
 	</div>
 	
 	<script>
@@ -133,6 +178,8 @@
 					},
 					success : result => {
 						console.log(result);
+						selectReplyList();
+						$('#rContent').val('');
 					},
 					error : () => {
 						console.log('error');
@@ -147,15 +194,43 @@
 			$.ajax({
 				url : 'fRList.bo',
 				data : {
-					fbno : $('#boardNo')
+					boardNo : $('#boardNo').val()
 				},
 				success : result => {
-					console.log(result);
+					
+					let value = '';
+
+					console.log(result[0]);
+					
+					for(let i in result){
+						value += '<div class="reply-items">'
+										+ '<span class="repWriter">' + result[i].userId + '</span>'
+										+ '<button class="deleteRep" onclick="deleteRep(' + result[i].brepNo + ');">삭제</button>'
+									+ '<hr/>'
+									
+										+ '<p>' + result[i].repContent + '</p>'
+									
+										+ '<span>' + result[i].creaetDate + '</span>'
+							  + '</div>'
+								
+					}
+					$('.replyPart').html(value);
+					$('#repCount').html(result.length)
 				},
 				error : () => {
 					console.log('error');
 				}
 			})
+		}
+
+		function deleteRep(brepNo){
+			var result = confirm('댓글을 삭제하겠습니까?');
+
+			if(result){
+				location.href = 'fRDelete.bo?fRno=' + brepNo;
+			}
+
+			console.log(brepNo);
 		}
 	</script>
 	 

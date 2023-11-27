@@ -24,4 +24,8 @@ public interface BoardService {
 
 	int ajaxInsertFReply(Reply r);
 
+	ArrayList<Reply> selectFReplyList(int boardNo);
+
+	int deleteFReply(int fRno);
+
 }

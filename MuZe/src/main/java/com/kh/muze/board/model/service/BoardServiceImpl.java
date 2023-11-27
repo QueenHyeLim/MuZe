@@ -68,4 +68,14 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.ajaxInsertFReply(sqlSession, r);
 	}
 
+	@Override
+	public ArrayList<Reply> selectFReplyList(int boardNo) { 
+		return boardDao.selectFReplyList(sqlSession, boardNo);
+	}
+
+	@Override
+	public int deleteFReply(int fRno) { 
+		return boardDao.deleteFReply(sqlSession, fRno);
+	}
+
 }
