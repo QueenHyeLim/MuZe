@@ -18,7 +18,7 @@
 		<typeAlias type="com.kh.muze.board.model.vo.Board" alias="board"/>
 		<typeAlias type="com.kh.muze.board.model.vo.Reply" alias="reply"/>
 	</typeAliases>
-	
+	 
 	<mappers>
     <mapper resource="/mapper/calendar-mapper.xml"/>
 		<mapper resource="/mapper/member-mapper.xml" />

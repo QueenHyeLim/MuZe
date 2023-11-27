@@ -1,5 +1,6 @@
 package com.kh.muze.board.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.muze.board.model.service.BoardService;
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Reply;
@@ -95,6 +97,22 @@ public class BoardController {
 	@RequestMapping(value="fRInsert.bo")
 	public String ajaxInsertFReply(Reply r) {
 		return boardService.ajaxInsertFReply(r) > 0 ? "success" : "fail";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="fRList.bo", produces="application/json; charset=UTF-8")
+	private String ajaxSelectFReplyList(int boardNo) {
+		return new Gson().toJson(boardService.selectFReplyList(boardNo));
+	}
+	
+	@RequestMapping("fRDelete.bo")
+	public String deleteFReply(int fRno, HttpSession session, HttpServletRequest request) {
+		if(boardService.deleteFReply(fRno) > 0) {
+			session.setAttribute("alertdeleteMsg", "댓글을 삭제했습니다");
+		} else {
+			session.setAttribute("alertdeletemsg", "댓글을 삭제하지 못했습니다");
+		}
+		return "redirect:" + request.getHeader("Referer");
 	}
 	
 }

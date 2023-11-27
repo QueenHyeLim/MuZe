@@ -8,7 +8,7 @@ import lombok.ToString;
  
 @AllArgsConstructor @NoArgsConstructor @ToString @Getter @Setter
 public class Reply {
-	private int brefNo;
+	private int brepNo;
 	private int boardNo;
 	private String userId;
 	private String repContent;
