@@ -21,7 +21,7 @@
 		<typeAlias type="com.kh.muze.kakao.model.vo.Book" alias="book" />
 		<typeAlias type="com.kh.muze.reservation.model.vo.Ticket" alias="ticket" />
 	</typeAliases>
-	
+	 
 	<mappers>
     	<mapper resource="/mapper/calendar-mapper.xml"/>
 		<mapper resource="/mapper/member-mapper.xml" />
