@@ -30,8 +30,6 @@ public class BoardController {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectFboardCount(), currentPage, 10, 10);
 		
-//		System.out.println(currentPage);
-		
 		model.addAttribute("list", boardService.selectFboardList(pi));
 		model.addAttribute("pi", pi);
 		
@@ -115,7 +113,6 @@ public class BoardController {
 		}
 		return "redirect:" + request.getHeader("Referer");
 	}
-	
 	@RequestMapping("fbReport.bo")
 	public String insertFbReport(Report r, HttpSession session, HttpServletRequest request) {
 		if(boardService.insertFbReport(r) > 0) {
@@ -125,6 +122,15 @@ public class BoardController {
 		}
 		
 		return "redirect:" + request.getHeader("Referer");
+
 	}
-	
+    
+	@RequestMapping("dealList.bo")
+	public String selectDealList() {
+		return "board/dealListView";
+	}
+  
+		@RequestMapping("dealInsertForm.bo")
+	public String dealInsertForm() {
+		return "board/dealEnrollFormView";
 }
