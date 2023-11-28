@@ -62,7 +62,16 @@ public class CalendarDao {
 	}
 
 	public int updateAttachment(SqlSessionTemplate sqlSession, Attachment att) {
-		return sqlSession.update("calendarMapper.updateAttachment", att);
+		int result = sqlSession.update("calendarMapper.updateAttachment", att);
+		return result;
+	}
+
+	public int selectAttachment(SqlSessionTemplate sqlSession, Attachment att) {
+		return sqlSession.selectOne("calendarMapper.selectAttachment", att);
+	}
+
+	public int updateInsertAttachment(SqlSessionTemplate sqlSession, Attachment att) {
+		return sqlSession.insert("calendarMapper.updateInsertAttachment",att);
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.kh.muze.kakao.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.parser.ParseException;
@@ -12,10 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.muze.kakao.model.service.KakaoService;
 import com.kh.muze.kakao.model.vo.ApproveResponse;
+import com.kh.muze.kakao.model.vo.Book;
 import com.kh.muze.kakao.model.vo.ReadyResponse;
 import com.kh.muze.member.model.vo.Member;
 import com.kh.muze.reservation.model.service.ReservationService;
 import com.kh.muze.reservation.model.vo.Order;
+import com.kh.muze.reservation.model.vo.Reservation;
+import com.kh.muze.reservation.model.vo.Ticket;
+import com.kh.muze.seat.model.vo.Seat;
 
 @Controller
 public class KakaoController {
@@ -28,7 +34,7 @@ public class KakaoController {
 	
 	@ResponseBody
 	@RequestMapping(value="kakao", produces="application/json; charset=UTF-8")
-	public String gokakaoPay(String musTitle, String musId, String selectdate, String selectseat, String totalPrice, HttpSession session) throws ParseException {
+	public String gokakaoPay(String musTitle, String musId, String theaterName, String selectdate, String selectseat, String totalPrice, HttpSession session) throws ParseException {
 		int total_amount = Integer.parseInt(totalPrice);
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String partner_order_id = loginUser.getUserId(); 
@@ -36,6 +42,7 @@ public class KakaoController {
 		Order order = new Order();
 		order.setOrderTitle(musTitle);//musTitle);
 		order.setOrderMusId(musId);
+		order.setMusTheater(theaterName);
 		order.setOrderDate(selectdate); //(selectdate);
 		order.setOrderSeat(selectseat);
 		order.setOrderPrice(totalPrice);
@@ -101,20 +108,86 @@ public class KakaoController {
 		session.setAttribute("ReadyResponse", ReadyResponse);
 		*/
 		Order order = (Order)session.getAttribute("OrderList");
+		
+		
+		ArrayList<Book> bookList = new ArrayList<Book>();
+		ArrayList<Seat> seatList = order.getSeatZip();
+				//reservationService.putSeatNo(order.getOrderSeat());
+		System.out.println("좌석번호리스트>>" + seatList);
+		
+		
+		for(Seat seat : seatList) {
+			Book book = new Book();	
+			book.setBookUserNo(order.getOrderUserNo());
+			book.setBookMusId(order.getOrderMusId());
+			book.setBookDate(order.getOrderDate());
+			book.setBookSeatNo(seat.getSeatNo());
+			System.out.println("Book>>>" + book);
+			bookList.add(book);
+		}
+		System.out.println("BookList>>" + bookList);
+		
+		
 		String orderdate = order.getOrderDate();
 		System.out.println("orderdate 세션>>" + order.getOrderDate());
 		System.out.println("payApprove : " + payApprove);
+		// 결제승인
 		ApproveResponse appResponse = kakaoService.payAccess(payApprove);
 		mv.addObject("ApproveResponse", appResponse).setViewName("payment/payAccessView");
 		//mv.addObject("orderdate", orderdate).setViewName("payment/payAccessView");
-		// 1. 예매테이블, 티켁테이블
+		// 1. 예매테이블, 티켓테이블
 		/*
-		if(reservationService.insertReservation(order) > 0) {
+		 * "OrderList"세션에 유저가 선택한 예약 정보가 들어있음
+		 * - selctseat필드에 선택한 좌석들이 문자열로 들어있음 ex) H11,H12
+		 * - 좌석 번호들을 ArrayList<Seat>에 담기 or 배열에 담기 Order테이블에 ArrayList<Seat> seatList에 담기
+		 * - 동적으로 reservation 테이블에 INSERT 
+		 * - 동적으로  ticket 테이블에 INSERT
+		 * - 티켓번호는 카카오페이에서 결제 식별값으로 제공한 aid 를 대입하기
+		 * - ticket테이블 insert할 때 메일 보내는 메소드도 호출하기
+		 * - 유저의 메일 주소는 session에 "loginUser"의 email 필드에 있음
+		 */
+		
+		// PLAN 수정!!!
+		/*
+		 * 1. 예매테이블(RESERVE)에 INSERT
+		 * => Order에 들어있음
+		 * 
+		 * 2. 예매상세테이블(BOOK)에 INSERT 동적으로 INSERT
+		 * => 예매번호는 SEQ_RESERVE.CURRVAL, 좌석번호는 ArrayList<Seat> seatList = order.getSeatZip(); 의 Seat객체의 seatNo에 있음
+		 * 
+		 * 3. 티켓테이블(TICKET)에 INSERT
+		 * => 티켓번호는 appResponse의 aid 필드에 있음. 예매번호는 SEQ_RESERVE.CURRVAL
+		 * 
+		 * 4. 티켓 발급 이메일 전송(loginUser 세션의 email필드에 유저의 이메일 주소가 있음)		
+		 */
+		int insertReserve = reservationService.insertReservation(bookList);
+		if(insertReserve > 0) {
+			System.out.println("들어가나>>"+ insertReserve /*reservationService.insertReservation(bookList)*/);
 			
+			// 회원번호, 뮤지컬번호, 예매날짜가 같은 뮤지컬번호를 조회해오면 이전에 예매했던 것들이 다 조회되므로 이렇게 하면 안됌
+			/*
+			ArrayList<Reservation> reserveList = reservationService.selectReserNo(order);
+			System.out.println("예매번호들>>" + reservationService.selectReserNo(order));
+			ArrayList<Ticket> ticketList = new ArrayList<Ticket>();
+			for(Reservation reserve : reserveList) {
+				Ticket ticket = new Ticket();
+				ticket.setTicketNo(appResponse.getAid());
+				ticket.setResNo(reserve.getResNo());
+				ticketList.add(ticket);
+				System.out.println("ticket객체에 들어가나>>" + ticket);
+			}
+			System.out.println("ticketList>>>" + ticketList);
+			// 티켓발행메소드
+			if(reservationService.ticektIssuance(ticketList) > 0) {
+				// 티켓발행 Email 전송 메소드 호출
+				System.out.println("티켓발행 성공해라>>" + reservationService.ticektIssuance(ticketList));
+			}
+			*/
 		} else {
-			// errorMsg
+			// errorMsg]
+			System.out.println("예매insert실패");
 		}
-		*/
+		
 		return mv; //"payment/payAccessView";
 	}
 	/*

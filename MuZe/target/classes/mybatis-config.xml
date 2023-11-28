@@ -16,10 +16,14 @@
 		<typeAlias type="com.kh.muze.seat.model.vo.Seat" alias="seat" />
 		<typeAlias type="com.kh.muze.attachment.model.vo.Attachment" alias="attachment"/>
 		<typeAlias type="com.kh.muze.board.model.vo.Board" alias="board"/>
+		<typeAlias type="com.kh.muze.board.model.vo.Reply" alias="reply"/>
+		<typeAlias type="com.kh.muze.reservation.model.vo.Order" alias="order" />
+		<typeAlias type="com.kh.muze.kakao.model.vo.Book" alias="book" />
+		<typeAlias type="com.kh.muze.reservation.model.vo.Ticket" alias="ticket" />
 	</typeAliases>
-	
+	 
 	<mappers>
-    <mapper resource="/mapper/calendar-mapper.xml"/>
+    	<mapper resource="/mapper/calendar-mapper.xml"/>
 		<mapper resource="/mapper/member-mapper.xml" />
 		<mapper resource="/mapper/reservation-mapper.xml" />
 		<mapper resource="/mapper/seat-mapper.xml" />

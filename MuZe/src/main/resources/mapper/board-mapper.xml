@@ -139,7 +139,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 				BOARD_NO = #{boardNo}
 	</update>
-	
+
 	<insert id="insertFReply" parameterType="reply">
 		INSERT
 		  INTO
@@ -195,6 +195,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{repType}
 				)
 	</insert>
+
 	
 	<select id="selectDealCount" resultType="_int">
 		SELECT
@@ -311,4 +312,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE
 		 		DEAL_NO = ${dealNo}
 	</delete>
+
 </mapper>

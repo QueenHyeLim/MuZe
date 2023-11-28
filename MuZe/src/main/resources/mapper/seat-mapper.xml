@@ -15,7 +15,7 @@
 	
 
 	
-	<select id="disabledSeat" resultType="seat" resultMap="disabledSeatMap">
+	<!-- <select id="disabledSeat" resultType="seat" resultMap="disabledSeatMap">
 		SELECT 
 				SEAT_NO,
 				SEAT_TYPE, 
@@ -28,6 +28,29 @@
 		 		RESERVATION R 
 		USING
 		 		(SEAT_NO)
+		WHERE 
+				R.MUS_ID = #{ musId }
+		  AND 
+		  		RES_DATE = #{ selectDate }
+	</select> -->
+	
+	<select id="disabledSeat" resultType="seat" resultMap="disabledSeatMap">
+		SELECT 
+				SEAT_NO,
+				SEAT_TYPE, 
+				SEAT_ID, 
+				RES_NO, 
+				RES_DATE 
+		 FROM 
+				SEAT S
+		 JOIN
+                BOOK B
+        USING
+                (SEAT_NO)
+         JOIN 
+		 		RESERVE R 
+		ON
+		 		(R.RES_NO = B.BOOK_NO)
 		WHERE 
 				R.MUS_ID = #{ musId }
 		  AND 

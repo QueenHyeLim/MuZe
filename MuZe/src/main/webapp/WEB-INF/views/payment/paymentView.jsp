@@ -307,6 +307,7 @@
     		data : {
     			musTitle : '${ musInfo.musTitle }',
     			musId : '${musInfo.musId}',
+    			theaterName : '${ musInfo.theaterName}',
     			selectdate : '${ selectdate }',
     			selectseat : '${ selectseat }',
     			totalPrice : '${ totalPrice }'

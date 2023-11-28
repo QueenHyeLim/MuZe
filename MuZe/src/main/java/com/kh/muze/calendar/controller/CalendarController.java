@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.kh.muze.attachment.controller.AttachmentController;
 import com.kh.muze.attachment.model.vo.Attachment;
+import com.kh.muze.calendar.model.dao.CalendarDao;
 import com.kh.muze.calendar.model.service.CalendarService;
 import com.kh.muze.calendar.model.vo.Diary;
 import com.kh.muze.calendar.model.vo.Schedule;
@@ -99,7 +100,7 @@ public class CalendarController {
 		Member member = (Member)session.getAttribute("loginUser");
 		int diaryUser = member.getUserNo();
 		diary.setDiaryUser(diaryUser);
-		
+		System.out.println("upfile : " + upfile);
 		// 첨부파일이 존재할 경우
 		if(upfile != null && !upfile.getOriginalFilename().isEmpty()) {
 			// 새로운 첨부파일이 있으며 기존 첨부파일도 있을 경우

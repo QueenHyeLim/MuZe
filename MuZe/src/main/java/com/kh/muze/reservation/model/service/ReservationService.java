@@ -2,7 +2,11 @@ package com.kh.muze.reservation.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.muze.kakao.model.vo.Book;
 import com.kh.muze.reservation.model.vo.Order;
+import com.kh.muze.reservation.model.vo.Reservation;
+import com.kh.muze.reservation.model.vo.Ticket;
+import com.kh.muze.reservation.model.vo.Reservation;
 import com.kh.muze.seat.model.vo.Seat;
 import com.kh.muze.seat.model.vo.SeatPrice;
 import com.kh.muze.show.model.vo.Show;
@@ -19,9 +23,15 @@ public interface ReservationService {
 
 	int totalPrice(String selectseat);
 	
-	int insertReservation(Order order);
+	int insertReservation(ArrayList<Book> bookList);
 
 	ArrayList<Seat> putSeatNo(String selectseat);
+
+	ArrayList<Reservation> selectReserNo(Order order);
+
+	int ticektIssuance(ArrayList<Ticket> ticketList);
+
+	//int insertReservation(Order order);
 
 
 
