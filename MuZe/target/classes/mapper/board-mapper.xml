@@ -122,6 +122,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 				BOARD_NO = #{boardNo}
 	</update>
+
+	<insert id="insertFReply" parameterType="reply">
+		INSERT
+		  INTO
+		  		REPLY
+		  		(
+		  		BREP_NO,
+		  		BOARD_NO,
+		  		USER_ID,
+		  		REP_CONTENT
+		  		)
+		VALUES
+				(
+				SEQ_BREP_NO.NEXTVAL,
+				#{boardNo},
+				#{userId},
+				#{repContent}
+				)
+	</insert>
+	
+	<select id="selectFReplyList" parameterType="_int" resultMap="replyResultSet">
+		SELECT
+		 		BREP_NO,
+		 		BOARD_NO,
+		 		USER_ID,
+		 		REP_CONTENT,
+		 		CREATE_DATE
+		 FROM
+		 		REPLY
+		 WHERE
+		 		BOARD_NO = #{boardNo}
+		 ORDER
+		 	BY
+		 		BREP_NO DESC
+	</select>
 	
 	<insert id="insertFReply" parameterType="reply">
 		INSERT
