@@ -16,10 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.kh.muze.attachment.controller.AttachmentController;
 import com.kh.muze.attachment.model.vo.Attachment;
-import com.kh.muze.calendar.model.dao.CalendarDao;
 import com.kh.muze.calendar.model.service.CalendarService;
 import com.kh.muze.calendar.model.vo.Diary;
 import com.kh.muze.calendar.model.vo.Schedule;
+import com.kh.muze.common.template.LoginUser;
 import com.kh.muze.member.model.vo.Member;
 @Controller
 public class CalendarController {
@@ -28,16 +28,12 @@ public class CalendarController {
 	private CalendarService calendarService;
 	@Autowired
 	private AttachmentController attController;
-	// Attachment category Number
-	// private static final int attNo = 10;
 	
 	// diary forwarding하면서 내용 가지고 오기
 	@RequestMapping("calendar.ca")
 	public String diary(Model model,HttpSession session) {
-		
-		// forwarding해주면서 다이어리에 있는 데이터를 select해서 보여주기
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int diaryUser = loginUser.getUserNo();
+		// Class로 빼놓은 loginUser의 userNo값
+		int diaryUser = LoginUser.getUserNo(session);
 		
 		// DIARY LIST SELECT
 		ArrayList<Diary> diaryList = calendarService.selectDiary(diaryUser);
@@ -45,8 +41,6 @@ public class CalendarController {
 		// SCHEDULE LIST SELECT
 		ArrayList<Schedule> scheduleList = calendarService.selectSchedule(diaryUser);
 		model.addAttribute("scheduleList",scheduleList);
-		
-
 		
 		if(!diaryList.isEmpty() && diaryList != null) {
 			// 어차피 SQL에서 if null일 때  YOU ARE MY DIARY로 뽑았기 때문에 그대로 diaryName을 입력해주면 된다
@@ -57,13 +51,10 @@ public class CalendarController {
 			}else {
 				model.addAttribute("diaryName",diaryName);
 			}
-			
 		}else {
 			// diaryList가 null이면 아예 YOU ARE MY DIARY로 값을 입력하여 넘겨준다
 			model.addAttribute("diaryName","YOU ARE MY DIARY");
 		}
-		
-		
 		return "diary/diaryCalender";
 	}
 	
@@ -97,10 +88,9 @@ public class CalendarController {
 							  MultipartFile upfile,
 							  HttpSession session) {
 		
-		Member member = (Member)session.getAttribute("loginUser");
-		int diaryUser = member.getUserNo();
+		int diaryUser = LoginUser.getUserNo(session);
+		
 		diary.setDiaryUser(diaryUser);
-		System.out.println("upfile : " + upfile);
 		// 첨부파일이 존재할 경우
 		if(upfile != null && !upfile.getOriginalFilename().isEmpty()) {
 			// 새로운 첨부파일이 있으며 기존 첨부파일도 있을 경우
@@ -145,8 +135,7 @@ public class CalendarController {
 	@RequestMapping(value="diaryDetail.di", produces="application/json; charset=UTF-8")
 	public String selectDiaryDetail(Diary diary,
 									HttpSession session) {
-		Member member = (Member)session.getAttribute("loginUser");
-		int diaryUser = member.getUserNo();
+		int diaryUser = LoginUser.getUserNo(session);
 		
 		diary.setDiaryUser(diaryUser);
 		
@@ -157,8 +146,7 @@ public class CalendarController {
 	@RequestMapping("schedule.sc")
 	public String insertSchedule(Schedule sc,HttpSession session) {
 		
-		Member member = (Member)session.getAttribute("loginUser");
-		int userNo = member.getUserNo();
+		int userNo = LoginUser.getUserNo(session);
 		
 		// 만약을 대비해 내용을 입력 값이 없을땐 "-"를 넣어준다
 		if(sc.getScTitle().equals("")) {
@@ -174,8 +162,7 @@ public class CalendarController {
 	@RequestMapping("deleteSchedule.sc")
 	public String deleteSchedule(int sNo,HttpSession session) {
 		
-		Member member = (Member)session.getAttribute("loginUser");
-		int userNo = member.getUserNo();
+		int userNo = LoginUser.getUserNo(session);
 		
 		HashMap map = new HashMap();
 		map.put("userNo" ,userNo);
@@ -188,8 +175,8 @@ public class CalendarController {
 	
 	@RequestMapping("deleteDiary.di")
 	public String deleteDiary(int dNo, HttpSession session) {
-		Member member = (Member)session.getAttribute("loginUser");
-		int diaryUser = member.getUserNo();
+		
+		int diaryUser = LoginUser.getUserNo(session);
 		
 		HashMap map = new HashMap();
 		map.put("diaryUser" ,diaryUser);

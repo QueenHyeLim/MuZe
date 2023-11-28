@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bookmarkMapper">
+	<select id="selectBookmark" parameterType="bookmark" resultType="_int">
+		SELECT 
+				COUNT(MUS_ID)
+		  FROM 
+		  		BOOKMARK
+		 WHERE 
+		 		USER_NO = #{userNo}
+		   AND 
+		   		MUS_ID = #{musId}
+	</select>
+	<insert id="insertBookmark" parameterType="bookmark">
+		INSERT
+		  INTO
+		  		BOOKMARK
+		  		(
+		  		USER_NO,
+		  		MUS_ID,
+		  		BOOKMARK_DATE
+		  		)
+		VALUES
+				(
+				#{userNo},
+				#{musId},
+				SYSDATE
+				)
+	</insert>
+	<delete id="deleteBookmark" parameterType="bookmark">
+		DELETE
+				BOOKMARK
+		 WHERE
+		 		USER_NO = #{userNo}
+		   AND
+		   		MUS_ID = #{musId}
+	</delete>
+</mapper>

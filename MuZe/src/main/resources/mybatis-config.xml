@@ -7,7 +7,7 @@
 	</settings>
 	
 	<typeAliases>
-    <typeAlias type="com.kh.muze.calendar.model.vo.Diary" alias="diary"/>
+    	<typeAlias type="com.kh.muze.calendar.model.vo.Diary" alias="diary"/>
 		<typeAlias type="com.kh.muze.calendar.model.vo.Schedule" alias="schedule"/>
 		<typeAlias type="com.kh.muze.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.muze.show.model.vo.Show" alias="show" />
@@ -21,6 +21,7 @@
 		<typeAlias type="com.kh.muze.kakao.model.vo.Book" alias="book" />
 		<typeAlias type="com.kh.muze.reservation.model.vo.Ticket" alias="ticket" />
 		<typeAlias type="com.kh.muze.board.model.vo.Report" alias="report"/>
+		<typeAlias type="com.kh.muze.bookmark.model.vo.Bookmark" alias="bookmark" />
 	</typeAliases>
 	 
 	<mappers>
@@ -29,6 +30,7 @@
 		<mapper resource="/mapper/reservation-mapper.xml" />
 		<mapper resource="/mapper/seat-mapper.xml" />
 		<mapper resource="/mapper/board-mapper.xml"/>
+		<mapper resource="/mapper/bookmark-mapper.xml"/>
 	</mappers>
 	
 </configuration>

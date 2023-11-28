@@ -133,4 +133,5 @@ public class BoardController {
 		@RequestMapping("dealInsertForm.bo")
 	public String dealInsertForm() {
 		return "board/dealEnrollFormView";
+	}
 }
