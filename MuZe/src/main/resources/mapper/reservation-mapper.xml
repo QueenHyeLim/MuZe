@@ -159,7 +159,7 @@
 		 		SEAT_ID = #{seatId}
 	</select>
 	
-	<insert id="bookReserve" parameterType="book">
+<!-- <insert id="bookReserve" parameterType="book">
 		INSERT
 		  INTO
 		  		RESERVATION
@@ -173,13 +173,13 @@
 				'Y',
 				1
 				)
-	</insert>
+	</insert> -->	
 	
 	<select id="selectReserNo" parameterType="order" resultMap="disabledSeatMap">
 		SELECT
 			        RES_NO 
 		  FROM
-			        RESERVATION
+			        RESERVE
 		 WHERE
 			        USER_NO = #{ orderUserNo }
 		   AND
@@ -188,7 +188,7 @@
 			        RES_DATE = #{ orderDate }
 	</select>
 	
-	<insert id="ticketIssuance" parameterType="ticket">
+<!-- <insert id="ticketIssuance" parameterType="ticket">
 		INSERT
 		  INTO
 			        TICKET
@@ -197,5 +197,42 @@
 					#{ ticketNo },
         			#{ resNo }
 			        )
+	</insert> -->	
+	
+	<insert id="insertReservation" parameterType="order">
+		INSERT
+		  INTO
+		  			RESERVE
+		VALUES
+					(
+					SEQ_RESERVE.NEXTVAL,
+					#{ orderUserNo },
+					#{ orderMusId },
+					#{ orderDate },
+					'Y',
+					1
+					)
+	</insert>
+	
+	<insert id="insertBook" parameterType="_int">
+		INSERT
+		  INTO
+		  		BOOK
+		VALUES
+				(
+				SEQ_RESERVE.CURRVAL,
+				#{ seatNo }
+				)
+	</insert>
+	
+	<insert id="insertTicket" parameterType="string">
+		INSERT
+		  INTO
+		  		TICKET
+		 VALUES
+		 		(
+		 		#{ aid },
+		 		SEQ_RESERVE.CURRVAL
+		 		)
 	</insert>	
 </mapper>

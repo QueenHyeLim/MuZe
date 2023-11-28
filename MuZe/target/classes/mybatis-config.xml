@@ -22,6 +22,7 @@
 		<typeAlias type="com.kh.muze.reservation.model.vo.Ticket" alias="ticket" />
 		<typeAlias type="com.kh.muze.board.model.vo.Report" alias="report"/>
 		<typeAlias type="com.kh.muze.bookmark.model.vo.Bookmark" alias="bookmark" />
+
 	</typeAliases>
 	 
 	<mappers>
