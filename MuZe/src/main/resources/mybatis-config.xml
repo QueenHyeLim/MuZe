@@ -18,6 +18,7 @@
 		<typeAlias type="com.kh.muze.board.model.vo.Board" alias="board"/>
 		<typeAlias type="com.kh.muze.board.model.vo.Reply" alias="reply"/>
 		<typeAlias type="com.kh.muze.board.model.vo.Report" alias="report"/>
+		<typeAlias type="com.kh.muze.board.model.vo.Deal" alias="deal"/>
 	</typeAliases>
 	 
 	<mappers>

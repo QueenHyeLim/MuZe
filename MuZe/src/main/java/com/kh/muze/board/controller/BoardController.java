@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kh.muze.board.model.service.BoardService;
 import com.kh.muze.board.model.vo.Board;
+import com.kh.muze.board.model.vo.Deal;
 import com.kh.muze.board.model.vo.Reply;
 import com.kh.muze.board.model.vo.Report;
 import com.kh.muze.common.model.vo.PageInfo;
@@ -126,11 +127,66 @@ public class BoardController {
 	}
     
 	@RequestMapping("dealList.bo")
-	public String selectDealList() {
+	public String selectDealList(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
+		
+		PageInfo pi = Pagination.getPageInfo(boardService.selectDealCount(), currentPage, 10, 10);
+		
+		model.addAttribute("list", boardService.selectDealList(pi));
+		model.addAttribute("pi", pi);
+		
 		return "board/dealListView";
 	}
   
-		@RequestMapping("dealInsertForm.bo")
+	@RequestMapping("dealInsertForm.bo")
 	public String dealInsertForm() {
 		return "board/dealEnrollFormView";
+	}
+	
+	@RequestMapping("dealEnroll.bo")
+	public String insertDeal(Deal d, HttpSession session) {
+		if(boardService.insertDeal(d) > 0) {
+			session.setAttribute("alertdeleteMsg", "게시글 둥록을 완료했습니다");
+		} else {
+			session.setAttribute("alertdeleteMsg", "게시글 등록을 실패했습니다");
+		}
+		return "redirect:dealList.bo";
+	}
+	
+	@RequestMapping("dealDetail.bo")
+	public String selectDeal(int dealNo, Model model) {
+		model.addAttribute("deal", boardService.selectDeal(dealNo)); 
+		return "board/dealDetailView";
+	}
+	
+	@RequestMapping("dealUpdateForm.bo")
+	public ModelAndView dealUpdateForm(int dealNo, ModelAndView mv) {
+		mv.addObject("deal", boardService.selectDeal(dealNo))
+		.setViewName("board/dealUpdateForm");
+		
+		return mv;
+	}
+	
+	@RequestMapping("dealUpdate.bo")
+	public String updateDeal(Deal d, HttpSession session) {
+		
+		System.out.println(d.getSaleStatus());
+		if(boardService.updateDeal(d) > 0) {
+			session.setAttribute("alertdeleteMsg", "게시글 수정 성공");
+		} else {
+			session.setAttribute("alertdeleteMsg", "게시글 수정 실패");
+		}
+		
+		return "redirect:dealDetail.bo?dealNo=" + d.getDealNo();
+	}
+	
+	@RequestMapping("dealDelete.bo")
+	public String deleteDeal(int dealNo, HttpSession session) {
+		if(boardService.deleteDeal(dealNo) > 0) {
+			session.setAttribute("alertdeleteMsg", "게시글을 삭제했습니다");
+		} else {
+			session.setAttribute("alertdeleteMsg", "게시글 삭제를 실패했습니다");
+		}
+		
+		return "redirect:dealList.bo";
+	}
 }

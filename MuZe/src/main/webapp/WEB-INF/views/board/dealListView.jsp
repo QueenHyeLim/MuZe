@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,27 +44,33 @@ table{
         
         <div class="page" id="list-area">
 
-            <table border="1" align="center" id="fboardList">
+            <table border="1" align="center" id="dealBoard">
                 <thead>
                     <tr align="center">
-                        <th>게시글 번호</th>
-                        <th>제목</th>
+						<th>작품 제목</th>
+                        <th>좌석 정보</th>
                         <th>작성자</th>
-                        <th>조회수</th>
-                        <th>작성일</th>
+                        <th>티켓 수량</th>
+                        <th>장당 가격</th>
                     </tr>
                 </thead>
                 
                 <tbody>
                 	<c:choose>
                 		<c:when test="${ !empty list}">
-                			<c:forEach items="${ list }" var="f">
+                			<c:forEach items="${ list }" var="d">
                 				<tr align="center">
-                					<td class="fbno">${ f.boardNo }</td>
-                					<td>${ f.boardTitle }</td>
-                					<td>${ f.boardWriter }</td>
-                					<td>${ f.count }</td>
-                					<td>${ f.createDate }</td>
+									<td style="display: none;" class="dealNo">${d.dealNo}</td>
+									<td>${d.showTitle}</td> 
+                					<td>
+										${ d.seatFloor } / ${ d.seatRank } / ${ d.seatArea } / ${ d.seatCol } 
+										<c:if test="{!empty d.seatDes}">
+										/ ${ d.seatDes }
+										</c:if>
+									</td>
+                					<td>${ d.userId }</td>
+                					<td>${ d.ticketMany }</td>
+                					<td>${ d.ticketPrice }</td>
                 				</tr>
                 			</c:forEach>
                 		</c:when>
@@ -77,6 +84,38 @@ table{
             </table>
 
         </div>
+
+        <div class="page">
+        	<div class="paging-part">
+        		<ul class="pagination">
+        			<c:choose>
+        				<c:when test="${pi.currentPage eq 1}">
+        					<li class="page-item disabled"><a class="page-link" href="dealList.bo?cPage=${p}">&lt;</a>
+        				</c:when>
+        				<c:otherwise>
+        					<li class="page-item"><a class="page-link" href="dealList.bo?cPage=${$pi.currentPage-1}">&lt;</a></li>
+        				</c:otherwise>
+        			</c:choose>
+        			
+        			<c:forEach begin="${pi.startPage}" end="${pi.endPage}" var="p">
+        				<li class="page-item"><a class="page-link" href="dealList.bo?cPage=${p}">${p}</a><li>
+        			</c:forEach>
+        			
+        			<li class="page-item"><a class="page-link" href="dealList.bo?cPage=${$pi.currentPage+1}">&gt;</a></li>
+        		</ul>
+        	</div>
+        </div>
+
+	</div>
+
+	<script>
+		$(() => {
+			$('#dealBoard > tbody > tr').click(function(){
+				location.href = 'dealDetail.bo?dealNo=' + $(this).children('.dealNo').text();
+
+			})
+		})
+	</script>
 	
 </body>
 </html>
