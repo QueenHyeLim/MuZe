@@ -7,8 +7,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.muze.board.model.vo.Board;
+import com.kh.muze.board.model.vo.Deal;
 import com.kh.muze.board.model.vo.Reply;
 import com.kh.muze.board.model.vo.Report;
+import com.kh.muze.common.model.vo.PageInfo;
 
 @Repository
 public class BoardDao {
@@ -55,6 +57,30 @@ public class BoardDao {
 
 	public int insertFbReport(SqlSessionTemplate sqlSession, Report r) {
 		return sqlSession.insert("boardMapper.insertFbReport", r);
+	}
+
+	public int selectDealCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.selectDealCount");
+	}
+
+	public ArrayList<Deal> selectDealList(SqlSessionTemplate sqlSession, RowBounds rowBounds) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectDealList", null, rowBounds);
+	}
+
+	public int insertDeal(SqlSessionTemplate sqlSession, Deal d) {
+		return sqlSession.insert("boardMapper.insertDeal", d);
+	}
+
+	public Deal selectDeal(SqlSessionTemplate sqlSession, int dno) {
+		return sqlSession.selectOne("boardMapper.selectDeal", dno);
+	}
+
+	public int updateDeal(SqlSessionTemplate sqlSession, Deal d) {
+		return sqlSession.update("boardMapper.updateDeal", d);
+	}
+
+	public int deleteDeal(SqlSessionTemplate sqlSession, int dealNo) {
+		return sqlSession.delete("boardMapper.deleteDeal", dealNo);
 	}
 
 
