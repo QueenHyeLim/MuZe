@@ -21,6 +21,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="REP_CONTENT" property="repContent"/>
 		<result column="CREATE_DATE" property="creaetDate"/>
 	</resultMap>
+	
+	<resultMap type="report" id="reportResultSet">
+		<result column="REP_NO" property="repNo"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="USER_NO" property="userNo"/>
+		<result column="REP_TYPE" property="repType"/>
+	</resultMap>
 
 	<select id="selectFboardCount" resultType="_int">
 		SELECT
@@ -146,6 +153,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 		REPLY
 		 WHERE
 		 		BOARD_NO = #{boardNo}
+		 ORDER
+		 	BY
+		 		BREP_NO DESC
 	</select>
 	
 	<delete id="deleteFReply" parameterType="_int">
@@ -155,5 +165,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 				BREP_NO = #{fRno}
 	</delete>
+	
+	<insert id="insertFbReport" parameterType="report">
+		INSERT
+		  INTO
+		  		REPORT
+		VALUES
+				(
+				SEQ_REP_NO.NEXTVAL,
+				#{boardNo},
+				#{userNo},
+				#{repType}
+				)
+	</insert>
 
 </mapper>

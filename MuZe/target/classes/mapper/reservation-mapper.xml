@@ -134,10 +134,21 @@
                         		SEAT_ID = #{seatId})
 	</select>
 	
-	<insert id="insertReservation" parameterType="string">
-		
-	
-	</insert> 
+<!-- 	<insert id="insertReservation" parameterType="java.util.List">
+    	<foreach collection="map" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+		  INTO
+					RESERVATION
+		VALUES(
+	    SEQ_RES.NEXTVAL
+    	, #{item.listMap.orderUserNo}
+        , #{item.listMap.orderMusId}
+        , #{item.listMap.seatZip.seatNo}
+        , #{item.listMap.orderDate}
+        , 'Y'
+        , 1
+        )
+    	</foreach>
+	</insert> --> 
 	
 	<select id="putSeatNo" parameterType="string" resultType="seat">
 		SELECT 
@@ -148,5 +159,43 @@
 		 		SEAT_ID = #{seatId}
 	</select>
 	
-		
+	<insert id="bookReserve" parameterType="book">
+		INSERT
+		  INTO
+		  		RESERVATION
+		VALUES
+				(
+				SEQ_RES.NEXTVAL,
+				#{ bookUserNo },
+				#{ bookMusId },
+				#{ bookSeatNo },
+				#{ bookDate },
+				'Y',
+				1
+				)
+	</insert>
+	
+	<select id="selectReserNo" parameterType="order" resultMap="disabledSeatMap">
+		SELECT
+			        RES_NO 
+		  FROM
+			        RESERVATION
+		 WHERE
+			        USER_NO = #{ orderUserNo }
+		   AND
+			        MUS_ID = #{ orderMusId }
+		   AND
+			        RES_DATE = #{ orderDate }
+	</select>
+	
+	<insert id="ticketIssuance" parameterType="ticket">
+		INSERT
+		  INTO
+			        TICKET
+		VALUES
+			        (
+					#{ ticketNo },
+        			#{ resNo }
+			        )
+	</insert>	
 </mapper>
