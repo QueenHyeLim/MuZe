@@ -57,20 +57,42 @@ public class ReservationServiceImpl implements ReservationService {
 	public ArrayList<Seat> putSeatNo(String selectseat) {
 		return reservationDao.putSeatNo(sqlSession, selectseat);
 	}
-
+	/*
 	@Override
 	public int insertReservation(ArrayList<Book> bookList) {
 		return reservationDao.insertReservation(sqlSession, bookList);
 	}
-
+	*/
 	@Override
 	public ArrayList<Reservation> selectReserNo(Order order) {
 		return reservationDao.selectReserNo(sqlSession, order);
 	}
 
+	/*
 	@Override
 	public int ticektIssuance(ArrayList<Ticket> ticketList) {
 		return reservationDao.ticketIssuance(sqlSession, ticketList);
 	}
+	*/
+	
+	@Override
+	public int insertReservation(Order order, ArrayList<Seat> seatZip, String aid) {
+		reservationDao.insertReservation(sqlSession, order);
+		
+		reservationDao.insertBook(sqlSession, seatZip);
+		
+		return reservationDao.insertTicket(sqlSession, aid);
+	}
+	
+	/*
+	@Override
+	public int insertBook(ArrayList<Seat> seatZip) {
+		return 
+	}
 
+	@Override
+	public int insertTicket(String aid) {
+		
+	}
+	*/
 }

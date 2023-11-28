@@ -99,6 +99,7 @@ public class ReservationDao {
 		return seatList;
 	}
 
+	/*
 	public int insertReservation(SqlSessionTemplate sqlSession, ArrayList<Book> bookList) {
 		
 		int reserSuccess = 0;
@@ -109,11 +110,13 @@ public class ReservationDao {
 		
 		return reserSuccess;
 	}
-
+	*/
+	
 	public ArrayList<Reservation> selectReserNo(SqlSessionTemplate sqlSession, Order order) {
 		return (ArrayList)sqlSession.selectList("reservationMapper.selectReserNo", order);
 	}
 
+	/*
 	public int ticketIssuance(SqlSessionTemplate sqlSession, ArrayList<Ticket> ticketList) {
 		
 		int ticketSuccess = 0;
@@ -123,5 +126,25 @@ public class ReservationDao {
 		}
 		
 		return ticketSuccess;
+	}
+	*/
+	public int insertReservation(SqlSessionTemplate sqlSession, Order order) {
+		return sqlSession.insert("reservationMapper.insertReservation", order);
+	}
+
+	public int insertBook(SqlSessionTemplate sqlSession, ArrayList<Seat> seatZip) {
+		
+		int bookSuccess = 0;
+		for(Seat seat : seatZip) {
+			int seatNo = seat.getSeatNo();
+			int result = sqlSession.insert("reservationMapper.insertBook", seatNo);
+			bookSuccess += result;
+		}
+		
+		return bookSuccess;
+	}
+
+	public int insertTicket(SqlSessionTemplate sqlSession, String aid) {
+		return sqlSession.insert("reservationMapper.insertTicket", aid);
 	}
 }
