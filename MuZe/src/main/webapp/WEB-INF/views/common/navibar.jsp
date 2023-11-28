@@ -230,6 +230,9 @@
                 <li>
                     <a href="list.sh">작품</a>
                 </li>
+                <li>
+                	<a href="list.rk">랭킹</a>
+                </li>
             </ul>
             <!-- navi 영역 end -->
             <div id="logoPlace"></div>
