@@ -42,9 +42,19 @@ public class CalendarServiceImpl implements CalendarService{
 		
 		result1 = calendarDao.updateDiary(sqlSession,diary);
 		
-		if(att != null && att.getAttCategoryNo() > 0 && !att.getOriginName().isEmpty()) {
-			result2 = calendarDao.updateAttachment(sqlSession,att);
+		// 첨부파일이 있을 경우
+		if(att != null && att.getAttCategoryNo() > 0) {
+			// contentNo로 attachment가 있는지 확인 후
+			int selectAtt = calendarDao.selectAttachment(sqlSession, att);
+			if(selectAtt > 0 ) {
+				// 있을 경우 UPDATE
+				result2 = calendarDao.updateAttachment(sqlSession,att);
+			}else {
+				// 없을 경우 INSERT
+				result2 = calendarDao.updateInsertAttachment(sqlSession, att);	
+			}
 		}
+		
 		
 		return (result1 * result2);
 	}

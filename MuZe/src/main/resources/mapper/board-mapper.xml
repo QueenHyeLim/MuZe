@@ -115,7 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 				BOARD_NO = #{boardNo}
 	</update>
-	
+
 	<insert id="insertFReply" parameterType="reply">
 		INSERT
 		  INTO
@@ -155,4 +155,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 				BREP_NO = #{fRno}
 	</delete>
+
 </mapper>

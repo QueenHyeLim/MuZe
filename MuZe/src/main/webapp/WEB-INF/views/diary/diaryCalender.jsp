@@ -262,7 +262,6 @@
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
-            	console.log(info.event.id);
             	// id가 999인건 일정 정보 아닌것은 다이어리
             	if(info.event.groupId != '999'){
 	            	$('#modal-content').modal('show');
@@ -290,10 +289,11 @@
 	               			$('#updateformContent').val(result.diaryContent);
 	               			$('#updateDiaryNo').val(result.diaryNo);
 	               			if(result.modifiedName != null){
+	               				console.log("modifi : ", result.modifiedName);
+	               				console.log("attNO : " , result.attNo)
 	               				$('#diaryImg').attr('src', result.modifiedName);
 	               				$('#updateformImg').attr('src', result.modifiedName);
 	               				$('#modifiedName').val(result.modifiedName);
-	               				$('#attachmentNo').val(result.attNo);
 	               			}
 	               			else{
 	               				$('.diaryImage-area').hide();
@@ -378,13 +378,11 @@
     });
  	
  	function scheduelBtn(){
- 		// console.log($('#hiddenTime').val($('#show-time')[0].innerText));
  		$('#hiddenTime').val($('#show-time')[0].innerText);
  	}
  	
  	
- 	$(()=>{
- 		//console.log($('tbody[role="rowgroup"]'));
+ 	$(() => {
  		$('tbody[role="rowgroup"] td').css({
  			'width' : '100px',
  			'height' : '100px'
@@ -505,7 +503,6 @@
             <div class="modal-content">
             <!-- USER_NO HIDDEN / DIARY_DATE HIDDEN -->
 			<input type="hidden" name="diaryNo" id="updateDiaryNo"/>
-			<input type="hidden" name="attNo" id="attachmentNo" />
 			<input type="hidden" name="modifiedName" id="modifiedName"/>
                 <!-- Modal Header -->
                 <div class="modal-header" style="text-align: center;" id="diary-header">
