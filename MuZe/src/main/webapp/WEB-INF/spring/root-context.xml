@@ -36,5 +36,18 @@
 		<property name="dataSource" ref="dataSource"></property>
 		</bean>
 		<tx:annotation-driven transaction-manager="transactionManager"/>
+		
+	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="sender">
+	  	<property name="host" value="smtp.gmail.com" />
+	  	<property name="port" value="587" />
+	  	<property name="username" value="hyelimson703@gmail.com" />
+	  	<property name="password" value="ebpnpgidvkhejryb" />
+	  	<property name="javaMailProperties">
+	  		<props>
+	  			<prop key="mail.smtp.auth">true</prop>
+	  			<prop key="mail.smtp.starttls.enable">true</prop>
+	  		</props>
+	  	</property>
+	  </bean>
 </beans>
 
