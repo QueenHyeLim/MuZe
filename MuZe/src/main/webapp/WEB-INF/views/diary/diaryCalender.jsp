@@ -165,11 +165,6 @@
 <body>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
--->
 <jsp:include page="../common/navibar.jsp"/>
 <c:if test="${not empty sessionScope.loginUser}">
 <script>
@@ -376,18 +371,30 @@
     	}
     	
     });
- 	
+ 	// 일정 값 뽑는 함수
  	function scheduelBtn(){
  		$('#hiddenTime').val($('#show-time')[0].innerText);
  	}
  	
- 	
+ 	// 캘린더 td사이즈 스크립트
  	$(() => {
  		$('tbody[role="rowgroup"] td').css({
  			'width' : '100px',
  			'height' : '100px'
  		});
  	});
+ 	
+ 	
+	$(() => { // 파일 input script
+	 	$("#diary-file").on('change',function(){
+		  var fileName = $("#diary-file").val();
+		  $(".upload-name").val(fileName);
+		});
+ 	});
+ 	
+ 	function fileUploadClick(){
+		$('#diary-file').click();
+	}
 </script>
 <!--------------------------------------달력--------------------------------------------->
 <div class="page" id="content">
@@ -426,7 +433,6 @@
            <div class="modal-footer">
            <button type="submit" class="btn btn-secondary">change</button>
            </div>
-           
        </div>
        </div>
    </div>
@@ -450,7 +456,11 @@
                                               제목 <br>
                     <input type="text" placeholder="제목을 입력해세요..." name="diaryTitle" id="diaryTitle" class="diary-body" required> 
                     <br><br>
-                    <input type="file" name="upfile" id="diary-file"> 
+                    <div class="filebox">
+					    <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+					    <label for="file" id="file-box" onclick="fileUploadClick();">파일찾기</label> 
+                   		<input type="file" name="upfile" id="diary-file"> 
+					</div>
                     <br><br>
                    	 내용 <br>
                     <textarea name="diaryContent" id="diaryContent" cols="30" rows="10" class="diary-body" placeholder="내용을 입력하세요..." required></textarea>
@@ -514,7 +524,13 @@
                                               제목 <br>
                     <input type="text" placeholder="제목을 입력해세요..." name="diaryTitle" id="updateformTitle" class="diary-body" required> 
                    	<br/><br/>
-                    <input type="file" name="upfile" id="diary-file"> <br/><br/>
+                   	<!-- 
+                    <div class="filebox">
+					    <input class="upload-name" value="첨부파일" placeholder="첨부파일" >
+					    <label for="file" id="file-box"  onclick="fileUploadClick();">파일찾기</label> 
+					</div>
+                   	 -->
+                   		<input type="file" name="upfile" id="diary-file"> <br/><br/>
                     <div id="updateImage-area">
                     	<img src="" id="updateformImg"/>
                     </div>
