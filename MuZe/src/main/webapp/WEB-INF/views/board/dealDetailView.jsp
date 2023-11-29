@@ -19,6 +19,11 @@
 table td, table th {
 	color : white;
 }
+
+img{
+	width: 300px;
+	height: 300px;
+}
 </style>
 </head>
 <body>
@@ -31,7 +36,7 @@ table td, table th {
 	   		<c:if test="${ sessionScope.loginUser.userId eq deal.userId }">
 	   			<div class="page" id="buttton-area" align="right">
 	   				<a href="dealUpdateForm.bo?dealNo=${ deal.dealNo }" class="btn btn-primary">수정</a>
-					<a href="#" class="btn btn-danger" onclick="deleteDeal(${ deal.dealNo });" >삭제</a>
+					<a href="#" class="btn btn-danger" onclick="deleteDeal();" >삭제</a>
 	   			</div>
 	   		</c:if>
 	   
@@ -85,13 +90,29 @@ table td, table th {
 	   				</c:choose>
 	   				
 	   			</tr>
+				<tr>
+					<th>상품 이미지</th>
+					<c:choose>
+						<c:when test="${empty deal.changeName}">
+							<td>등록된 이미지가 없습니다.</td>
+						</c:when>
+						<c:otherwise>
+							<td><img src="${deal.changeName}"></td>
+						</c:otherwise>
+					</c:choose>
+				</tr>
 	   		</table>
 	   		
-	   		<c:if test="${ !empty sessionScope.loginUser }">
+	   		<c:if test="${ !empty sessionScope.loginUser && deal.userId != sessionScope.loginUser.userId}">
 	   		<div>
 	   			<button class="btn btn-primary" onclick="chatDeal(${deal.dealNo})">대화하기</button>
 	   		</div>
 	   		</c:if>
+
+		<form action="" id="deleteForm" method="post">
+			<input type="hidden" name="dealNo" value="${deal.dealNo}" />
+			<input type="hidden" name="filepath" value="${deal.changeName}"/>
+		</form>
 	</div> 
 </div> 
 	
@@ -110,11 +131,11 @@ table td, table th {
 			location.href="chatting.ch?dealNo=" + dealNo;
 		}
 
-		function deleteDeal(dealNo){
+		function deleteDeal(){
 			var result = confirm('게시글을 삭제하겠습니까?');
 
 			if(result){
-				location.href="dealDelete.bo?dealNo=" + dealNo;
+				$('#deleteForm').attr('action', 'dealDelete.bo').submit();
 			}
 		}
 	</script>

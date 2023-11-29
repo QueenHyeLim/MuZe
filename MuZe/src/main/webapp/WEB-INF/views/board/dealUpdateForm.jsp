@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,7 @@
 <title>Insert title here</title>
 <style>
 
-.table > tr, th{
+table > tr, th{
 	color : white;
 }
 
@@ -82,7 +83,7 @@ input:checked + .slider:before {
 		 <div class="page" id="content">
 	   <div id="blank-area"></div>
 	   <div class="page">
-	   		<form action="dealUpdate.bo" method="post" id="enrollForm">
+	   		<form action="dealUpdate.bo" method="post" id="enrollForm" enctype="multipart/form-data">
 				<input type="checkbox" name="saleStatus" value="${deal.saleStatus}" checked style="display: none;">
 	   			<table class="table" align="center">
 					<tr>
@@ -137,6 +138,21 @@ input:checked + .slider:before {
 					<tr>
 						<th>세부 사항</th>
 						<td><textarea id="other" name="other" class="form-control" rows="10">${deal.other}</textarea></td>
+					</tr>
+					<tr>
+						<th>상품 이미지</th>
+						<td>
+							<div class="filebox">
+							    <input type="file" id="upfile" class="form-control-file border" name="reUpfile">
+							    
+							    <c:if test="${ !empty deal.changeName }">
+							    	<span>업로드된 이미지</span>
+							    	<a href="${deal.changeName}" download="${deal.originName}">${deal.originName}</a>	
+							    	<input type="hidden" value="${ deal.originName }"/>
+							    	<input type="hidden" value="${deal.changeName }"/>
+							    </c:if>
+							</div>
+						</td>
 					</tr>
 	   			</table>
 				<input type="hidden" name="userId" value="${sessionScope.loginUser.userId}"/>

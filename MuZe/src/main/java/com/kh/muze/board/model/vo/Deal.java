@@ -22,4 +22,6 @@ public class Deal {
 	private int ticketMany;
 	private String other;
 	private String saleStatus;
+	private String originName;
+	private String changeName;
 }

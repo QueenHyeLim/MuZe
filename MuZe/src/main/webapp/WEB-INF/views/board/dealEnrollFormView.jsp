@@ -19,6 +19,9 @@
 #other{
 	resize: none;
 }
+
+/*첨부파일*/
+
 </style>
 </head>
 <body>
@@ -27,7 +30,7 @@
 	 <div class="page" id="content">
 	   <div id="blank-area"></div>
 	   <div class="page">
-	   		<form action="dealEnroll.bo" method="post" id="enrollForm">
+	   		<form action="dealEnroll.bo" method="post" id="enrollForm" enctype="multipart/form-data">
 	   			<table align="center">
 					<tr>
 						<th>작품 제목</th>
@@ -68,10 +71,18 @@
 					<tr>
 						<th>판매 수량</th>
 						<td><input type="number" id="ticketMany" name="ticketMany" class="form-control" max="4" min="1" required/></td>
+					</tr> 
+					<tr>
+						<th>세부 사항(선택)</th>
+						<td><textarea id="other" name="other" class="form-control" rows="10"></textarea></td>
 					</tr>
 					<tr>
-						<th>세부 사항</th>
-						<td><textarea id="other" name="other" class="form-control" rows="10"></textarea></td>
+						<th>상품 이미지(선택)</th>
+						<td>
+							<div class="filebox">
+							    <input type="file" id="upfile" class="form-control-file border" name="upfile">
+							</div>
+						</td>
 					</tr>
 	   			</table>
 				<input type="hidden" name="userId" value="${sessionScope.loginUser.userId}"/>
@@ -88,6 +99,15 @@
 			sDate.setDate(sDate.getDate() + 1);
 			let minStr = sDate.toISOString().split('T')[0];
 			$('#ticketDate').attr("min", minStr);
+			
+			$("#file").on('change',function(){
+				  var fileName = $("#file").val();
+				  $(".upload-name").val(fileName);
+			});
+
+			$('#fileInput').click(() => {
+				$('#file').click();
+			})
 		})
 	</script>
 </body>

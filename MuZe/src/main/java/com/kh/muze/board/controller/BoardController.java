@@ -1,30 +1,34 @@
 package com.kh.muze.board.controller;
 
+import java.io.File;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
+import com.kh.muze.attachment.controller.AttachmentController;
 import com.kh.muze.board.model.service.BoardService;
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Deal;
-import com.kh.muze.board.model.vo.Reply;
 import com.kh.muze.board.model.vo.Report;
 import com.kh.muze.common.model.vo.PageInfo;
 import com.kh.muze.common.template.Pagination;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class BoardController {
 	
-	@Autowired
-	private BoardService boardService;
+	private final BoardService boardService;
+	
+	private final AttachmentController attController;
 	
 	@RequestMapping("fboardList.bo")
 	public String selectFboardList(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
@@ -93,18 +97,6 @@ public class BoardController {
 		return "redirect:fboardList.bo";
 	}
 	
-	@ResponseBody 
-	@RequestMapping(value="fRInsert.bo")
-	public String ajaxInsertFReply(Reply r) {
-		return boardService.ajaxInsertFReply(r) > 0 ? "success" : "fail";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="fRList.bo", produces="application/json; charset=UTF-8")
-	private String ajaxSelectFReplyList(int boardNo) {
-		return new Gson().toJson(boardService.selectFReplyList(boardNo));
-	}
-	
 	@RequestMapping("fRDelete.bo")
 	public String deleteFReply(int fRno, HttpSession session, HttpServletRequest request) {
 		if(boardService.deleteFReply(fRno) > 0) {
@@ -143,7 +135,13 @@ public class BoardController {
 	}
 	
 	@RequestMapping("dealEnroll.bo")
-	public String insertDeal(Deal d, HttpSession session) {
+	public String insertDeal(Deal d, HttpSession session, MultipartFile upfile) {
+		
+		if(!upfile.getOriginalFilename().equals("")) {
+			d.setOriginName(upfile.getOriginalFilename());
+			d.setChangeName(attController.saveFiles(upfile, session));
+		}
+		
 		if(boardService.insertDeal(d) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글 둥록을 완료했습니다");
 		} else {
@@ -167,20 +165,39 @@ public class BoardController {
 	}
 	
 	@RequestMapping("dealUpdate.bo")
-	public String updateDeal(Deal d, HttpSession session) {
+	public String updateDeal(Deal d, MultipartFile reUpfile, HttpSession session) {
 		
-		System.out.println(d.getSaleStatus());
+		
+		if(!reUpfile.getOriginalFilename().equals("")) {
+			if(d.getOriginName() != null) {
+				new File(session.getServletContext().getRealPath(d.getChangeName())).delete();
+			} else {
+				d.setOriginName(reUpfile.getOriginalFilename());
+				d.setChangeName(attController.saveFiles(reUpfile, session));
+			}
+		}
+		
 		if(boardService.updateDeal(d) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글 수정 성공");
 		} else {
 			session.setAttribute("alertdeleteMsg", "게시글 수정 실패");
 		}
 		
-		return "redirect:dealDetail.bo?dealNo=" + d.getDealNo();
+		if(d.getSaleStatus().equals('N')) {
+			return "redirect:dealDetail.bo?dealNo=" + d.getDealNo();
+		} else {
+			return "redirect:dealList.bo";
+		}
+		
 	}
 	
 	@RequestMapping("dealDelete.bo")
-	public String deleteDeal(int dealNo, HttpSession session) {
+	public String deleteDeal(int dealNo, String filepath, HttpSession session) {
+		
+		if(!filepath.equals("")) {
+			new File(session.getServletContext().getRealPath(filepath)).delete();
+		}
+		
 		if(boardService.deleteDeal(dealNo) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글을 삭제했습니다");
 		} else {

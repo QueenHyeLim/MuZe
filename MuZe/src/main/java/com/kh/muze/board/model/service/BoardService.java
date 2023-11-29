@@ -2,6 +2,7 @@ package com.kh.muze.board.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Deal;
 import com.kh.muze.board.model.vo.Reply;
