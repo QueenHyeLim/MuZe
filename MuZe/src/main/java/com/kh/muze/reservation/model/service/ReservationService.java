@@ -23,13 +23,21 @@ public interface ReservationService {
 
 	int totalPrice(String selectseat);
 	
-	int insertReservation(ArrayList<Book> bookList);
+	//int insertReservation(ArrayList<Book> bookList);
 
 	ArrayList<Seat> putSeatNo(String selectseat);
 
 	ArrayList<Reservation> selectReserNo(Order order);
 
-	int ticektIssuance(ArrayList<Ticket> ticketList);
+	//int ticektIssuance(ArrayList<Ticket> ticketList);
+
+	//int insertReservation(Order order);
+
+	//int insertBook(ArrayList<Seat> seatZip);
+
+	//int insertTicket(String aid);
+
+	int insertReservation(Order order, ArrayList<Seat> seatZip, String aid);
 
 	//int insertReservation(Order order);
 
