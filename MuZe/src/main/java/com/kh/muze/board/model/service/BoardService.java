@@ -1,6 +1,7 @@
 package com.kh.muze.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.board.model.vo.Board;
@@ -51,5 +52,13 @@ public interface BoardService {
 	int selectFboardLike(Like like);
 
 	int ajaxDeleteFboardLike(Like l);
+
+	int selectFSearchCount(HashMap<String, String> map);
+
+	ArrayList<Board> selectFSearch(HashMap<String, String> map, PageInfo pi);
+
+	int selectDSearchCount(HashMap<String, String> map);
+
+	ArrayList<Deal> selectDSearchList(HashMap<String, String> map, PageInfo pi);
 
 }

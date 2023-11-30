@@ -88,6 +88,15 @@ table{
 				<button type="submit" class="btn btn-primary" id="searchBtn">검색</button>
 			</form>
 		</div>
+		
+		<c:if test="${not empty condition }">
+			<script>
+				$(function(){
+					$('#searchPart option[value=${condition}]')
+						.attr('selected', true);
+				});
+			</script>
+		</c:if>
         
         <div class="page" id="list-area">
 

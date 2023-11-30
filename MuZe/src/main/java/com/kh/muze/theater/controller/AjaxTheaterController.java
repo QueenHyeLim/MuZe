@@ -31,8 +31,6 @@ public class AjaxTheaterController {
 		url += "&rows=2800";
 		url += "&shprfnmfct=" + URLEncoder.encode(shprfnmfct, "UTF-8");
 		
-//		System.out.println(url);
-		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 		urlConnection.setRequestMethod("GET");
