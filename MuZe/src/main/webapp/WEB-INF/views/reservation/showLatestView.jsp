@@ -67,11 +67,13 @@
 	  <div class="page" id="d">
 	  	<div class="preview">
         <div class="pre-nav">
-            <select>
-                <option value="">HOT 뮤지컬</option>
-                <option value="">인기 연극</option>
-                <option value=""></option>
-            </select>
+      
+	         <select id="genre" name="genre" >
+	                <option value="1">HOT 뮤지컬</option>
+	                <option value="2">인기 연극</option>
+	         </select>
+     
+            
         </div>
         <div class="pre-list">
         	<c:forEach items="${ list }" var="s">
@@ -129,6 +131,50 @@
 	  
 	  </div>
 	</div> 
-		
+	<script>
+	
+	console.log($('#genre').val());
+	$(() => {
+		console.log($('#genre').val());
+		$('#genre').on('change', () => {
+			$.ajax({
+				url : 'search.mz',
+				data : {genre : $('#genre').val()},
+				success : (data) => {
+					console.log(data);
+					let value = '';
+					for(let i in data){
+						value += '<div class="pre-show">'
+							   + '<div class="pre-rank">'
+							   + '<div id="pre-rank_1">' + data[i].rowNo + '</div>'
+							   + '</div>'
+							   + '<div class="pre-con">' 
+							   + '<div class="pre_con_1">'
+							   + '<img src="' + data[i].poster + '" alt="뮤지컬포스터">' + '</div>'
+							   + '<div class="pre_con_2">' + data[i].musTitle + '</div>'
+							   + '<div class="pre_con_3">' + data[i].theaterName + '</div>'
+							   + '<div class="pre_con_4">' + data[i].startDate + '~' + data[i].endDate + '</div>'
+							   + '</div>'
+							   + '<div class="pre-res">'
+							   + '<form action="detail.rs" method="POST">' 
+							   + '<input type="hidden" name="musId" value="' + data[i].musId + '">'
+							   + '<button type="submit" id="resego">예약하기</button>'
+							   + '</form>'
+							   + '</div>'
+							   + '</div>';
+					}
+					$('.pre-list').html(value);
+				},
+				fail : (data) => {
+					console.log('연극조회실패');
+				}
+			});
+		})	
+	})
+	
+	
+	
+	
+	</script>
 </body>
 </html>

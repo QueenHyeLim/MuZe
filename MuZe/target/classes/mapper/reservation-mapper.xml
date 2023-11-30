@@ -31,6 +31,20 @@
 		
 	</resultMap>
 	
+	<resultMap id="ticketListMap" type="Mymuze">
+		<result column="TICKET_NO" property="ticketNo" />
+		<result column="MUS_ID" property="musId" />
+		<result column="MUS_TITLE" property="musTitle" />
+		<result column="RES_NO" property="resNo" />
+		<result column="SEAT_NO" property="seatNo" />
+		<result column="SEAT_ID" property="seatIdlist" />
+		<result column="RES_DATE" property="resDate" />
+		<result column="THEATER_ID" property="theaterId" />
+		<result column="THEATER_NAME" property="theaterName" />
+	</resultMap>
+	
+	
+	
 	<select id="showLatest" resultMap="reservationMap">
 		SELECT 
 						ROWNUM, A.*
@@ -234,4 +248,96 @@
 		 		SEQ_RESERVE.CURRVAL
 		 		)
 	</insert>	
+	
+	<select id="receiveResno" parameterType="_int" resultMap="disabledSeatMap">
+		SELECT 
+		        RES_NO
+		  FROM
+		        TICKET T
+		 JOIN
+		        RESERVE R
+		USING
+		        (RES_NO)
+		 WHERE
+		        R.USER_NO = #{userNo}
+	</select>
+	
+	<!-- <select id="ticketList" parameterType="_int" resultMap="ticketList">
+		SELECT
+	        		TICKET_NO, 
+	        		MUS_ID, 
+	        		MUS_TITLE,  
+	        		RES_NO, 
+	        		SEAT_NO, 
+	        		SEAT_ID, 
+	        		RES_DATE, 
+	        		s.theater_id, 
+	        		t.theather_name
+		  FROM
+			        BOOK
+		  JOIN
+			        RESERVE
+		    ON
+			        (RES_NO = BOOK_NO)
+		  JOIN
+		       		TICKET
+		 USING
+		        	(RES_NO)
+		  JOIN
+		        	SHOW S
+		 USING
+		       		(MUS_ID)
+		  JOIN
+		        	SEAT
+		  USING
+		        	(SEAT_NO)
+		 JOIN
+		        	THEATER T
+		 ON
+		        	(T.THEATER_ID = S.THEATER_ID)
+		 WHERE
+		 <foreach collection="list" item="resNo">
+		        	RES_NO = #{resNo}
+		 </foreach>
+	</select> -->
+	
+	<select id="searchMuze" parameterType="_int" resultMap="reservationMap">
+		SELECT 
+						ROWNUM, A.*
+		  FROM 
+				 		(SELECT 
+						        MUS_ID,
+						        T.THEATHER_NAME,
+						        GENRE_NO,
+						        MUS_TITLE,
+						        START_DATE,
+						        END_DATE,
+						        RUN_TIME,
+						        POSTER,
+						        AGE_RATE,
+						        STATUS,
+						        PER_TIME,
+						        CAST
+						 FROM 
+						        SHOW S
+				         JOIN
+				                THEATER T
+				          ON
+				               (T.THEATER_ID = S.THEATER_ID)
+						 WHERE 
+						        STATUS = '공연중'
+				<choose>
+					<when test="genre == 1">
+					AND
+		                        GENRE_NO = 1)A	
+					</when>
+					<otherwise>
+					AND
+		                        GENRE_NO = 2)A	
+					</otherwise>
+				</choose> 
+		                  
+	
+	
+	</select>
 </mapper>

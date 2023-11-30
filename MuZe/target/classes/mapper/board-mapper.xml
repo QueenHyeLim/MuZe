@@ -141,7 +141,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 				BOARD_NO = #{boardNo}
 	</update>
-
 	<select id="selectFReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT
 		 		BREP_NO,
@@ -157,7 +156,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 	BY
 		 		BREP_NO DESC
 	</select>
-	
+
+
 	<insert id="insertFReply" parameterType="reply">
 		INSERT
 		  INTO
