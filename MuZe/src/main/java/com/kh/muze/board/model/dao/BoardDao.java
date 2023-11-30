@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Deal;
+import com.kh.muze.board.model.vo.Like;
 import com.kh.muze.board.model.vo.Reply;
 import com.kh.muze.board.model.vo.Report;
 import com.kh.muze.common.model.vo.PageInfo;
@@ -86,6 +87,18 @@ public class BoardDao {
 
 	public int insertDealAtt(SqlSessionTemplate sqlSession, Attachment att) {
 		return sqlSession.insert("boardMapper.insertDealAtt", att);
+	}
+
+	public int insertFboardLike(SqlSessionTemplate sqlSession, Like l) {
+		return sqlSession.insert("boardMapper.insertFboardLike", l);
+	}
+
+	public int selectFboardLike(SqlSessionTemplate sqlSession, Like like) {
+		return sqlSession.selectOne("boardMapper.selectFboardLike", like);
+	}
+
+	public int deleteFboardLike(SqlSessionTemplate sqlSession, Like l) {
+		return sqlSession.delete("boardMapper.deleteFboardLike", l);
 	}
 
 
