@@ -193,6 +193,11 @@
 	                	<c:when test="${ empty loginUser }">
 			                    <a href="loginPage.me">마이페이지</a>
 			            </c:when>
+			            
+				        <c:when test="${sessionScope.loginUser.userGrade == 2 }">
+				        	<a href="adminPage.me">관리자 페이지</a>
+				        </c:when>
+			            
 			            <c:otherwise>
 			            		<a href="myInfo.me">마이페이지</a>
 			                    <ul>
