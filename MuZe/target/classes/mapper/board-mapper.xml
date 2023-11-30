@@ -44,6 +44,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="TICKET_MANY" property="ticketMany"/>
 		<result column="OTHER" property="other"/>
 		<result column="SALE_STATUS" property="saleStatus"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="CHANGE_NAME" property="changeName"/>
 	</resultMap>
 
 	<select id="selectFboardCount" resultType="_int">
@@ -175,41 +177,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 		BREP_NO DESC
 	</select>
 	
-	<insert id="insertFReply" parameterType="reply">
-		INSERT
-		  INTO
-		  		REPLY
-		  		(
-		  		BREP_NO,
-		  		BOARD_NO,
-		  		USER_ID,
-		  		REP_CONTENT
-		  		)
-		VALUES
-				(
-				SEQ_BREP_NO.NEXTVAL,
-				#{boardNo},
-				#{userId},
-				#{repContent}
-				)
-	</insert>
-	
-	<select id="selectFReplyList" parameterType="_int" resultMap="replyResultSet">
-		SELECT
-		 		BREP_NO,
-		 		BOARD_NO,
-		 		USER_ID,
-		 		REP_CONTENT,
-		 		CREATE_DATE
-		 FROM
-		 		REPLY
-		 WHERE
-		 		BOARD_NO = #{boardNo}
-		 ORDER
-		 	BY
-		 		BREP_NO DESC
-	</select>
-	
 	<delete id="deleteFReply" parameterType="_int">
 		DELETE
 		  FROM
@@ -278,7 +245,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  		TICKET_PRICE,
 		  		TICKET_MANY,
 		  		OTHER,
-		  		SHOW_TITLE
+		  		SHOW_TITLE,
+		  		ORIGIN_NAME,
+		  		CHANGE_NAME
 		  		)
 		VALUES
 				(
@@ -294,7 +263,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{ticketPrice},
 				#{ticketMany},
 				#{other},
-				#{showTitle}
+				#{showTitle},
+				#{originName},
+				#{changeName}
 				)
 	</insert>
 	
@@ -313,7 +284,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				TICKET_MANY,
 				OTHER,
 				SHOW_TITLE,
-				SALE_STATUS
+				SALE_STATUS,
+				ORIGIN_NAME,
+				CHANGE_NAME
 		FROM
 				DEAL
 		WHERE
@@ -335,7 +308,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				TICKET_MANY = #{ticketMany},
 				OTHER = #{other},
 				SHOW_TITLE = #{showTitle},
-				SALE_STATUS = #{saleStatus}
+				SALE_STATUS = #{saleStatus},
+				ORIGIN_NAME = #{originName},
+				CHANGE_NAME = #{changeName}
 		WHERE
 				DEAL_NO = #{dealNo}
 	</update>
