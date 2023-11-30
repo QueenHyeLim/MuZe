@@ -30,8 +30,6 @@ public class TheaterController {
 		return "theater/theaterListView";
 	}
 	
-
-	
 	// 공연장 상세정보 불러오기
 	@RequestMapping(value="theatermap", produces="text/html; charset=UTF-8")
 	public String theatermap(String mt10id, Model model) throws IOException, Exception {
