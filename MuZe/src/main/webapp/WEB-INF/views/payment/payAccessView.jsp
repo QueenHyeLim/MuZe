@@ -79,8 +79,12 @@
 	                    <td>${ ApproveResponse.item_name }</td>
 	                </tr>
 	                <tr>
+	                    <th>공연장소</th>
+	                    <td>${ Order.musTheater }</td>
+	                </tr>
+	                <tr>
 	                    <th>공연일자</th>
-	                    <td>${ sessionScope.OrderList.orderDate }</td>
+	                    <td>${ Order.orderDate }</td>
 	                </tr>
 	                <tr>
 	                    <th>예매좌석</th>
@@ -112,5 +116,7 @@
 	  
 	  </div>
 	</div>
+
 </body>
+
 </html>

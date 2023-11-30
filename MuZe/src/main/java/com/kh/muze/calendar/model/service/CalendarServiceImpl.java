@@ -33,6 +33,31 @@ public class CalendarServiceImpl implements CalendarService{
         }
 	    return (result1 * result2);
 	}
+	
+	@Override
+	@Transactional("transactionManager")
+	public int updateTransaction(Attachment att, Diary diary) {
+		int result1 = 0;
+		int result2 = 1;
+		
+		result1 = calendarDao.updateDiary(sqlSession,diary);
+		
+		// 첨부파일이 있을 경우
+		if(att != null && att.getAttCategoryNo() > 0) {
+			// contentNo로 attachment가 있는지 확인 후
+			int selectAtt = calendarDao.selectAttachment(sqlSession, att);
+			if(selectAtt > 0 ) {
+				// 있을 경우 UPDATE
+				result2 = calendarDao.updateAttachment(sqlSession,att);
+			}else {
+				// 없을 경우 INSERT
+				result2 = calendarDao.updateInsertAttachment(sqlSession, att);	
+			}
+		}
+		
+		
+		return (result1 * result2);
+	}
 
 	@Override
 	public ArrayList<Diary> selectDiary(int diaryUser) {
@@ -68,6 +93,17 @@ public class CalendarServiceImpl implements CalendarService{
 	public ArrayList<Schedule> selectSchedule(int diaryUser) {
 		return calendarDao.selectSchedule(sqlSession,diaryUser);
 	}
+
+	@Override
+	public int deleteSchedule(HashMap map) {
+		return calendarDao.deleteSchedule(sqlSession,map);
+	}
+
+	@Override
+	public int deleteDiary(HashMap map) {
+		return calendarDao.deleteDiary(sqlSession,map);
+	}
+
 
 
 

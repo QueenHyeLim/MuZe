@@ -49,6 +49,33 @@ public class CalendarDao {
 		return sqlSession.insert("calendarMapper.insertSchedule",sc);
 	}
 
+	public int deleteSchedule(SqlSessionTemplate sqlSession, HashMap map) {
+		return sqlSession.delete("calendarMapper.deleteSchedule",map);
+	}
+
+	public int deleteDiary(SqlSessionTemplate sqlSession, HashMap map) {
+		return sqlSession.update("calendarMapper.deleteDiary",map);
+	}
+
+	public int updateDiary(SqlSessionTemplate sqlSession, Diary diary) {
+		return sqlSession.update("calendarMapper.updateDiary",diary);
+	}
+
+	public int updateAttachment(SqlSessionTemplate sqlSession, Attachment att) {
+		int result = sqlSession.update("calendarMapper.updateAttachment", att);
+		return result;
+	}
+
+	public int selectAttachment(SqlSessionTemplate sqlSession, Attachment att) {
+		return sqlSession.selectOne("calendarMapper.selectAttachment", att);
+	}
+
+	public int updateInsertAttachment(SqlSessionTemplate sqlSession, Attachment att) {
+		return sqlSession.insert("calendarMapper.updateInsertAttachment",att);
+	}
+	
+	
+
 
 
 }

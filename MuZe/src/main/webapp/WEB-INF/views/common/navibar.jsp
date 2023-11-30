@@ -156,6 +156,34 @@
 		text-decoration : none;
 		color : white;
 	}
+	/*------------------------파일첨부 css-----------------------------*/
+	.filebox .upload-name {
+	    display: inline-block;
+	    height: 40px;
+	    padding: 0 10px;
+	    vertical-align: middle;
+	    border: 1px solid #dddddd;
+	    width: 78%;
+	    color: #999999;
+	}
+	.filebox label {
+	    display: inline-block;
+	    padding: 10px 20px;
+	    color: #fff;
+	    vertical-align: middle;
+	    background-color: #999999;
+	    cursor: pointer;
+	    height: 40px;
+	    margin-left: 10px;
+	}
+	.filebox input[type="file"] {
+	    position: absolute;
+	    width: 0;
+	    height: 0;
+	    padding: 0;
+	    overflow: hidden;
+	    border: 0;
+	}
 </style>
 </head>
 <body>
@@ -201,7 +229,7 @@
 			            <c:otherwise>
 			            		<a href="myInfo.me">마이페이지</a>
 			                    <ul>
-			                        <li><a href="diary.di">다이어리</a></li>
+			                        <li><a href="calendar.ca">다이어리</a></li>
 			                        <li><a href="#">가계부</a></li>
 			                        <li><a href="#">즐겨찾기</a></li>
 			                        <li><a href="#">my muze</a></li>
@@ -213,8 +241,10 @@
                 <li>
                     <a href="">커뮤니티</a>
                     <ul>
+						<li><a href="#">사진 게시판</a></li>
                         <li><a href="fboardList.bo">자유게시판</a></li>
-                        <li><a href="#">티켓 양도</a></li>
+                        <li><a href="dealList.bo">티켓 양도</a></li>
+
                     </ul>
                 </li>
                 <li>
@@ -232,6 +262,9 @@
                 </li>
                 <li>
                     <a href="list.sh">작품</a>
+                </li>
+                <li>
+                	<a href="list.rk">랭킹</a>
                 </li>
             </ul>
             <!-- navi 영역 end -->

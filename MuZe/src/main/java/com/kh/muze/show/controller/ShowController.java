@@ -33,52 +33,52 @@ public class ShowController {
 		return "show/showListView";
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="slist.sh", produces="application/json; charset=UTF-8")
-	public String ajaxShowList(String shprfnm, String prfstate, Model model) throws Exception {
-		
-		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
-		url += "?service=" + SERVICEYKEY;
-
-		url += "&cpage=1";
-		url += "&rows=88000";
-		if(prfstate != "00") {
-			url += "&prfstate=" + prfstate;
-		}
-		url += "&shprfnm=" + URLEncoder.encode(shprfnm, "UTF-8");
-		
-		//System.out.println(url);
-		
-		URL requestUrl = new URL(url);
-		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
-		urlConnection.setRequestMethod("GET");
-		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-		
-		String responseText = "";
-		String line;
-		
-		while((line = br.readLine()) != null) {
-			responseText += line;
-		}
-		
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(url);
-		
-		doc.getDocumentElement().normalize();
-		
-		NodeList nList = doc.getElementsByTagName("db");
-	
-		JSONObject xmlToJson = XML.toJSONObject(responseText);
-		String jsonStr = xmlToJson.toString();
-		
-		br.close();
-		urlConnection.disconnect();
-		
-		//System.out.println(jsonStr);
-		
-		return jsonStr;
-	}
+//	@ResponseBody
+//	@RequestMapping(value="slist.sh", produces="application/json; charset=UTF-8")
+//	public String ajaxShowList(String shprfnm, String prfstate, Model model) throws Exception {
+//		
+//		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
+//		url += "?service=" + SERVICEYKEY;
+//
+//		url += "&cpage=1";
+//		url += "&rows=88000";
+//		if(prfstate != "00") {
+//			url += "&prfstate=" + prfstate;
+//		}
+//		url += "&shprfnm=" + URLEncoder.encode(shprfnm, "UTF-8");
+//		
+//		//System.out.println(url);
+//		
+//		URL requestUrl = new URL(url);
+//		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+//		urlConnection.setRequestMethod("GET");
+//		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+//		
+//		String responseText = "";
+//		String line;
+//		
+//		while((line = br.readLine()) != null) {
+//			responseText += line;
+//		}
+//		
+//		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+//		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//		Document doc = dBuilder.parse(url);
+//		
+//		doc.getDocumentElement().normalize();
+//		
+//		NodeList nList = doc.getElementsByTagName("db");
+//	
+//		JSONObject xmlToJson = XML.toJSONObject(responseText);
+//		String jsonStr = xmlToJson.toString();
+//		
+//		br.close();
+//		urlConnection.disconnect();
+//		
+//		//System.out.println(jsonStr);
+//		
+//		return jsonStr;
+//	}
 	
 	@RequestMapping(value="detail.sh", produces="text/html; charset=UTF-8")
 	public String showDetail(String mt20id, Model model) throws Exception {

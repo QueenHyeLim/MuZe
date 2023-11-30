@@ -33,32 +33,31 @@
 	
 	<select id="showLatest" resultMap="reservationMap">
 		SELECT 
-				ROWNUM, A.*
-		 FROM 
-		 		(SELECT 
-				        MUS_ID,
-				        T.THEATHER_NAME,
-				        GENRE_NO,
-				        MUS_TITLE,
-				        START_DATE,
-				        END_DATE,
-				        RUN_TIME,
-				        POSTER,
-				        AGE_RATE,
-				        STATUS,
-				        PER_TIME,
-				        CAST
-				 FROM 
-				        SHOW S
-		         JOIN
-		                THEATER T
-		          ON
-		               (T.THEATER_ID = S.THEATER_ID)
-				 WHERE 
-				        STATUS = '공연중' 
-				 ORDER 
-				    BY 
-				        START_DATE DESC)A
+						ROWNUM, A.*
+		  FROM 
+				 		(SELECT 
+						        MUS_ID,
+						        T.THEATHER_NAME,
+						        GENRE_NO,
+						        MUS_TITLE,
+						        START_DATE,
+						        END_DATE,
+						        RUN_TIME,
+						        POSTER,
+						        AGE_RATE,
+						        STATUS,
+						        PER_TIME,
+						        CAST
+						 FROM 
+						        SHOW S
+				         JOIN
+				                THEATER T
+				          ON
+				               (T.THEATER_ID = S.THEATER_ID)
+						 WHERE 
+						        STATUS = '공연중' 
+		                  AND
+		                        GENRE_NO = 1)A
 	</select>
 
 	<select id="selectMus" parameterType="string" resultMap="reservationMap">
@@ -133,4 +132,106 @@
                			 WHERE
                         		SEAT_ID = #{seatId})
 	</select>
+	
+<!-- 	<insert id="insertReservation" parameterType="java.util.List">
+    	<foreach collection="map" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+		  INTO
+					RESERVATION
+		VALUES(
+	    SEQ_RES.NEXTVAL
+    	, #{item.listMap.orderUserNo}
+        , #{item.listMap.orderMusId}
+        , #{item.listMap.seatZip.seatNo}
+        , #{item.listMap.orderDate}
+        , 'Y'
+        , 1
+        )
+    	</foreach>
+	</insert> --> 
+	
+	<select id="putSeatNo" parameterType="string" resultType="seat">
+		SELECT 
+				SEAT_NO seatNo
+		  FROM 
+		  		SEAT 
+		 WHERE 
+		 		SEAT_ID = #{seatId}
+	</select>
+	
+<!-- <insert id="bookReserve" parameterType="book">
+		INSERT
+		  INTO
+		  		RESERVATION
+		VALUES
+				(
+				SEQ_RES.NEXTVAL,
+				#{ bookUserNo },
+				#{ bookMusId },
+				#{ bookSeatNo },
+				#{ bookDate },
+				'Y',
+				1
+				)
+	</insert> -->	
+	
+	<select id="selectReserNo" parameterType="order" resultMap="disabledSeatMap">
+		SELECT
+			        RES_NO 
+		  FROM
+			        RESERVE
+		 WHERE
+			        USER_NO = #{ orderUserNo }
+		   AND
+			        MUS_ID = #{ orderMusId }
+		   AND
+			        RES_DATE = #{ orderDate }
+	</select>
+	
+<!-- <insert id="ticketIssuance" parameterType="ticket">
+		INSERT
+		  INTO
+			        TICKET
+		VALUES
+			        (
+					#{ ticketNo },
+        			#{ resNo }
+			        )
+	</insert> -->	
+	
+	<insert id="insertReservation" parameterType="order">
+		INSERT
+		  INTO
+		  			RESERVE
+		VALUES
+					(
+					SEQ_RESERVE.NEXTVAL,
+					#{ orderUserNo },
+					#{ orderMusId },
+					#{ orderDate },
+					'Y',
+					1
+					)
+	</insert>
+	
+	<insert id="insertBook" parameterType="_int">
+		INSERT
+		  INTO
+		  		BOOK
+		VALUES
+				(
+				SEQ_RESERVE.CURRVAL,
+				#{ seatNo }
+				)
+	</insert>
+	
+	<insert id="insertTicket" parameterType="string">
+		INSERT
+		  INTO
+		  		TICKET
+		 VALUES
+		 		(
+		 		#{ aid },
+		 		SEQ_RESERVE.CURRVAL
+		 		)
+	</insert>	
 </mapper>

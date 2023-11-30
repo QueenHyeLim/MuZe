@@ -1,31 +1,40 @@
 package com.kh.muze.board.controller;
 
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.muze.attachment.controller.AttachmentController;
 import com.kh.muze.board.model.service.BoardService;
 import com.kh.muze.board.model.vo.Board;
+import com.kh.muze.board.model.vo.Deal;
+import com.kh.muze.board.model.vo.Report;
 import com.kh.muze.common.model.vo.PageInfo;
 import com.kh.muze.common.template.Pagination;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class BoardController {
 	
-	@Autowired
-	private BoardService boardService;
+	private final BoardService boardService;
 	
-	@RequestMapping("fboardList.bo")
+	private final AttachmentController attController;
+	
+	@GetMapping("fboardList.bo")
 	public String selectFboardList(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectFboardCount(), currentPage, 10, 10);
-		
-		System.out.println(currentPage);
 		
 		model.addAttribute("list", boardService.selectFboardList(pi));
 		model.addAttribute("pi", pi);
@@ -48,8 +57,9 @@ public class BoardController {
 		return "board/freeWriteView";
 	}
 	
-	@RequestMapping("fDetail.bo")
-	public ModelAndView selectFboard(int fbno, ModelAndView mv) {
+	@GetMapping("fDetail.bo")
+	public ModelAndView selectFboard(int fbno, ModelAndView mv, HttpSession session) {
+		
 		if(boardService.increaseCount(fbno) > 0) {
 			mv.addObject("b", boardService.selectFboard(fbno))
 			  .setViewName("board/freeDetailView");
@@ -60,7 +70,7 @@ public class BoardController {
 		return mv;
 	}
 	
-	@RequestMapping("fUpdateForm.bo")
+	@GetMapping("fUpdateForm.bo")
 	public ModelAndView updateFreeBoard(int fbno, ModelAndView mv) {
 		
 		mv.addObject("b", boardService.selectFboard(fbno)).setViewName("board/freeUpdateView");
@@ -79,7 +89,7 @@ public class BoardController {
 		}
 	}
 	
-	@RequestMapping("fDelete.bo")
+	@GetMapping("fDelete.bo")
 	public String deleteFBoard(int fbno, HttpSession session) {
 		if(boardService.deleteFBoard(fbno) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글을 삭제했습니다.");
@@ -89,4 +99,113 @@ public class BoardController {
 		return "redirect:fboardList.bo";
 	}
 	
+	@RequestMapping("fRDelete.bo")
+	public String deleteFReply(int fRno, HttpSession session, HttpServletRequest request) {
+		if(boardService.deleteFReply(fRno) > 0) {
+			session.setAttribute("alertdeleteMsg", "댓글을 삭제했습니다");
+		} else {
+			session.setAttribute("alertdeletemsg", "댓글을 삭제하지 못했습니다");
+		}
+		return "redirect:" + request.getHeader("Referer");
+	}
+	
+	@RequestMapping("fbReport.bo")
+	public String insertFbReport(Report r, HttpSession session, HttpServletRequest request) {
+		if(boardService.insertFbReport(r) > 0) {
+			session.setAttribute("alertdeleteMsg", "게시글을 신고했습니다");
+		} else {
+			session.setAttribute("alertdeleteMsg", "게시글 신고를 실패했습니다.");
+		}
+		
+		return "redirect:" + request.getHeader("Referer");
+
+	}
+    
+	@RequestMapping("dealList.bo")
+	public String selectDealList(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
+		
+		PageInfo pi = Pagination.getPageInfo(boardService.selectDealCount(), currentPage, 10, 10);
+		
+		model.addAttribute("list", boardService.selectDealList(pi));
+		model.addAttribute("pi", pi);
+		
+		return "board/dealListView";
+	}
+  
+	@RequestMapping("dealInsertForm.bo")
+	public String dealInsertForm() {
+		return "board/dealEnrollFormView";
+	}
+	
+	@RequestMapping("dealEnroll.bo")
+	public String insertDeal(Deal d, HttpSession session, MultipartFile upfile) {
+		
+		if(!upfile.getOriginalFilename().equals("")) {
+			d.setOriginName(upfile.getOriginalFilename());
+			d.setChangeName(attController.saveFiles(upfile, session));
+		}
+		
+		if(boardService.insertDeal(d) > 0) {
+			session.setAttribute("alertdeleteMsg", "게시글 둥록을 완료했습니다");
+		} else {
+			session.setAttribute("alertdeleteMsg", "게시글 등록을 실패했습니다");
+		}
+		return "redirect:dealList.bo";
+	}
+	
+	@RequestMapping("dealDetail.bo")
+	public String selectDeal(int dealNo, Model model) {
+		model.addAttribute("deal", boardService.selectDeal(dealNo)); 
+		return "board/dealDetailView";
+	}
+	
+	@RequestMapping("dealUpdateForm.bo")
+	public ModelAndView dealUpdateForm(int dealNo, ModelAndView mv) {
+		mv.addObject("deal", boardService.selectDeal(dealNo))
+		.setViewName("board/dealUpdateForm");
+		
+		return mv;
+	}
+	
+	@RequestMapping("dealUpdate.bo")
+	public String updateDeal(Deal d, MultipartFile reUpfile, HttpSession session) {
+		
+		if(!reUpfile.getOriginalFilename().equals("")) {
+			if(d.getOriginName() != null) {
+				new File(session.getServletContext().getRealPath(d.getChangeName())).delete();
+			} else {
+				d.setOriginName(reUpfile.getOriginalFilename());
+				d.setChangeName(attController.saveFiles(reUpfile, session));
+			}
+		}
+		
+		if(boardService.updateDeal(d) > 0) {
+			session.setAttribute("alertdeleteMsg", "게시글 수정 성공");
+		} else {
+			session.setAttribute("alertdeleteMsg", "게시글 수정 실패");
+		}
+		
+		if(d.getSaleStatus().equals('N')) {
+			return "redirect:dealDetail.bo?dealNo=" + d.getDealNo();
+		} else {
+			return "redirect:dealList.bo";
+		}
+		
+	}
+	
+	@RequestMapping("dealDelete.bo")
+	public String deleteDeal(int dealNo, String filepath, HttpSession session) {
+		
+		if(!filepath.equals("")) {
+			new File(session.getServletContext().getRealPath(filepath)).delete();
+		}
+		
+		if(boardService.deleteDeal(dealNo) > 0) {
+			session.setAttribute("alertdeleteMsg", "게시글을 삭제했습니다");
+		} else {
+			session.setAttribute("alertdeleteMsg", "게시글 삭제를 실패했습니다");
+		}
+		
+		return "redirect:dealList.bo";
+	}
 }
