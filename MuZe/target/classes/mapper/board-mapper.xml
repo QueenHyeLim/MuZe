@@ -142,6 +142,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				BOARD_NO = #{boardNo}
 	</update>
 
+	<select id="selectFReplyList" parameterType="_int" resultMap="replyResultSet">
+		SELECT
+		 		BREP_NO,
+		 		BOARD_NO,
+		 		USER_ID,
+		 		REP_CONTENT,
+		 		CREATE_DATE
+		 FROM
+		 		REPLY
+		 WHERE
+		 		BOARD_NO = #{boardNo}
+		 ORDER
+		 	BY
+		 		BREP_NO DESC
+	</select>
+	
 	<insert id="insertFReply" parameterType="reply">
 		INSERT
 		  INTO
@@ -160,22 +176,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{repContent}
 				)
 	</insert>
-	
-	<select id="selectFReplyList" parameterType="_int" resultMap="replyResultSet">
-		SELECT
-		 		BREP_NO,
-		 		BOARD_NO,
-		 		USER_ID,
-		 		REP_CONTENT,
-		 		CREATE_DATE
-		 FROM
-		 		REPLY
-		 WHERE
-		 		BOARD_NO = #{boardNo}
-		 ORDER
-		 	BY
-		 		BREP_NO DESC
-	</select>
 	
 	<delete id="deleteFReply" parameterType="_int">
 		DELETE
@@ -322,5 +322,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE
 		 		DEAL_NO = ${dealNo}
 	</delete>
-
+  
 </mapper>

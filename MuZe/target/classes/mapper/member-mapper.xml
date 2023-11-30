@@ -4,6 +4,16 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
 
+	<resultMap id="memberResultSet" type="member">
+		<result column="USER_NO" 	   property="userNo" />
+		<result column="USER_ID"   	   property="userId" />
+		<result column="USER_NAME"     property="userName" />
+		<result column="PHONE" 		   property="phone" />
+		<result column="EMAIL"         property="email" />
+		<result column="ENROLL_DATE"   property="enrollDate" />
+		<result column="USER_GRADE"    property="userGrade" />
+	</resultMap>
+
 	<select id="loginMember" parameterType="member" resultType="member">
 		SELECT
 			  USER_NO userNo,
@@ -72,6 +82,73 @@
 		   	   member
 		  where
 		  	   user_id = #{checkId}
+	</select>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT
+		       COUNT(*)
+		  FROM
+		       MEMBER
+		  WHERE 
+		   	   USER_GRADE = '1'
+	</select>
+	
+	<select id="selectList" resultMap="memberResultSet">
+		SELECT
+		       USER_NO
+		      ,USER_ID
+		      ,USER_NAME
+		      ,PHONE
+		      ,EMAIL
+		      ,TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') as "ENROLL_DATE"
+		      ,USER_GRADE
+		  FROM
+			   MEMBER
+		 WHERE 
+		   	   USER_GRADE = '1'
+	     ORDER
+	        BY
+	           USER_NO DESC
+	</select>
+	
+	<delete id="deleteMembeById" parameterType="member">
+		delete
+			   member
+		 where
+		 	   user_id = #{userId}
+	</delete>
+	
+	<select id="selectSearchCount" parameterType="hashmap" resultType="_int">
+		SELECT
+			   COUNT(*)
+		  FROM 
+		  	   MEMBER
+		 WHERE 
+		 	   MEMBER.USER_GRADE = '1'
+		 <if test="condition == 'name'">
+		 	AND USER_NAME LIKE '%' || #{ keyword } || '%'
+		 </if>
+		 
+	</select>
+	
+	<select id="selectSearchList" parameterType="hashmap" resultMap="memberResultSet">
+		SELECT
+ 			   USER_NO,
+ 			   USER_ID,
+ 			   USER_NAME,
+ 			   EMAIL,
+ 			   PHONE,
+ 			   TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') as "ENROLL_DATE",
+ 			   USER_GRADE
+ 		  FROM 
+		  	   MEMBER
+		 WHERE 
+		 	   MEMBER.USER_GRADE = '1'
+		 <if test="condition == 'name'">
+		   AND USER_NAME LIKE '%' || #{ keyword } || '%'
+		 </if>
+		 ORDER
+		    BY USER_NO DESC
 	</select>
 	
 </mapper>
