@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Deal;
 import com.kh.muze.board.model.vo.Reply;
@@ -81,6 +82,10 @@ public class BoardDao {
 
 	public int deleteDeal(SqlSessionTemplate sqlSession, int dealNo) {
 		return sqlSession.delete("boardMapper.deleteDeal", dealNo);
+	}
+
+	public int insertDealAtt(SqlSessionTemplate sqlSession, Attachment att) {
+		return sqlSession.insert("boardMapper.insertDealAtt", att);
 	}
 
 

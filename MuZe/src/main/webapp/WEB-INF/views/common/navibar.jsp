@@ -156,6 +156,34 @@
 		text-decoration : none;
 		color : white;
 	}
+	/*------------------------파일첨부 css-----------------------------*/
+	.filebox .upload-name {
+	    display: inline-block;
+	    height: 40px;
+	    padding: 0 10px;
+	    vertical-align: middle;
+	    border: 1px solid #dddddd;
+	    width: 78%;
+	    color: #999999;
+	}
+	.filebox label {
+	    display: inline-block;
+	    padding: 10px 20px;
+	    color: #fff;
+	    vertical-align: middle;
+	    background-color: #999999;
+	    cursor: pointer;
+	    height: 40px;
+	    margin-left: 10px;
+	}
+	.filebox input[type="file"] {
+	    position: absolute;
+	    width: 0;
+	    height: 0;
+	    padding: 0;
+	    overflow: hidden;
+	    border: 0;
+	}
 </style>
 </head>
 <body>
@@ -229,6 +257,9 @@
                 </li>
                 <li>
                     <a href="list.sh">작품</a>
+                </li>
+                <li>
+                	<a href="list.rk">랭킹</a>
                 </li>
             </ul>
             <!-- navi 영역 end -->

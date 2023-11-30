@@ -28,6 +28,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="USER_NO" property="userNo"/>
 		<result column="REP_TYPE" property="repType"/>
 	</resultMap>
+	
+	<resultMap type="deal" id="dealResultSet">
+		<result column="DEAL_NO" property="dealNo"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="SHOW_TITLE" property="showTitle"/>
+		<result column="TICKET_DATE" property="ticketDate"/>
+		<result column="TICKET_TIME" property="ticketTime"/>
+		<result column="SEAT_FLOOR" property="seatFloor"/>
+		<result column="SEAT_RANK" property="seatRank"/>
+		<result column="SEAT_AREA" property="seatArea"/>
+		<result column="SEAT_COL" property="seatCol"/>
+		<result column="SEAT_DES" property="seatDes"/>
+		<result column="TICKET_PRICE" property="ticketPrice"/>
+		<result column="TICKET_MANY" property="ticketMany"/>
+		<result column="OTHER" property="other"/>
+		<result column="SALE_STATUS" property="saleStatus"/>
+	</resultMap>
 
 	<select id="selectFboardCount" resultType="_int">
 		SELECT
@@ -180,4 +197,122 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{repType}
 				)
 	</insert>
+
+	
+	<select id="selectDealCount" resultType="_int">
+		SELECT
+				COUNT(*)
+		FROM
+				DEAL
+	</select>
+	
+	<select id="selectDealList" resultMap="dealResultSet">
+		SELECT
+				DEAL_NO,
+				USER_ID,
+				SHOW_TITLE,
+				TICKET_DATE,
+				SEAT_FLOOR,
+				SEAT_RANK,
+				SEAT_AREA,
+				SEAT_COL,
+				SEAT_DES,
+				TICKET_PRICE,
+				TICKET_MANY
+		FROM
+				DEAL
+		WHERE
+				SALE_STATUS = 'N'
+		ORDER
+		   BY
+		   		DEAL_NO DESC
+	</select>
+	
+	<insert id="insertDeal" parameterType="deal">
+		INSERT
+		  INTO
+		  		DEAL
+		  		(
+		  		DEAL_NO,
+		  		USER_ID,
+		  		TICKET_DATE,
+		  		TICKET_TIME,
+		  		SEAT_FLOOR,
+		  		SEAT_RANK,
+		  		SEAT_AREA,
+		  		SEAT_COL,
+		  		SEAT_DES,
+		  		TICKET_PRICE,
+		  		TICKET_MANY,
+		  		OTHER,
+		  		SHOW_TITLE
+		  		)
+		VALUES
+				(
+				SEQ_DEAL_NO.NEXTVAL,
+				#{userId},
+				#{ticketDate},
+				#{ticketTime},
+				#{seatFloor},
+				#{seatRank},
+				#{seatArea},
+				#{seatCol},
+				#{seatDes},
+				#{ticketPrice},
+				#{ticketMany},
+				#{other},
+				#{showTitle}
+				)
+	</insert>
+	
+	<select id="selectDeal" parameterType="_int" resultMap="dealResultSet">
+		SELECT
+				DEAL_NO,
+				USER_ID,
+				TO_CHAR(TICKET_DATE, 'YYYY-MM-DD') AS TICKET_DATE,
+				TICKET_TIME,
+				SEAT_FLOOR,
+				SEAT_RANK,
+				SEAT_AREA,
+				SEAT_COL,
+				SEAT_DES,
+				TICKET_PRICE,
+				TICKET_MANY,
+				OTHER,
+				SHOW_TITLE,
+				SALE_STATUS
+		FROM
+				DEAL
+		WHERE
+				DEAL_NO = #{dealNo}
+	</select>
+	
+	<update id="updateDeal" parameterType="deal">
+		UPDATE
+		  		DEAL
+		SET
+				TICKET_DATE = #{ticketDate},
+				TICKET_TIME = #{ticketTime},
+				SEAT_FLOOR = #{seatFloor},
+				SEAT_RANK = #{seatRank},
+				SEAT_AREA = #{seatArea},
+				SEAT_COL = #{seatCol},
+				SEAT_DES = #{seatDes},
+				TICKET_PRICE = #{ticketPrice},
+				TICKET_MANY = #{ticketMany},
+				OTHER = #{other},
+				SHOW_TITLE = #{showTitle},
+				SALE_STATUS = #{saleStatus}
+		WHERE
+				DEAL_NO = #{dealNo}
+	</update>
+	
+	<delete id="deleteDeal" parameterType="_int">
+		DELETE
+		  FROM
+				DEAL
+		 WHERE
+		 		DEAL_NO = ${dealNo}
+	</delete>
+
 </mapper>

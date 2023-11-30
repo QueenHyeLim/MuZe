@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,14 +15,12 @@ import org.json.XML;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.kh.muze.show.controller.ShowController;
-import com.kh.muze.show.model.vo.Show;
 
 @Controller
 public class TheaterController {
@@ -33,46 +30,7 @@ public class TheaterController {
 		return "theater/theaterListView";
 	}
 	
-	// 공연장 목록 불러오기
-	@ResponseBody
-	@RequestMapping(value="rlist.th", produces="application/json; charset=UTF-8")
-	public String ajaxTheaterList(String shprfnmfct, Model model) throws Exception {
-		String url = "https://www.kopis.or.kr/openApi/restful/prfplc";
-		url += "?service=" + ShowController.SERVICEYKEY;
-		url += "&cpage=1";
-		url += "&rows=2800";
-		url += "&shprfnmfct=" + URLEncoder.encode(shprfnmfct, "UTF-8");
-		
-//		System.out.println(url);
-		
-		URL requestUrl = new URL(url);
-		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
-		urlConnection.setRequestMethod("GET");
-		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));	
-		
-		String responseText = "";
-		String line;
-		
-		while((line = br.readLine()) != null) {
-			responseText += line;
-		}
-		
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(url);
-		
-		doc.getDocumentElement().normalize();
-		
-		NodeList nList = doc.getElementsByTagName("db");
-		
-		JSONObject xmlToJson = XML.toJSONObject(responseText);
-		String jsonStr = xmlToJson.toString();
-		br.close();
-		urlConnection.disconnect();
-		
-		// json에 저장 후 필요한 수만큼 가져오기
-		return jsonStr;
-	}
+
 	
 	// 공연장 상세정보 불러오기
 	@RequestMapping(value="theatermap", produces="text/html; charset=UTF-8")

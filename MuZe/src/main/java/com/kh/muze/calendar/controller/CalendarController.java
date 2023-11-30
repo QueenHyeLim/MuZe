@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +19,15 @@ import com.kh.muze.calendar.model.service.CalendarService;
 import com.kh.muze.calendar.model.vo.Diary;
 import com.kh.muze.calendar.model.vo.Schedule;
 import com.kh.muze.common.template.LoginUser;
-import com.kh.muze.member.model.vo.Member;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class CalendarController {
 
-	@Autowired
-	private CalendarService calendarService;
-	@Autowired
-	private AttachmentController attController;
+	private final CalendarService calendarService;
+	private final AttachmentController attController;
 	
 	// diary forwarding하면서 내용 가지고 오기
 	@RequestMapping("calendar.ca")

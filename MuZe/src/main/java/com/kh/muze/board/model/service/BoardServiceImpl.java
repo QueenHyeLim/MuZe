@@ -7,7 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.board.model.dao.BoardDao;
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Deal;
@@ -15,15 +17,16 @@ import com.kh.muze.board.model.vo.Reply;
 import com.kh.muze.board.model.vo.Report;
 import com.kh.muze.common.model.vo.PageInfo;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 @EnableTransactionManagement
 public class BoardServiceImpl implements BoardService{
 	
-	@Autowired
-	private BoardDao boardDao;
+	private final BoardDao boardDao;
 	
-	@Autowired
-	private SqlSessionTemplate sqlSession;
+	private final SqlSessionTemplate sqlSession;
 
 	@Override
 	public int selectFboardCount() {
