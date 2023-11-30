@@ -232,7 +232,7 @@
 			                        <li><a href="calendar.ca">다이어리</a></li>
 			                        <li><a href="#">가계부</a></li>
 			                        <li><a href="#">즐겨찾기</a></li>
-			                        <li><a href="#">my muze</a></li>
+			                        <li><a href="ticket.mz">my muze</a></li>
 			                    </ul>
 			            </c:otherwise>
 			        </c:choose>

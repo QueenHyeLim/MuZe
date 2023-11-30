@@ -1,15 +1,16 @@
 package com.kh.muze.reservation.controller;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.muze.reservation.model.service.ReservationService;
-import com.kh.muze.seat.model.vo.Seat;
 
 @Controller
 public class ReservationController {
@@ -23,6 +24,13 @@ public class ReservationController {
 		model.addAttribute("list", reservationService.showLatest());
 		
 		return "reservation/showLatestView";
+	}
+	
+	@ResponseBody
+	@GetMapping(value="search.mz", produces="application/json; charset=UTF-8")
+	public String searchMuze(@RequestParam(value="genre", defaultValue="1") int genre, Model model) {
+		
+		return new Gson().toJson(reservationService.searchMuze(genre));
 	}
 	
 	@RequestMapping("detail.rs")

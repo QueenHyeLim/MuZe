@@ -2,9 +2,17 @@ package com.kh.muze.reservation.model.vo;
 
 import java.sql.Date;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Reservation {
 	
 	int resNo; //RES_NO	NUMBER

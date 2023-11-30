@@ -147,4 +147,8 @@ public class ReservationDao {
 	public int insertTicket(SqlSessionTemplate sqlSession, String aid) {
 		return sqlSession.insert("reservationMapper.insertTicket", aid);
 	}
+
+	public ArrayList<Show> searchMuze(SqlSessionTemplate sqlSession, int genre) {
+		return (ArrayList)sqlSession.selectList("reservationMapper.searchMuze", genre);
+	}
 }

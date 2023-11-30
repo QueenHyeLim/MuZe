@@ -1,6 +1,7 @@
 package com.kh.muze.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -133,6 +134,34 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int ajaxDeleteFboardLike(Like l) {
 		return boardDao.deleteFboardLike(sqlSession, l);
+	}
+
+	@Override
+	public int selectFSearchCount(HashMap<String, String> map) {
+		return boardDao.selectFSearchCount(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<Board> selectFSearch(HashMap<String, String> map, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+			
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return boardDao.selectFSearch(sqlSession, map, rowBounds);
+	}
+
+	@Override
+	public int selectDSearchCount(HashMap<String, String> map) {
+		return boardDao.selectDSearchCount(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<Deal> selectDSearchList(HashMap<String, String> map, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return boardDao.selectDSearchList(sqlSession, map, rowBounds);
 	}
 
 }

@@ -29,8 +29,6 @@ public class AjaxBoardController {
 	
 	@RequestMapping(value="fInsertLike.bo")
 	public String ajaxInsertFboardLike(Like l) {
-		
-		System.out.println(l);
 		return boardService.ajaxInsertFboardLike(l) > 0 ? "success" : "fail";
 	}
 	

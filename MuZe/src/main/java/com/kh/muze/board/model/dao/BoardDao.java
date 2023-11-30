@@ -1,6 +1,7 @@
 package com.kh.muze.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -99,6 +100,24 @@ public class BoardDao {
 
 	public int deleteFboardLike(SqlSessionTemplate sqlSession, Like l) {
 		return sqlSession.delete("boardMapper.deleteFboardLike", l);
+	}
+
+	public int selectFSearchCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("boardMapper.selectFSearchCount", map);
+	}
+
+	public ArrayList<Board> selectFSearch(SqlSessionTemplate sqlSession, HashMap<String, String> map,
+			RowBounds rowBounds) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectFSearch", map, rowBounds);
+	}
+
+	public int selectDSearchCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("boardMapper.selectDSearchCount", map);
+	}
+
+	public ArrayList<Deal> selectDSearchList(SqlSessionTemplate sqlSession, HashMap<String, String> map,
+			RowBounds rowBounds) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectDSearchList", map, rowBounds);
 	}
 
 
