@@ -83,6 +83,11 @@ public class ReservationServiceImpl implements ReservationService {
 		
 		return reservationDao.insertTicket(sqlSession, aid);
 	}
+
+	@Override
+	public ArrayList<Show> searchMuze(int genre) {
+		return reservationDao.searchMuze(sqlSession, genre);
+	}
 	
 	/*
 	@Override

@@ -39,6 +39,8 @@ public interface ReservationService {
 
 	int insertReservation(Order order, ArrayList<Seat> seatZip, String aid);
 
+	ArrayList<Show> searchMuze(int genre);
+
 	//int insertReservation(Order order);
 
 
