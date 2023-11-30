@@ -140,7 +140,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				BOARD_NO = #{boardNo}
 	</update>
 
-	
 	<select id="selectFReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT
 		 		BREP_NO,
@@ -314,5 +313,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE
 		 		DEAL_NO = ${dealNo}
 	</delete>
-
+  
 </mapper>

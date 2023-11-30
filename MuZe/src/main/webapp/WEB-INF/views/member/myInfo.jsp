@@ -53,8 +53,10 @@
                     
                     <label for="email"> &nbsp; Email : </label>
                     <input type="text" class="form-control" id="email" value="${ sessionScope.loginUser.email }" name="email"> <br>
-
-                    
+                    <!--
+                    <label for="userGrade"> &nbsp; userGrade : </label>
+                    <input type="text" class="form-control" id="userGrade" value="${ sessionScope.loginUser.userGrade }" name="userGrade" readonly> <br>
+                     -->
                 </div>
                 <br>
                 <div class="btns" align="center">
