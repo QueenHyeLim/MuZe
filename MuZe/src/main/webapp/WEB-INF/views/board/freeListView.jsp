@@ -30,6 +30,37 @@ table{
 	padding-top: 30px;
 }
 
+/*검색 영역*/
+#searchPart {
+	margin-top: 30px;
+}
+
+.search {
+	display: inline-block;
+	height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.select{
+	width: 100px;
+}
+
+.input {
+	width: 500px;
+}
+
+#searchBtn{
+	margin-bottom: 7px;
+}
 
 </style>
 </head>
@@ -44,6 +75,28 @@ table{
         		<a class="btn btn-primary" href="fboardWrite.bo">작성하기</a>
         	</c:if>
         </div>
+		
+		<div class="page" id="searchPart" align="center">
+			<form action="fSearch.bo" method="get">
+				<input type="hidden" name="currentPage" value="1">
+				<select name="condition" class="search select">
+					<option value="content">내용</option>
+					<option value="writer">작성자</option>
+					<option value="title">제목</option>
+				</select>
+				<input type="text" class="search input" name="keyword" value="${keyword}">
+				<button type="submit" class="btn btn-primary" id="searchBtn">검색</button>
+			</form>
+		</div>
+		
+		<c:if test="${not empty condition }">
+			<script>
+				$(function(){
+					$('#searchPart option[value=${condition}]')
+						.attr('selected', true);
+				});
+			</script>
+		</c:if>
         
         <div class="page" id="list-area">
 

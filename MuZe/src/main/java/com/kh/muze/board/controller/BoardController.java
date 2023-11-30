@@ -1,12 +1,14 @@
 package com.kh.muze.board.controller;
 
 import java.io.File;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +32,7 @@ public class BoardController {
 	
 	private final AttachmentController attController;
 	
-	@RequestMapping("fboardList.bo")
+	@GetMapping("fboardList.bo")
 	public String selectFboardList(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectFboardCount(), currentPage, 10, 10);
@@ -56,8 +58,9 @@ public class BoardController {
 		return "board/freeWriteView";
 	}
 	
-	@RequestMapping("fDetail.bo")
-	public ModelAndView selectFboard(int fbno, ModelAndView mv) {
+	@GetMapping("fDetail.bo")
+	public ModelAndView selectFboard(int fbno, ModelAndView mv, HttpSession session) {
+		
 		if(boardService.increaseCount(fbno) > 0) {
 			mv.addObject("b", boardService.selectFboard(fbno))
 			  .setViewName("board/freeDetailView");
@@ -68,7 +71,7 @@ public class BoardController {
 		return mv;
 	}
 	
-	@RequestMapping("fUpdateForm.bo")
+	@GetMapping("fUpdateForm.bo")
 	public ModelAndView updateFreeBoard(int fbno, ModelAndView mv) {
 		
 		mv.addObject("b", boardService.selectFboard(fbno)).setViewName("board/freeUpdateView");
@@ -87,7 +90,7 @@ public class BoardController {
 		}
 	}
 	
-	@RequestMapping("fDelete.bo")
+	@GetMapping("fDelete.bo")
 	public String deleteFBoard(int fbno, HttpSession session) {
 		if(boardService.deleteFBoard(fbno) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글을 삭제했습니다.");
@@ -97,7 +100,7 @@ public class BoardController {
 		return "redirect:fboardList.bo";
 	}
 	
-	@RequestMapping("fRDelete.bo")
+	@GetMapping("fRDelete.bo")
 	public String deleteFReply(int fRno, HttpSession session, HttpServletRequest request) {
 		if(boardService.deleteFReply(fRno) > 0) {
 			session.setAttribute("alertdeleteMsg", "댓글을 삭제했습니다");
@@ -106,6 +109,7 @@ public class BoardController {
 		}
 		return "redirect:" + request.getHeader("Referer");
 	}
+	
 	@RequestMapping("fbReport.bo")
 	public String insertFbReport(Report r, HttpSession session, HttpServletRequest request) {
 		if(boardService.insertFbReport(r) > 0) {
@@ -117,8 +121,24 @@ public class BoardController {
 		return "redirect:" + request.getHeader("Referer");
 
 	}
+	
+	@GetMapping("fSearch.bo")
+	public String selectFSearch(String condition, String keyword, int currentPage, Model model) {
+		HashMap<String, String> map = new HashMap();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		
+		PageInfo pi = Pagination.getPageInfo(boardService.selectFSearchCount(map), currentPage, 10, 10);
+		
+		model.addAttribute("list", boardService.selectFSearch(map, pi));
+		model.addAttribute("condition", condition);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("pi", pi);
+		
+		return "board/freeListView";
+	}
     
-	@RequestMapping("dealList.bo")
+	@GetMapping("dealList.bo")
 	public String selectDealList(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectDealCount(), currentPage, 10, 10);
@@ -129,7 +149,7 @@ public class BoardController {
 		return "board/dealListView";
 	}
   
-	@RequestMapping("dealInsertForm.bo")
+	@GetMapping("dealInsertForm.bo")
 	public String dealInsertForm() {
 		return "board/dealEnrollFormView";
 	}
@@ -150,13 +170,13 @@ public class BoardController {
 		return "redirect:dealList.bo";
 	}
 	
-	@RequestMapping("dealDetail.bo")
+	@GetMapping("dealDetail.bo")
 	public String selectDeal(int dealNo, Model model) {
 		model.addAttribute("deal", boardService.selectDeal(dealNo)); 
 		return "board/dealDetailView";
 	}
 	
-	@RequestMapping("dealUpdateForm.bo")
+	@GetMapping("dealUpdateForm.bo")
 	public ModelAndView dealUpdateForm(int dealNo, ModelAndView mv) {
 		mv.addObject("deal", boardService.selectDeal(dealNo))
 		.setViewName("board/dealUpdateForm");
@@ -166,7 +186,6 @@ public class BoardController {
 	
 	@RequestMapping("dealUpdate.bo")
 	public String updateDeal(Deal d, MultipartFile reUpfile, HttpSession session) {
-		
 		
 		if(!reUpfile.getOriginalFilename().equals("")) {
 			if(d.getOriginName() != null) {
@@ -206,4 +225,21 @@ public class BoardController {
 		
 		return "redirect:dealList.bo";
 	}
+	
+	@RequestMapping("dealSearch.bo")
+	public String selectDealSearch(String condition, String keyword, int currentPage, Model model) {
+		HashMap<String, String> map = new HashMap();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		
+		PageInfo pi = Pagination.getPageInfo(boardService.selectDSearchCount(map), currentPage, 10, 10);
+		
+		model.addAttribute("list", boardService.selectDSearchList(map, pi));
+		model.addAttribute("pi", pi);
+		model.addAttribute("condition", condition);
+		model.addAttribute("keyword", keyword);
+		
+		return "board/dealListView";
+	}
+	
 }

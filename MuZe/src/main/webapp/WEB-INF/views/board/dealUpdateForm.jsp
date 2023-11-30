@@ -142,14 +142,14 @@ input:checked + .slider:before {
 					<tr>
 						<th>상품 이미지</th>
 						<td>
-							<div class="filebox">
+							<div class="fileInput">
 							    <input type="file" id="upfile" class="form-control-file border" name="reUpfile">
 							    
 							    <c:if test="${ !empty deal.changeName }">
 							    	<span>업로드된 이미지</span>
 							    	<a href="${deal.changeName}" download="${deal.originName}">${deal.originName}</a>	
-							    	<input type="hidden" value="${ deal.originName }"/>
-							    	<input type="hidden" value="${deal.changeName }"/>
+							    	<input type="hidden" value="${ deal.originName }" name="originName"/>
+							    	<input type="hidden" value="${deal.changeName }" name="changeName"/>
 							    </c:if>
 							</div>
 						</td>

@@ -24,6 +24,7 @@
 		<typeAlias type="com.kh.muze.bookmark.model.vo.Bookmark" alias="bookmark" />
 		<typeAlias type="com.kh.muze.board.model.vo.Deal" alias="deal"/>
 		<typeAlias type="com.kh.muze.ticket.model.vo.Mymuze" alias="Mymuze" />
+		<typeAlias type="com.kh.muze.board.model.vo.Like" alias="like"/>
 	</typeAliases>
 	 
 	<mappers>

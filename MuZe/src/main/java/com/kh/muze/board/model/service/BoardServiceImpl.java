@@ -1,18 +1,17 @@
 package com.kh.muze.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.board.model.dao.BoardDao;
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Deal;
+import com.kh.muze.board.model.vo.Like;
 import com.kh.muze.board.model.vo.Reply;
 import com.kh.muze.board.model.vo.Report;
 import com.kh.muze.common.model.vo.PageInfo;
@@ -120,6 +119,49 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int deleteDeal(int dealNo) {
 		return boardDao.deleteDeal(sqlSession, dealNo);
+	}
+
+	@Override
+	public int ajaxInsertFboardLike(Like l) {
+		return boardDao.insertFboardLike(sqlSession, l);
+	}
+
+	@Override
+	public int selectFboardLike(Like like) {
+		return boardDao.selectFboardLike(sqlSession, like);
+	}
+
+	@Override
+	public int ajaxDeleteFboardLike(Like l) {
+		return boardDao.deleteFboardLike(sqlSession, l);
+	}
+
+	@Override
+	public int selectFSearchCount(HashMap<String, String> map) {
+		return boardDao.selectFSearchCount(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<Board> selectFSearch(HashMap<String, String> map, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+			
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return boardDao.selectFSearch(sqlSession, map, rowBounds);
+	}
+
+	@Override
+	public int selectDSearchCount(HashMap<String, String> map) {
+		return boardDao.selectDSearchCount(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<Deal> selectDSearchList(HashMap<String, String> map, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return boardDao.selectDSearchList(sqlSession, map, rowBounds);
 	}
 
 }
