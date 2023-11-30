@@ -47,6 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="ORIGIN_NAME" property="originName"/>
 		<result column="CHANGE_NAME" property="changeName"/>
 	</resultMap>
+	
+	<resultMap type="like" id="likeResultSet">
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="LIKE_DATE" property="likeDate"/>
+	</resultMap>
 
 	<select id="selectFboardCount" resultType="_int">
 		SELECT
@@ -321,6 +327,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				DEAL
 		 WHERE
 		 		DEAL_NO = ${dealNo}
+	</delete>
+	
+	<insert id="insertFboardLike" parameterType="like">
+		INSERT
+		  INTO
+		  		BOARD_LIKE
+		  		(
+		  		BOARD_NO,
+		  		USER_ID
+		  		)
+		VALUES
+				(
+				#{boardNo},
+				#{userId}
+				)
+	</insert>
+	
+	<select id="selectFboardLike" parameterType="like" resultType="_int">
+		SELECT
+				COUNT(*)
+		FROM
+				BOARD_LIKE
+		WHERE
+				BOARD_NO = #{boardNo}
+		AND
+				USER_ID = #{userId}
+	</select>
+	
+	<delete id="deleteFboardLike" parameterType="like">
+		DELETE
+		  FROM
+		  		BOARD_LIKE
+		WHERE
+				BOARD_NO = #{boardNo}
+		AND
+				USER_ID = #{userId}
 	</delete>
 
 </mapper>

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +31,7 @@ public class BoardController {
 	
 	private final AttachmentController attController;
 	
-	@RequestMapping("fboardList.bo")
+	@GetMapping("fboardList.bo")
 	public String selectFboardList(@RequestParam(value="cPage", defaultValue="1") int currentPage, Model model) {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectFboardCount(), currentPage, 10, 10);
@@ -56,8 +57,9 @@ public class BoardController {
 		return "board/freeWriteView";
 	}
 	
-	@RequestMapping("fDetail.bo")
-	public ModelAndView selectFboard(int fbno, ModelAndView mv) {
+	@GetMapping("fDetail.bo")
+	public ModelAndView selectFboard(int fbno, ModelAndView mv, HttpSession session) {
+		
 		if(boardService.increaseCount(fbno) > 0) {
 			mv.addObject("b", boardService.selectFboard(fbno))
 			  .setViewName("board/freeDetailView");
@@ -68,7 +70,7 @@ public class BoardController {
 		return mv;
 	}
 	
-	@RequestMapping("fUpdateForm.bo")
+	@GetMapping("fUpdateForm.bo")
 	public ModelAndView updateFreeBoard(int fbno, ModelAndView mv) {
 		
 		mv.addObject("b", boardService.selectFboard(fbno)).setViewName("board/freeUpdateView");
@@ -87,7 +89,7 @@ public class BoardController {
 		}
 	}
 	
-	@RequestMapping("fDelete.bo")
+	@GetMapping("fDelete.bo")
 	public String deleteFBoard(int fbno, HttpSession session) {
 		if(boardService.deleteFBoard(fbno) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글을 삭제했습니다.");
@@ -106,6 +108,7 @@ public class BoardController {
 		}
 		return "redirect:" + request.getHeader("Referer");
 	}
+	
 	@RequestMapping("fbReport.bo")
 	public String insertFbReport(Report r, HttpSession session, HttpServletRequest request) {
 		if(boardService.insertFbReport(r) > 0) {
@@ -166,7 +169,6 @@ public class BoardController {
 	
 	@RequestMapping("dealUpdate.bo")
 	public String updateDeal(Deal d, MultipartFile reUpfile, HttpSession session) {
-		
 		
 		if(!reUpfile.getOriginalFilename().equals("")) {
 			if(d.getOriginName() != null) {

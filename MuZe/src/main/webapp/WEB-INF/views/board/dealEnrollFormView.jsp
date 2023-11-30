@@ -79,7 +79,7 @@
 					<tr>
 						<th>상품 이미지(선택)</th>
 						<td>
-							<div class="filebox">
+							<div class="fileInput">
 							    <input type="file" id="upfile" class="form-control-file border" name="upfile">
 							</div>
 						</td>

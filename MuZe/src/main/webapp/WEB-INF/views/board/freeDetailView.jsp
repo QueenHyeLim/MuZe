@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
 
 /*수정 및 삭제 버튼 영역*/
@@ -96,6 +97,12 @@
 	padding-left: 10px;
 }
 
+
+/*좋아요 영역*/
+#unLike{
+	height: 50px;
+	width: 50px;
+}
 </style>
 </head>
 <body>
@@ -121,6 +128,8 @@
 			
 				<c:if test="${!empty sessionScope.loginUser}">
 					<a data-toggle="modal" data-target="#myModal">신고</a>
+					<i class="fa-regular fa-heart" id="unLike" onclick="boardLike();"></i>
+					<i class="fa-solid fa-heart" id="Like" style="color: #981d26;" onclick="deleteLike();"></i>
 				</c:if>
 	   		</div>
 	   		
@@ -229,6 +238,7 @@
 	
 	$(() => {
 		selectReplyList();
+		ajaxSelectLike();
 
 		$('#insertRep').attr('disabled', true);
 
@@ -251,9 +261,6 @@
 		})
 		
 		function insertFReply(){
-			
-			console.log($('#boardNo').val());
-			console.log($('#rContent').val());
 			
 			if($('#rContent').val().trim() != ''){
 				$.ajax({
@@ -319,6 +326,66 @@
 			}
 
 			console.log(brepNo);
+		}
+		
+		function boardLike(){
+			$.ajax({
+				url : 'fInsertLike.bo',
+				data : {
+					boardNo : $('#boardNo').val(),
+					userId : '${sessionScope.loginUser.userId}'
+				},
+				success : result => {
+					console.log(result);
+					$('#unLike').hide();
+					$('#Like').show();
+				},
+				error : () => {
+					console.log('error');
+				}
+			})
+		}
+
+		function ajaxSelectLike(){
+				$.ajax({
+				url : 'fSelectLike.bo',
+				data : {
+					boardNo : $('#boardNo').val(),
+					userId : '${sessionScope.loginUser.userId}'
+				},
+				success : result => {
+					console.log(result);
+					if(result > 0){
+						$('#unLike').hide();
+						$('#Like').show();
+						console.log('좋아요 있음');
+					} else {
+						$('#unLike').show();
+						$('#Like').hide();
+						console.log('좋아요 없음');
+					}
+				},
+				error : () => {
+					console.log('에러');
+				}
+			})
+		}
+
+		function deleteLike(){
+			$.ajax({
+				url :'fDeleteLike.bo',
+				data : {
+					boardNo : $('#boardNo').val(),
+					userId : '${sessionScope.loginUser.userId}'
+				},
+				success : result => {
+					$('#unLike').show();
+					$('#Like').hide();
+				},
+				error : () => {
+					console.log('실패');
+				}
+			})
 		}
 	</script>
 	 
