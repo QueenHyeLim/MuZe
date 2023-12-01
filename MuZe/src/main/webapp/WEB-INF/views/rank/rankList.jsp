@@ -54,10 +54,30 @@
     		let $rank  = $('#select-drop').val();
     		$.ajax({
     			url : 'search.rk',
-    			data : { rank : $rank},
-    			success : result => {
-    				alert('성공');
-    				console.log(result);
+    			data : { rankCategory : $rank},
+    			success : data => {
+    				let value = '';
+    				for(let i in data){
+    					console.log(data[i]);
+    					value +='<div id="row-rank-area">'
+	    					  + '<div id="muzInfo-area">'
+	    					  + '<h4>' +  data[i].musTitle     + '</h4>'
+	    					  + '<p>'  +  data[i].startDate    + ' ~  ' 
+	    					  +           data[i].endDate      + '</p>'
+	    					  + '<p>'  +  data[i].theatherName + '</p>'
+	    					  + '<p>'  +  data[i].showStatus   + '</p>'
+	    					  + '<p>'  +  data[i].genre        + '</p>'
+	    					  + '<div id="bookmark-area">'
+    						  + '<i class="fa-regular fa-bookmark fa-lg" id="unbooked" onclick="unbookedClick();"></i>'
+    						  + '<i class="fa-solid fa-bookmark" style="color: #981d26;" id="booked" onclick="bookedClick();"></i>'
+    	   				      + '</div>'
+	    					  + '</div>'
+    	   			          + '<div id="muzImage-area">'
+    	   				      + '<img src="' + data[i].poster + '" id="muzImage"/>'
+	    					  + '</div>'
+	    					  + '</div>';
+    				}
+    				$('#searchRank-area').html(value);
     			},
     			error : () => {
     				alert('실패');
@@ -70,11 +90,15 @@
        		<option value="popular">인기순위</option>
        		<option value="scrap">추천순위</option>
        		<option value="range">가나다순</option>
+       		<c:if test="${not empty sessionScope.loginUser}">
+       		<option value="myRank">MY MUZE순</option>
+       		</c:if>
        	</select>
        	<br/><br/>
+       	<div id="searchRank-area">
        	<c:forEach var="r" items="${rankList}">
-   		<div id="row-rank-area">
-   			<div id="muzInfo-area">
+   		<div id="row-rank-area" class="hideRank">
+   			<div id="muzInfo-area" >
    				<h4>${r.musTitle}</h4>
    				<p>${r.startDate} ~ ${r.endDate}</p>
    				<p>${r.theatherName}</p>
@@ -90,6 +114,7 @@
    			</div>
    		</div>
        	</c:forEach>
+       	</div>
     </div>
 </div>
 </body>

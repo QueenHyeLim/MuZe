@@ -10,6 +10,13 @@ public interface RankDao {
 
 	ArrayList<Rank> selectRankList(SqlSessionTemplate sqlSession);
 
-	ArrayList<Rank> searchRankList(SqlSessionTemplate sqlSession, String rank);
+	ArrayList<Rank> searchPopularList(SqlSessionTemplate sqlSession);
+
+	ArrayList<Rank> searchScrapList(SqlSessionTemplate sqlSession);
+
+	ArrayList<Rank> searchRangeList(SqlSessionTemplate sqlSession);
+
+	ArrayList<Rank> searchMyRankList(SqlSessionTemplate sqlSession, int userNo);
+
 
 }

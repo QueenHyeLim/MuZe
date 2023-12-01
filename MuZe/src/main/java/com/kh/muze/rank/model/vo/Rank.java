@@ -8,7 +8,9 @@ import lombok.ToString;
 @Getter @Setter @NoArgsConstructor @ToString
 public class Rank {
 	
+	private int userNo;
 	private int rowNum;
+	private String rankCategory;
 	private int ranking;          //RANKING
 	private String musId;         //MUS_ID,
     private String musTitle;      //MUS_TITLE,

@@ -23,8 +23,24 @@ public class RankServiceImpl implements RankService{
 	}
 
 	@Override
-	public ArrayList<Rank> searchRankList(String rank) {
-		return rankDao.searchRankList(sqlSession,rank);
+	public ArrayList<Rank> searchRankList(Rank rank) {
+		
+		String rankCategory = rank.getRankCategory();
+		ArrayList<Rank> rankList = new ArrayList();
+		System.out.println("cate : " + rankCategory);
+		switch(rankCategory) {
+		case "popular" : rankList = rankDao.searchPopularList(sqlSession);
+		break;
+		case "scrap" : rankList = rankDao.searchScrapList(sqlSession);
+		break;
+		case "range" : rankList = rankDao.searchRangeList(sqlSession);
+		break;
+		case "myRank" : rankList = rankDao.searchMyRankList(sqlSession,rank.getUserNo());
+		break;
+		default : System.out.println(rank + "List를 찾지 못했습니다."); 
+		}
+		
+		return rankList;
 	}
 
 }
