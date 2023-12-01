@@ -45,7 +45,6 @@
                 <div id="enroll">
                     <input type="text" placeholder="제목을 입력하세요" name="boardTitle" id="boardTitle" required/>
                     <textarea style="resize:none;" name="boardContent" id="boardContent" required placeholder="내용을 입력하세요"></textarea>
-                    <input type="hidden" name="boardWriter" value="${ sessionScope.loginUser.userId }"/>
                 </div>
 
                 <div id="btn-area" align="right">

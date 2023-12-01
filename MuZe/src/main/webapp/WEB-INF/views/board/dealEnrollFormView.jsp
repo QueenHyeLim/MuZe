@@ -85,7 +85,6 @@
 						</td>
 					</tr>
 	   			</table>
-				<input type="hidden" name="userId" value="${sessionScope.loginUser.userId}"/>
 				<div align="center">
 					<button type="submit" class="btn btn-primary">등록하기</button>
 				</div>

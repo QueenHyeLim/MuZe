@@ -36,7 +36,7 @@ img{
 	   <div id="blank-area"></div>
 	   <div class="page">
 	   		
-	   		<c:if test="${ sessionScope.loginUser.userId eq deal.userId }">
+	   		<c:if test="${ sessionScope.loginUser.userNo eq deal.userNo}">
 	   			<div class="page" id="buttton-area" align="right">
 	   				<a href="dealUpdateForm.bo?dealNo=${ deal.dealNo }" class="btn btn-primary">수정</a>
 					<a href="#" class="btn btn-danger" onclick="deleteDeal();" >삭제</a>
@@ -56,7 +56,7 @@ img{
 	   			
 	   			<tr>
 	   				<th>작성자</th>
-	   				<td>${deal.userId }</td>
+	   				<td>${deal.dealWriter}</td>
 	   			</tr>
 	   			
 	   			<tr>
@@ -113,7 +113,7 @@ img{
 
 			
 	   		
-	   		<c:if test="${ !empty sessionScope.loginUser && deal.userId != sessionScope.loginUser.userId}">
+	   		<c:if test="${ !empty sessionScope.loginUser && deal.userNo != sessionScope.loginUser.userNo}">
 	   		<div>
 	   			<button class="btn btn-primary" onclick="chatDeal(${deal.dealNo})">대화하기</button>
 				
@@ -159,7 +159,7 @@ img{
 				type : 'post',
 				data : {
 					contentNo : $('#dealNo').val(),
-					userId : '${sessionScope.loginUser.userId}',
+					userNo : '${sessionScope.loginUser.userNo}',
 					cateNo : '20'
 				},
 				success : result => {
@@ -179,7 +179,7 @@ img{
 				type : 'post',
 				data : {
 					contentNo : $('#dealNo').val(),
-					userId : '${sessionScope.loginUser.userId}',
+					userNo : '${sessionScope.loginUser.userNo}',
 					cateNo : '20'
 				},
 				success : result => {
@@ -206,7 +206,7 @@ img{
 				type : 'post',
 				data : {
 					contentNo : $('#dealNo').val(),
-					userId : '${sessionScope.loginUser.userId}',
+					userNo : '${sessionScope.loginUser.userNo}',
 					cateNo : '20'
 				},
 				success : result => {

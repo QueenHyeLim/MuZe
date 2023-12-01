@@ -123,7 +123,7 @@ table{
 										/ ${ d.seatDes }
 										</c:if>
 									</td>
-                					<td>${ d.userId }</td>
+                					<td>${ d.dealWriter }</td>
                 					<td>${ d.ticketMany }</td>
                 					<td>${ d.ticketPrice }</td>
                 				</tr>

@@ -21,6 +21,7 @@ import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Deal;
 import com.kh.muze.board.model.vo.Report;
 import com.kh.muze.common.model.vo.PageInfo;
+import com.kh.muze.common.template.LoginUser;
 import com.kh.muze.common.template.Pagination;
 
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,9 @@ public class BoardController {
 	
 	@PostMapping("finsert.bo")
 	public String insertFboard(Board b, HttpSession session) {
+		
+		b.setBoardWriter(LoginUser.getUserNo(session));
+		
 		if(boardService.insertFboard(b) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글 등록을 성공헸습니다");
 		} else {
@@ -61,7 +65,6 @@ public class BoardController {
 	
 	@GetMapping("fDetail.bo")
 	public ModelAndView selectFboard(int fbno, ModelAndView mv, HttpSession session) {
-		
 		if(boardService.increaseCount(fbno) > 0) {
 			mv.addObject("b", boardService.selectFboard(fbno))
 			  .setViewName("board/freeDetailView");
@@ -74,7 +77,6 @@ public class BoardController {
 	
 	@GetMapping("fUpdateForm.bo")
 	public ModelAndView updateFreeBoard(int fbno, ModelAndView mv) {
-		
 		mv.addObject("b", boardService.selectFboard(fbno)).setViewName("board/freeUpdateView");
 		
 		return mv;
@@ -82,6 +84,10 @@ public class BoardController {
 	
 	@PostMapping("fUpdate.bo")
 	public String updateFBoard(Board b, HttpSession session) {
+		
+		
+		b.setBoardWriter(LoginUser.getUserNo(session));
+		
 		if(boardService.updateFBoard(b) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글이 성공적으로 수정되었습니다.");
 			return "redirect:fDetail.bo?fbno=" + b.getBoardNo();
@@ -163,6 +169,8 @@ public class BoardController {
 			d.setChangeName(attController.saveFiles(upfile, session));
 		}
 		
+		d.setUserNo(LoginUser.getUserNo(session));
+		
 		if(boardService.insertDeal(d) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글 둥록을 완료했습니다");
 		} else {
@@ -173,6 +181,7 @@ public class BoardController {
 	
 	@GetMapping("dealDetail.bo")
 	public String selectDeal(int dealNo, Model model) {
+		
 		model.addAttribute("deal", boardService.selectDeal(dealNo)); 
 		return "board/dealDetailView";
 	}
