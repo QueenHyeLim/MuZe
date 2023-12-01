@@ -25,6 +25,7 @@
 		<typeAlias type="com.kh.muze.board.model.vo.Deal" alias="deal"/>
 		<typeAlias type="com.kh.muze.ticket.model.vo.Mymuze" alias="Mymuze" />
 		<typeAlias type="com.kh.muze.board.model.vo.Like" alias="like"/>
+		<typeAlias type="com.kh.muze.rank.model.vo.Rank" alias="rank"/>
 	</typeAliases>
 	 
 	<mappers>
@@ -34,6 +35,7 @@
 		<mapper resource="/mapper/seat-mapper.xml" />
 		<mapper resource="/mapper/board-mapper.xml"/>
 		<mapper resource="/mapper/bookmark-mapper.xml"/>
+		<mapper resource="/mapper/rank-mapper.xml" />
 	</mappers>
 	
 </configuration>

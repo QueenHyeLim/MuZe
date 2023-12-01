@@ -4,17 +4,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.json.JSONObject;
-import org.json.XML;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,12 +22,12 @@ public class ShowController {
 	
 	public static final String SERVICEYKEY = "2ae027dcffd947cd81fbfc2094402bd8";
 	
-	@RequestMapping("list.sh")
+	@GetMapping("list.sh")
 	public String list() {
 		return "show/showListView";
 	}
 		
-	@RequestMapping(value="detail.sh", produces="text/html; charset=UTF-8")
+	@GetMapping(value="detail.sh", produces="text/html; charset=UTF-8")
 	public String showDetail(String mt20id, Model model) throws Exception {
 		String url = "http://kopis.or.kr/openApi/restful/pblprfr/";
 		       url += mt20id;

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rankMapper">
+<resultMap type="rank" id="rankResultMap">
+	<result column="ROWNUM" property="rowNum"/>
+	<result column="RANKING" property="ranking"/>
+	<result column="MUS_ID" property="musId" />
+	<result column="MUS_TITLE" property="musTitle" />
+	<result column="START_DATE" property="startDate" />
+	<result column="END_DATE" property="endDate" />
+	<result column="POSTER" property="poster" />
+	<result column="STATUS" property="showStatus" />
+	<result column="THEATHER_NAME" property="theatherName" />
+	<result column="GENRE" property="genre" />
+</resultMap>
+	<select id="selectRankList" resultMap="rankResultMap">
+		SELECT
+		       MUS_ID,
+		       MUS_TITLE,
+		       START_DATE,
+		       END_DATE,
+		       POSTER,
+		       STATUS,
+		       THEATHER_NAME,
+		       GENRE
+		  FROM
+		        SHOW
+		  JOIN
+		        THEATER USING(THEATER_ID)
+		  JOIN
+		        SHOW_GENRE USING(GENRE_NO)
+		 ORDER
+		    BY
+		        START_DATE ASC
+	</select>
+	<select id="searchPopularList" resultMap="rankResultMap">
+		SELECT
+	   		   ROWNUM,
+	   		   A.*
+	      FROM
+		       (
+		       SELECT
+		               RANK() OVER (ORDER BY COUNT(MUS_ID) DESC) "RANKING",
+		               MUS_ID,
+			           MUS_TITLE,
+			           START_DATE,
+			           END_DATE,
+			           POSTER,
+			           STATUS,
+			           THEATHER_NAME
+			      FROM
+			            RESERVE RE
+			      JOIN
+			            BOOK BK ON (BK.BOOK_NO = RE.RES_NO)
+			      FULL
+			      JOIN
+			            SHOW SH USING(MUS_ID)
+			      JOIN
+			            THEATER USING(THEATER_ID)
+			      GROUP
+			         BY
+			            MUS_ID, 
+			            MUS_TITLE,
+			            START_DATE,
+			            END_DATE,
+			            POSTER,
+			            STATUS,
+			            THEATHER_NAME
+			   ) A
+	</select>
+	<select id="searchScrapList" resultMap="rankResultMap">
+	</select>
+	<select id="searchRangeList" resultMap="rankResultMap">
+		SELECT
+		       MUS_ID,
+		       MUS_TITLE,
+		       START_DATE,
+		       END_DATE,
+		       POSTER,
+		       STATUS,
+		       THEATHER_NAME 
+		  FROM
+		        SHOW
+		  JOIN
+		        THEATER USING(THEATER_ID)
+		 ORDER
+		    BY  MUS_TITLE ASC
+	</select>
+</mapper>

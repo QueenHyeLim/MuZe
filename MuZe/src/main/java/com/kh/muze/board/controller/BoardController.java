@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +44,7 @@ public class BoardController {
 		return "board/freeListView";
 	}
 	
-	@RequestMapping("finsert.bo")
+	@PostMapping("finsert.bo")
 	public String insertFboard(Board b, HttpSession session) {
 		if(boardService.insertFboard(b) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글 등록을 성공헸습니다");
@@ -53,7 +54,7 @@ public class BoardController {
 		return "redirect:fboardList.bo";
 	}
 	
-	@RequestMapping("fboardWrite.bo")
+	@GetMapping("fboardWrite.bo")
 	public String insertFboardForm() {
 		return "board/freeWriteView";
 	}
@@ -79,7 +80,7 @@ public class BoardController {
 		return mv;
 	}
 	
-	@RequestMapping("fUpdate.bo")
+	@PostMapping("fUpdate.bo")
 	public String updateFBoard(Board b, HttpSession session) {
 		if(boardService.updateFBoard(b) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글이 성공적으로 수정되었습니다.");
@@ -110,7 +111,7 @@ public class BoardController {
 		return "redirect:" + request.getHeader("Referer");
 	}
 	
-	@RequestMapping("fbReport.bo")
+	@PostMapping("fbReport.bo")
 	public String insertFbReport(Report r, HttpSession session, HttpServletRequest request) {
 		if(boardService.insertFbReport(r) > 0) {
 			session.setAttribute("alertdeleteMsg", "게시글을 신고했습니다");
@@ -154,7 +155,7 @@ public class BoardController {
 		return "board/dealEnrollFormView";
 	}
 	
-	@RequestMapping("dealEnroll.bo")
+	@PostMapping("dealEnroll.bo")
 	public String insertDeal(Deal d, HttpSession session, MultipartFile upfile) {
 		
 		if(!upfile.getOriginalFilename().equals("")) {
@@ -184,7 +185,7 @@ public class BoardController {
 		return mv;
 	}
 	
-	@RequestMapping("dealUpdate.bo")
+	@PostMapping("dealUpdate.bo")
 	public String updateDeal(Deal d, MultipartFile reUpfile, HttpSession session) {
 		
 		if(!reUpfile.getOriginalFilename().equals("")) {
@@ -210,7 +211,7 @@ public class BoardController {
 		
 	}
 	
-	@RequestMapping("dealDelete.bo")
+	@PostMapping("dealDelete.bo")
 	public String deleteDeal(int dealNo, String filepath, HttpSession session) {
 		
 		if(!filepath.equals("")) {
@@ -226,7 +227,7 @@ public class BoardController {
 		return "redirect:dealList.bo";
 	}
 	
-	@RequestMapping("dealSearch.bo")
+	@GetMapping("dealSearch.bo")
 	public String selectDealSearch(String condition, String keyword, int currentPage, Model model) {
 		HashMap<String, String> map = new HashMap();
 		map.put("condition", condition);

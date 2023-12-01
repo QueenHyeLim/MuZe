@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,76 +47,49 @@
 <div class="page" id="content">
     <div id="blank-area"></div>
     <div id="rank-area">
-       	<select class="form-control" id="select-drop">
-       		<option>인기순위</option>
-       		<option>추천순위</option>
-       		<option>가나다순</option>
+    <script>
+    	// onChange를 이용한 함수
+    	function getRankValue(){
+    		// selected된 함수
+    		let $rank  = $('#select-drop').val();
+    		$.ajax({
+    			url : 'search.rk',
+    			data : { rank : $rank},
+    			success : result => {
+    				alert('성공');
+    				console.log(result);
+    			},
+    			error : () => {
+    				alert('실패');
+    			}
+    		});
+    	}
+    </script>
+       	<select class="form-control" id="select-drop" name="rank" onChange="getRankValue();">
+       		<option value="none">-- 순위</option>
+       		<option value="popular">인기순위</option>
+       		<option value="scrap">추천순위</option>
+       		<option value="range">가나다순</option>
        	</select>
        	<br/><br/>
+       	<c:forEach var="r" items="${rankList}">
    		<div id="row-rank-area">
    			<div id="muzInfo-area">
-   				<h4>오페라의 유령</h4>
-   				<p>2023.12.12~2024.01.29</p>
-   				<p>예술의 극장</p>
-   				<p>공연예정</p>
-   				<p>뮤지컬</p>
+   				<h4>${r.musTitle}</h4>
+   				<p>${r.startDate} ~ ${r.endDate}</p>
+   				<p>${r.theatherName}</p>
+   				<p>${r.showStatus}</p>
+   				<p>${r.genre}</p>
    				<div id="bookmark-area">
 					<i class="fa-regular fa-bookmark fa-lg" id="unbooked" onclick="unbookedClick();"></i>
 					<i class="fa-solid fa-bookmark" style="color: #981d26;" id="booked" onclick="bookedClick();"></i>
    				</div>
    			</div>
    			<div id="muzImage-area">
-   				<img src="https://cdn.onseoul.net/news/photo/202301/23399_23943_1458.jpg" id="muzImage"/>
+   				<img src="${r.poster}" id="muzImage"/>
    			</div>
    		</div>
-   		<div id="row-rank-area">
-   			<div id="muzInfo-area">
-   				<h4>오페라의 유령</h4>
-   				<p>2023.12.12~2024.01.29</p>
-   				<p>예술의 극장</p>
-   				<p>공연예정</p>
-   				<p>뮤지컬</p>
-   				<div id="bookmark-area">
-					<i class="fa-regular fa-bookmark fa-lg" id="unbooked" onclick="unbookedClick();"></i>
-					<i class="fa-solid fa-bookmark" style="color: #981d26;" id="booked" onclick="bookedClick();"></i>
-   				</div>
-   			</div>
-   			<div id="muzImage-area">
-   				<img src="https://ojsfile.ohmynews.com/PHT_IMG_FILE/2021/0309/IE002770932_PHT.jpg" id="muzImage"/>
-   			</div>
-   		</div>
-   		<div id="row-rank-area">
-   			<div id="muzInfo-area">
-   				<h4>오페라의 유령</h4>
-   				<p>2023.12.12~2024.01.29</p>
-   				<p>예술의 극장</p>
-   				<p>공연예정</p>
-   				<p>뮤지컬</p>
-   				<div id="bookmark-area">
-					<i class="fa-regular fa-bookmark fa-lg" id="unbooked" onclick="unbookedClick();"></i>
-					<i class="fa-solid fa-bookmark" style="color: #981d26;" id="booked" onclick="bookedClick();"></i>
-   				</div>
-   			</div>
-   			<div id="muzImage-area">
-   				<img src="https://otr.co.kr/wp-content/uploads/2020/08/%EB%A9%94%EB%A6%AC%EC%85%B8%EB%A6%AC%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg" id="muzImage"/>
-   			</div>
-   		</div>
-   		<div id="row-rank-area">
-   			<div id="muzInfo-area">
-   				<h4>오페라의 유령</h4>
-   				<p>2023.12.12~2024.01.29</p>
-   				<p>예술의 극장</p>
-   				<p>공연예정</p>
-   				<p>뮤지컬</p>
-   				<div id="bookmark-area">
-					<i class="fa-regular fa-bookmark fa-lg" id="unbooked" onclick="unbookedClick();"></i>
-					<i class="fa-solid fa-bookmark" style="color: #981d26;" id="booked" onclick="bookedClick();"></i>
-   				</div>
-   			</div>
-   			<div id="muzImage-area">
-   				<img src="https://image.newsis.com/2021/03/22/NISI20210322_0017272359_web.jpg" id="muzImage"/>
-   			</div>
-   		</div>
+       	</c:forEach>
     </div>
 </div>
 </body>
