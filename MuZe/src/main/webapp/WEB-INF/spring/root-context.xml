@@ -8,10 +8,10 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
-	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>https://github.com/QueenHyeLim/MuZe/pull/166/conflict?name=MuZe%252Ftarget%252Fclasses%252Fmapper%252Fboard-mapper.xml&ancestor_oid=ad1eee2b7c09a759c3ce23717c076169a24b8e01&base_oid=2a2ce8abf134af0fca65582fbf4a6487f91a633c&head_oid=a126a89b663cb9dd049a49331efde4982e9e5785
 	 	<property name="username" value="MUSE"/>
 	 	<property name="password" value="MUSE"/>
+
 	 </bean>
 	 
 	 <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">

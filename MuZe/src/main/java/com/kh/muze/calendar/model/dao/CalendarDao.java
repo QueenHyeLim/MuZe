@@ -70,10 +70,6 @@ public class CalendarDao {
 		return sqlSession.selectOne("calendarMapper.selectAttachment", att);
 	}
 
-	public int updateInsertAttachment(SqlSessionTemplate sqlSession, Attachment att) {
-		return sqlSession.insert("calendarMapper.updateInsertAttachment",att);
-	}
-	
 	
 
 

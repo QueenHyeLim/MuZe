@@ -7,6 +7,7 @@
 	<result column="DIARY_NAME" property="diaryName" />
 	<result column="DIARY_USER" property="diaryUser" />
 	<result column="DIARY_NO" property="diaryNo" />
+	<result column="ATT_NO" property="attNo" />
 	<result column="DIARY_TITLE" property="diaryTitle" />
 	<result column="DIARY_CONTENT" property="diaryContent" />
 	<result column="DIARY_DATE" property="diaryDate" />
@@ -21,7 +22,7 @@
 		  		DIARY_USER,
 				DIARY_NO,
 				DIARY_TITLE,
-				DIRAY_CONTENT,
+				DIARY_CONTENT,
 				DIARY_YN,
 				ATT_YN,
 				DIARY_DATE,
@@ -53,27 +54,16 @@
 		VALUES
 				(
 				SEQ_ATT_NO.NEXTVAL,
-				SEQ_DIARY_NO.CURRVAL,
-				#{originName},
-				#{modifiedName},
-				#{attCategoryNo}
-				)
-	</insert>
-	<insert id="updateInsertAttachment" parameterType="attachment">
-		INSERT
-		  INTO
-		  		ATTACHMENT
-		  		(
-		  		ATT_NO,
-				CONTENT_NO,
-				ORIGIN_NAME,
-				MODIFIED_NAME,
-				ATT_CATEGORY_NO
-		  		)
-		VALUES
 				(
-				SEQ_ATT_NO.NEXTVAL,
-				#{contentNo},
+		        SELECT
+				      CASE 
+				            WHEN #{contentNo} = 0 THEN MAX(DIARY_NO)
+				            WHEN #{contentNo} > 0 THEN #{contentNo}
+				            ELSE MAX(DIARY_NO)
+				       END
+				  FROM
+				      DIARY
+		        ),
 				#{originName},
 				#{modifiedName},
 				#{attCategoryNo}
@@ -92,7 +82,7 @@
 	                    DIARY_USER,
 	                    DIARY_NO,
 	                    DIARY_TITLE,
-	                    DIRAY_CONTENT,
+	                    DIARY_CONTENT,
 	                    DIARY_DATE,
 	                    ATT_YN
              	   FROM
@@ -138,10 +128,10 @@
 	<select id="selectDiaryDetail" parameterType="diary" resultMap="diaryResultMap">
 		SELECT
 		        DIARY_NO,
-		        NVL(ATT.ATT_NO , 0),
+		        NVL(ATT.ATT_NO , 0) AS "ATT_NO",
 		        DIARY_TITLE,
 		        MODIFIED_NAME,
-		        DIRAY_CONTENT,
+		        DIARY_CONTENT,
 		        ATT_YN,
 		        DIARY_DATE
 		  FROM
@@ -217,7 +207,7 @@
 		        DIARY
 		   SET
 		        DIARY_TITLE = #{diaryTitle},
-		        DIRAY_CONTENT = #{diaryContent},
+		        DIARY_CONTENT = #{diaryContent},
 		        ATT_YN = #{attStatus}
 		 WHERE
 		        DIARY_USER = #{diaryUser}

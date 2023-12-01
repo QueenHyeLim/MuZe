@@ -164,6 +164,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 		BREP_NO DESC
 	</select>
 
+
 	<insert id="insertFReply" parameterType="reply">
 		INSERT
 		  INTO
