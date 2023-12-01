@@ -19,5 +19,4 @@ public class Diary {
 	private String createDate;    // CREATE_DATE
 	private String modifiedName;  // TABLE에는 없음
 	private int attNo;         // ATT_NO
-
 }

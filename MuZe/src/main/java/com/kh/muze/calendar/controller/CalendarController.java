@@ -42,11 +42,9 @@ public class CalendarController {
 		ArrayList<Schedule> scheduleList = calendarService.selectSchedule(diaryUser);
 		model.addAttribute("scheduleList",scheduleList);
 		
-		System.out.println("diaryList : " + diaryList);
 		if(!diaryList.isEmpty() && diaryList != null) {
 			// 어차피 SQL에서 if null일 때  YOU ARE MY DIARY로 뽑았기 때문에 그대로 diaryName을 입력해주면 된다
 			String diaryName = diaryList.get(0).getDiaryName();
-			System.out.println("diary Name : " + diaryName);
 			if(diaryList.get(0).getDiaryName().equals("YOU ARE MY DIARY")) {
 				model.addAttribute("diaryName", diaryName);
 			}else {
