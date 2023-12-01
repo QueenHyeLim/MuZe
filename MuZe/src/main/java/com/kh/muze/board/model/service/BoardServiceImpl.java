@@ -122,18 +122,18 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int ajaxInsertFboardLike(Like l) {
-		return boardDao.insertFboardLike(sqlSession, l);
+	public int ajaxInsertBoardLike(Like l) {
+		return boardDao.insertBoardLike(sqlSession, l);
 	}
 
 	@Override
-	public int selectFboardLike(Like like) {
-		return boardDao.selectFboardLike(sqlSession, like);
+	public int selectBoardLike(Like like) {
+		return boardDao.selectBoardLike(sqlSession, like);
 	}
 
 	@Override
-	public int ajaxDeleteFboardLike(Like l) {
-		return boardDao.deleteFboardLike(sqlSession, l);
+	public int ajaxDeleteBoardLike(Like l) {
+		return boardDao.deleteBoardLike(sqlSession, l);
 	}
 
 	@Override
@@ -163,5 +163,6 @@ public class BoardServiceImpl implements BoardService{
 		
 		return boardDao.selectDSearchList(sqlSession, map, rowBounds);
 	}
+
 
 }
