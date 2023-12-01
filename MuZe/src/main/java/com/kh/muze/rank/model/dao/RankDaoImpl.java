@@ -16,20 +16,25 @@ public class RankDaoImpl implements RankDao{
 	}
 
 	@Override
-	public ArrayList<Rank> searchRankList(SqlSessionTemplate sqlSession, String rank) {
-		
-		ArrayList<Rank> rankList = new ArrayList();
-		
-		switch(rank) {
-		case "popular" : rankList = (ArrayList)sqlSession.selectList("rankMapper.searchPopularList");
-		break;
-		case "scrap" : rankList = (ArrayList)sqlSession.selectList("rankMapper.searchScrapList");
-		break;
-		case "range" : rankList = (ArrayList)sqlSession.selectList("rankMapper.searchRangeList");
-		break;
-		default : System.out.println(rank + "List를 찾지 못했습니다.");
-		}
-		return rankList;
+	public  ArrayList<Rank> searchPopularList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("rankMapper.searchPopularList");
 	}
+
+	@Override
+	public  ArrayList<Rank> searchScrapList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("rankMapper.searchScrapList");
+	}
+
+	@Override
+	public  ArrayList<Rank> searchRangeList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("rankMapper.searchRangeList");
+	}
+
+	@Override
+	public  ArrayList<Rank> searchMyRankList(SqlSessionTemplate sqlSession, int userNo) {
+		return (ArrayList)sqlSession.selectList("rankMapper.searchMyRankList");
+	}
+
+
 
 }
