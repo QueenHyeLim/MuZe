@@ -118,7 +118,7 @@ table{
                 				<tr align="center">
                 					<td class="fbno">${ f.boardNo }</td>
                 					<td>${ f.boardTitle }</td>
-                					<td>${ f.boardWriter }</td>
+                					<td>${ f.userId }</td>
                 					<td>${ f.count }</td>
                 					<td>${ f.createDate }</td>
                 				</tr>

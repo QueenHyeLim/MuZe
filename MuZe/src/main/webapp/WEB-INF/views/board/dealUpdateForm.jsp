@@ -155,7 +155,6 @@ input:checked + .slider:before {
 						</td>
 					</tr>
 	   			</table>
-				<input type="hidden" name="userId" value="${sessionScope.loginUser.userId}"/>
 				<div align="center">
 					<input type="hidden" value="${deal.dealNo}" name="dealNo"/>
 					<button type="submit" class="btn btn-primary">수정하기</button>

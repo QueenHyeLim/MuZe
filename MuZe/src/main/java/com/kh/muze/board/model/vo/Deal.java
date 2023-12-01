@@ -9,7 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor @AllArgsConstructor @Setter @Getter @ToString
 public class Deal {
 	private int dealNo;
-	private String userId;
+	private int userNo;
 	private String showTitle;
 	private String ticketDate;
 	private String ticketTime;
@@ -24,4 +24,5 @@ public class Deal {
 	private String saleStatus;
 	private String originName;
 	private String changeName;
+	private String dealWriter;
 }
