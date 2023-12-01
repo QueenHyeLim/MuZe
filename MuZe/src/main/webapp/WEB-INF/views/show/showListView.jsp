@@ -183,6 +183,7 @@ img {
 		function search(){
 			$.ajax({
 				url : 'slist.sh',
+				type : 'post',
 				data : {
 					prfstate : $('#prfstate').val(),
 					shprfnm : $('#shprfnm').val()

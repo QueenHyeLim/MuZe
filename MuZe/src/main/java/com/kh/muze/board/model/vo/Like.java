@@ -8,7 +8,8 @@ import lombok.ToString;
 
 @NoArgsConstructor @AllArgsConstructor @Setter @Getter @ToString
 public class Like {
-	private int boardNo;
+	private int cateNo;
+	private int contentNo;
 	private String userId;
 	private String likeDate;
 }

@@ -97,12 +97,6 @@
 	padding-left: 10px;
 }
 
-
-/*좋아요 영역*/
-#unLike{
-	height: 50px;
-	width: 50px;
-}
 </style>
 </head>
 <body>
@@ -265,6 +259,7 @@
 			if($('#rContent').val().trim() != ''){
 				$.ajax({
 					url : 'fRInsert.bo',
+					type : 'post',
 					data : {
 						boardNo : $('#boardNo').val(),
 						repContent : $('#rContent').val(),
@@ -330,9 +325,11 @@
 		
 		function boardLike(){
 			$.ajax({
-				url : 'fInsertLike.bo',
+				url : 'insertLike.bo',
+				type : 'post',
 				data : {
-					boardNo : $('#boardNo').val(),
+					cateNo : '10',
+					contentNo : $('#boardNo').val(),
 					userId : '${sessionScope.loginUser.userId}'
 				},
 				success : result => {
@@ -348,9 +345,11 @@
 
 		function ajaxSelectLike(){
 				$.ajax({
-				url : 'fSelectLike.bo',
+				url : 'selectLike.bo',
+				type : 'post',
 				data : {
-					boardNo : $('#boardNo').val(),
+					cateNo : '10',
+					contentNo : $('#boardNo').val(),
 					userId : '${sessionScope.loginUser.userId}'
 				},
 				success : result => {
@@ -373,9 +372,11 @@
 
 		function deleteLike(){
 			$.ajax({
-				url :'fDeleteLike.bo',
+				url :'deleteLike.bo',
+				type : 'post',
 				data : {
-					boardNo : $('#boardNo').val(),
+					cateNo : '10',
+					contentNo : $('#boardNo').val(),
 					userId : '${sessionScope.loginUser.userId}'
 				},
 				success : result => {

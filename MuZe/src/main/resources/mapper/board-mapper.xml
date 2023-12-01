@@ -49,7 +49,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<resultMap type="like" id="likeResultSet">
-		<result column="BOARD_NO" property="boardNo"/>
+		<result column="CATE_NO" property="cateNo"/>
+		<result column="CONTENT_NO" property="contentNo"/>
 		<result column="USER_ID" property="userId"/>
 		<result column="LIKE_DATE" property="likeDate"/>
 	</resultMap>
@@ -329,40 +330,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 		DEAL_NO = ${dealNo}
 	</delete>
 	
-	<insert id="insertFboardLike" parameterType="like">
+	<insert id="insertBoardLike" parameterType="like">
 		INSERT
 		  INTO
 		  		BOARD_LIKE
 		  		(
-		  		BOARD_NO,
+		  		CATE_NO,
+		  		CONTENT_NO,
 		  		USER_ID
 		  		)
 		VALUES
 				(
-				#{boardNo},
+				#{cateNo},
+				#{contentNo},
 				#{userId}
 				)
 	</insert>
 	
-	<select id="selectFboardLike" parameterType="like" resultType="_int">
+	<select id="selectBoardLike" parameterType="like" resultType="_int">
 		SELECT
 				COUNT(*)
 		FROM
 				BOARD_LIKE
 		WHERE
-				BOARD_NO = #{boardNo}
+				CONTENT_NO = #{contentNo}
 		AND
 				USER_ID = #{userId}
+		AND
+				CATE_NO = #{cateNo}
 	</select>
 	
-	<delete id="deleteFboardLike" parameterType="like">
+	<delete id="deleteBoardLike" parameterType="like">
 		DELETE
 		  FROM
 		  		BOARD_LIKE
 		WHERE
-				BOARD_NO = #{boardNo}
+				CONTENT_NO = #{contentNo}
 		AND
 				USER_ID = #{userId}
+		AND
+				CATE_NO = #{cateNo}
 	</delete>
 	
 	<select id="selectFSearchCount" parameterType="hashmap" resultType="_int">

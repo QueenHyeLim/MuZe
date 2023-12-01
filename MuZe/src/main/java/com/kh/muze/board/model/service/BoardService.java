@@ -3,6 +3,7 @@ package com.kh.muze.board.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.gson.JsonElement;
 import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.board.model.vo.Board;
 import com.kh.muze.board.model.vo.Deal;
@@ -47,11 +48,11 @@ public interface BoardService {
 
 	int deleteDeal(int dealNo);
 
-	int ajaxInsertFboardLike(Like l);
+	int ajaxInsertBoardLike(Like l);
 
-	int selectFboardLike(Like like);
+	int selectBoardLike(Like like);
 
-	int ajaxDeleteFboardLike(Like l);
+	int ajaxDeleteBoardLike(Like l);
 
 	int selectFSearchCount(HashMap<String, String> map);
 

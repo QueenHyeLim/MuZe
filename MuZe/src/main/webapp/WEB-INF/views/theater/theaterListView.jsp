@@ -153,6 +153,7 @@
 
 			$.ajax({
 				url : 'rlist.th',
+				type : 'post',
 				data : {
 					shprfnmfct : $('#shprfnmfct').val() // 시설명 키워드
 				},
