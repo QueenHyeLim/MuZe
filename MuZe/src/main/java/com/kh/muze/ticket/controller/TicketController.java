@@ -30,8 +30,8 @@ public class TicketController {
 		ArrayList<Reservation> ticketResno = ticketService.receiveResno(userNo);
 		ArrayList<Mymuze> ticketList = ticketService.ticektList(ticketResno);
 		
-		
-		
+		System.out.println("티켓리스트>>" + ticketList);
+		mv.addObject("ticketList", ticketList).setViewName("muze/muzeTicketView");
 		return mv;
 	}
 

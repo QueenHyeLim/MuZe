@@ -6,9 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>양도 게시글</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
-.page{
-	background-colr : beige;
+.page > table{
+	background-color : skyblue;
 	color : white;
 }
 
@@ -24,6 +25,8 @@ img{
 	width: 300px;
 	height: 300px;
 }
+
+
 </style>
 </head>
 <body>
@@ -33,7 +36,7 @@ img{
 	   <div id="blank-area"></div>
 	   <div class="page">
 	   		
-	   		<c:if test="${ sessionScope.loginUser.userId eq deal.userId }">
+	   		<c:if test="${ sessionScope.loginUser.userNo eq deal.userNo}">
 	   			<div class="page" id="buttton-area" align="right">
 	   				<a href="dealUpdateForm.bo?dealNo=${ deal.dealNo }" class="btn btn-primary">수정</a>
 					<a href="#" class="btn btn-danger" onclick="deleteDeal();" >삭제</a>
@@ -43,12 +46,17 @@ img{
 	   		<table class="table" align="center">
 	   			<tr>
 	   				<th>작품명</th>
-	   				<td>${ deal.showTitle }</td>
+	   				<td>${ deal.showTitle }
+						<c:if test="${ !empty sessionScope.loginUser}">
+							<i class="fa-regular fa-heart" id="unLike" onclick="dealLike();"></i>
+							<i class="fa-solid fa-heart" id="Like" style="color: #981d26;" onclick="deleteDealLike();"></i>
+						</c:if>
+					</td>
 	   			</tr>
 	   			
 	   			<tr>
 	   				<th>작성자</th>
-	   				<td>${deal.userId }</td>
+	   				<td>${deal.dealWriter}</td>
 	   			</tr>
 	   			
 	   			<tr>
@@ -102,18 +110,22 @@ img{
 					</c:choose>
 				</tr>
 	   		</table>
+
+			
 	   		
-	   		<c:if test="${ !empty sessionScope.loginUser && deal.userId != sessionScope.loginUser.userId}">
+	   		<c:if test="${ !empty sessionScope.loginUser && deal.userNo != sessionScope.loginUser.userNo}">
 	   		<div>
 	   			<button class="btn btn-primary" onclick="chatDeal(${deal.dealNo})">대화하기</button>
+				
 	   		</div>
 	   		</c:if>
 
 		<form action="" id="deleteForm" method="post">
-			<input type="hidden" name="dealNo" value="${deal.dealNo}" />
+			<input type="hidden" name="dealNo" value="${deal.dealNo}" id="dealNo"/>
 			<input type="hidden" name="filepath" value="${deal.changeName}"/>
 		</form>
 	</div> 
+
 </div> 
 	
 	<script>
@@ -125,6 +137,8 @@ img{
 			console.log(totalCount);
 			
 			$('#totalPrice').text(totalCount);
+
+			ajaxSelectDealLike();
 		})
 		
 		function chatDeal(dealNo){
@@ -138,6 +152,74 @@ img{
 				$('#deleteForm').attr('action', 'dealDelete.bo').submit();
 			}
 		}
+
+		function dealLike(){
+			$.ajax({
+				url : 'insertLike.bo',
+				type : 'post',
+				data : {
+					contentNo : $('#dealNo').val(),
+					userNo : '${sessionScope.loginUser.userNo}',
+					cateNo : '20'
+				},
+				success : result => {
+					console.log(result);
+					$('#unLike').hide();
+					$('#Like').show();
+				},
+				error : () => {
+					console.log('error');
+				}
+			})
+		}
+
+		function ajaxSelectDealLike(){
+				$.ajax({
+				url : 'selectLike.bo',
+				type : 'post',
+				data : {
+					contentNo : $('#dealNo').val(),
+					userNo : '${sessionScope.loginUser.userNo}',
+					cateNo : '20'
+				},
+				success : result => {
+					console.log(result);
+					if(result > 0){
+						$('#unLike').hide();
+						$('#Like').show();
+						console.log('좋아요 있음');
+					} else {
+						$('#unLike').show();
+						$('#Like').hide();
+						console.log('좋아요 없음');
+					}
+				},
+				error : () => {
+					console.log('에러');
+				}
+			})
+		}
+
+		function deleteDealLike(){
+			$.ajax({
+				url :'deleteLike.bo',
+				type : 'post',
+				data : {
+					contentNo : $('#dealNo').val(),
+					userNo : '${sessionScope.loginUser.userNo}',
+					cateNo : '20'
+				},
+				success : result => {
+					console.log('좋아요 취소');
+					$('#unLike').show();
+					$('#Like').hide();
+				},
+				error : () => {
+					console.log('실패');
+				}
+			})
+		}
+
 	</script>
 </body>
 </html>

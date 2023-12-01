@@ -26,6 +26,8 @@
 		<typeAlias type="com.kh.muze.ticket.model.vo.Mymuze" alias="Mymuze" />
 		<typeAlias type="com.kh.muze.board.model.vo.Like" alias="like"/>
 		<typeAlias type="com.kh.muze.rank.model.vo.Rank" alias="rank"/>
+		<typeAlias type="com.kh.muze.ticket.model.vo.Mymuze" alias="Mymuze" />
+		<typeAlias type="com.kh.muze.board.model.vo.Like" alias="like"/>
 	</typeAliases>
 	 
 	<mappers>

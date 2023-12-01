@@ -23,7 +23,7 @@ public class Mymuze {
 	private int resNo; 		 // BOOK_NO OR RES_NO
 	private int seatNo;			 // SEAT_NO
 	private String seatId; 		 // SEAT_ID
-	//private ArrayList<Seat> seatIdlist; //
+	private ArrayList<Seat> seatIdlist; //
 	private String resDate;		 // RES_DATE
 	private String theaterId;	 // THEATER_ID
 	private String theaterName;	 // THEATER_NAME

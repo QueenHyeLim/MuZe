@@ -16,7 +16,16 @@ public class TicketDao {
 	}
 
 	public ArrayList<Mymuze> ticketList(SqlSessionTemplate sqlSession, ArrayList<Reservation> ticketResno) {
-		return (ArrayList)sqlSession.selectList("reservationMapper.ticketList", ticketResno);
+		
+		ArrayList<Mymuze> ticketList = new ArrayList<Mymuze>();
+		for(Reservation reservation : ticketResno) {
+			int resNo = reservation.getResNo();
+			Mymuze mymuze = sqlSession.selectOne("reservationMapper.ticketList", resNo);
+			ticketList.add(mymuze);
+		}
+		
+		
+		return ticketList;
 	}
 	
 	

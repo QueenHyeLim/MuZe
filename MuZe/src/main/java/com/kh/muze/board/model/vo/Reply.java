@@ -10,7 +10,8 @@ import lombok.ToString;
 public class Reply {
 	private int brepNo;
 	private int boardNo;
-	private String userId;
+	private int userNo;
 	private String repContent;
 	private String creaetDate;
+	private String replyWriter;
 }

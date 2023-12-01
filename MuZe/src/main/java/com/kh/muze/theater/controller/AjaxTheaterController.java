@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.Document;
@@ -23,7 +24,7 @@ import com.kh.muze.show.controller.ShowController;
 public class AjaxTheaterController {
 
 	// 공연장 목록 불러오기
-	@RequestMapping(value="rlist.th", produces="application/json; charset=UTF-8")
+	@PostMapping(value="rlist.th", produces="application/json; charset=UTF-8")
 	public String ajaxTheaterList(String shprfnmfct, Model model) throws Exception {
 		String url = "https://www.kopis.or.kr/openApi/restful/prfplc";
 		url += "?service=" + ShowController.SERVICEYKEY;

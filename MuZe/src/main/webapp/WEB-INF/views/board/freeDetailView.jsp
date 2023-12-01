@@ -97,12 +97,6 @@
 	padding-left: 10px;
 }
 
-
-/*좋아요 영역*/
-#unLike{
-	height: 50px;
-	width: 50px;
-}
 </style>
 </head>
 <body>
@@ -111,7 +105,7 @@
 	 <div class="page" id="content">
 	   <div id="blank-area"></div>
 	   
-	   <c:if test="${ sessionScope.loginUser.userId eq b.boardWriter }">
+	   <c:if test="${ sessionScope.loginUser.userNo eq b.boardWriter }">
 		   <div class="page" id="button-area">
 		   		<a href="fUpdateForm.bo?fbno=${ b.boardNo }" class="btn btn-primary">수정</a>
 				<a href="#" class="btn btn-danger" id="delete">삭제</a>
@@ -121,7 +115,7 @@
 	   <div class="page" id="board">
 	   		<div class="title-area">
 	   			<h3 id="title">${ b.boardTitle }</h3>
-	   			<span id="writer">${b.boardWriter }</span>
+	   			<span id="writer">${ b.userId }</span>
 	   			<span id="createDate">${b.createDate }</span>
 	   			<span>조회수 ${b.count }</span>
 				<input type="hidden" value="${b.boardNo}" id="boardNo"/>
@@ -265,10 +259,11 @@
 			if($('#rContent').val().trim() != ''){
 				$.ajax({
 					url : 'fRInsert.bo',
+					type : 'post',
 					data : {
 						boardNo : $('#boardNo').val(),
 						repContent : $('#rContent').val(),
-						userId : '${sessionScope.loginUser.userId}'
+						userNo : '${sessionScope.loginUser.userNo}'
 					},
 					success : result => {
 						console.log(result);
@@ -298,9 +293,9 @@
 					
 					for(let i in result){
 						value += '<div class="reply-items">'
-										+ '<span class="repWriter">' + result[i].userId + '</span>';
+										+ '<span class="repWriter">' + result[i].replyWriter + '</span>';
 										
-										if('${loginUser.userId}' == result[i].userId){
+										if('${loginUser.userId}' == result[i].replyWriter){
 						value += 		'<button class="deleteRep" onclick="deleteRep(' + result[i].brepNo + ');">삭제</button>'	;		
 										}
 						value +=	'<hr/>'
@@ -330,10 +325,12 @@
 		
 		function boardLike(){
 			$.ajax({
-				url : 'fInsertLike.bo',
+				url : 'insertLike.bo',
+				type : 'post',
 				data : {
-					boardNo : $('#boardNo').val(),
-					userId : '${sessionScope.loginUser.userId}'
+					cateNo : '10',
+					contentNo : $('#boardNo').val(),
+					userNo : '${sessionScope.loginUser.userNo}'
 				},
 				success : result => {
 					console.log(result);
@@ -348,10 +345,12 @@
 
 		function ajaxSelectLike(){
 				$.ajax({
-				url : 'fSelectLike.bo',
+				url : 'selectLike.bo',
+				type : 'post',
 				data : {
-					boardNo : $('#boardNo').val(),
-					userId : '${sessionScope.loginUser.userId}'
+					cateNo : '10',
+					contentNo : $('#boardNo').val(),
+					userNo : '${sessionScope.loginUser.userNo}'
 				},
 				success : result => {
 					console.log(result);
@@ -373,10 +372,12 @@
 
 		function deleteLike(){
 			$.ajax({
-				url :'fDeleteLike.bo',
+				url :'deleteLike.bo',
+				type : 'post',
 				data : {
-					boardNo : $('#boardNo').val(),
-					userId : '${sessionScope.loginUser.userId}'
+					cateNo : '10',
+					contentNo : $('#boardNo').val(),
+					userNo : '${sessionScope.loginUser.userNo}'
 				},
 				success : result => {
 					$('#unLike').show();

@@ -5,16 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.json.JSONObject;
-import org.json.XML;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,13 +22,13 @@ import com.kh.muze.show.controller.ShowController;
 @Controller
 public class TheaterController {
 
-	@RequestMapping("list.th")
+	@GetMapping("list.th")
 	public String list() {
 		return "theater/theaterListView";
 	}
 	
 	// 공연장 상세정보 불러오기
-	@RequestMapping(value="theatermap", produces="text/html; charset=UTF-8")
+	@GetMapping(value="theatermap", produces="text/html; charset=UTF-8")
 	public String theatermap(String mt10id, Model model) throws IOException, Exception {
 		String url = "http://kopis.or.kr/openApi/restful/prfplc/";
 		url += mt10id;
