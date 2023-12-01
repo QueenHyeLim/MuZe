@@ -147,6 +147,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 				BOARD_NO = #{boardNo}
 	</update>
+
 	<select id="selectFReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT
 		 		BREP_NO,
@@ -379,5 +380,120 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND
 				USER_ID = #{userId}
 	</delete>
+	
+	<select id="selectFSearchCount" parameterType="hashmap" resultType="_int">
+		SELECT
+				COUNT(*)
+		FROM
+				BOARD
+		WHERE
+				CATE_NO = 30
+		AND
+				BOARD_STATUS = 'Y'
+		<if test="condition == 'content'">
+		AND
+				BOARD_CONTENT 
+		</if>
+		<if test="condition == 'writer'">
+		AND
+				BOARD_WRITER
+		</if>
+		<if test="condition == 'title'">
+		AND
+				BOARD_TITLE
+		</if>
+		LIKE
+				'%' || #{keyword} || '%'
+		 
+	</select>
+	
+	<select id="selectFSearch" parameterType="hashmap" resultMap="boardResultSet">
+		SELECT
+				BOARD_NO,
+				BOARD_WRITER,
+				BOARD_TITLE,
+				BOARD_CONTENT,
+				TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE",
+				COUNT
+		FROM	
+				BOARD
+		WHERE
+				CATE_NO = 30
+		AND
+				BOARD_STATUS = 'Y'
+		<choose>
+			<when test="condition == 'content'">
+		AND
+			BOARD_CONTENT	
+			</when>
+			<when test="condition == 'writer'">
+		AND
+			BOARD_WRITER	
+			</when>
+			<otherwise>
+		AND
+			BOARD_TITLE
+			</otherwise>
+		</choose>
+		LIKE
+				'%' || #{keyword} || '%'
+		ORDER
+		   BY
+		   		BOARD_NO DESC
+	</select>
+	
+	<select id="selectDSearchCount" parameterType="hashmap" resultType="_int">
+		SELECT
+				COUNT(*)
+		FROM
+				DEAL
+		WHERE
+				SALE_STATUS = 'N'
+		<if test="condition == 'showTitle'">
+		AND
+				SHOW_TITLE 
+		</if>
+		<if test="condition == 'writer'">
+		AND
+				USER_ID
+		</if>
+		LIKE
+				'%' || #{keyword} || '%'
+		 
+	</select>
+	
+	<select id="selectDSearchList" parameterType="hashmap" resultMap="dealResultSet">
+		SELECT
+				DEAL_NO,
+				USER_ID,
+				SHOW_TITLE,
+				TICKET_DATE,
+				SEAT_FLOOR,
+				SEAT_RANK,
+				SEAT_AREA,
+				SEAT_COL,
+				SEAT_DES,
+				TICKET_PRICE,
+				TICKET_MANY
+		FROM	
+				DEAL
+		WHERE
+				SALE_STATUS = 'N'
+		<choose>
+			<when test="condition == 'showTitle'">
+		AND
+				SHOW_TITLE	
+			</when>
+			<otherwise>
+		AND
+			USER_ID	
+			</otherwise>
+		</choose>
+		LIKE
+				'%' || #{keyword} || '%'
+		ORDER
+		   BY
+		   		DEAL_NO DESC
+	</select>
 
 </mapper>

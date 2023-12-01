@@ -36,13 +36,16 @@
 		<result column="MUS_ID" property="musId" />
 		<result column="MUS_TITLE" property="musTitle" />
 		<result column="RES_NO" property="resNo" />
-		<result column="SEAT_NO" property="seatNo" />
-		<result column="SEAT_ID" property="seatIdlist" />
 		<result column="RES_DATE" property="resDate" />
 		<result column="THEATER_ID" property="theaterId" />
-		<result column="THEATER_NAME" property="theaterName" />
+		<result column="THEATHER_NAME" property="theaterName" />
+		<collection property="seatIdlist" resultMap="seatIdsMap"></collection>
 	</resultMap>
 	
+	<resultMap id="seatIdsMap" type="seat">
+		<result column="SEAT_NO" property="seatNo" />
+		<result column="SEAT_ID" property="seatId" />
+	</resultMap>
 	
 	
 	<select id="showLatest" resultMap="reservationMap">
@@ -71,7 +74,10 @@
 						 WHERE 
 						        STATUS = '공연중' 
 		                  AND
-		                        GENRE_NO = 1)A
+		                        GENRE_NO = 1
+		                ORDER
+		         		   BY
+		         				START_DATE ASC  )A
 	</select>
 
 	<select id="selectMus" parameterType="string" resultMap="reservationMap">
@@ -262,7 +268,7 @@
 		        R.USER_NO = #{userNo}
 	</select>
 	
-	<!-- <select id="ticketList" parameterType="_int" resultMap="ticketList">
+	<select id="ticketList" parameterType="_int" resultMap="ticketListMap">
 		SELECT
 	        		TICKET_NO, 
 	        		MUS_ID, 
@@ -270,7 +276,7 @@
 	        		RES_NO, 
 	        		SEAT_NO, 
 	        		SEAT_ID, 
-	        		RES_DATE, 
+	        		to_char(RES_DATE, 'YYYY-MM-DD') AS RES_DATE,
 	        		s.theater_id, 
 	        		t.theather_name
 		  FROM
@@ -296,10 +302,8 @@
 		 ON
 		        	(T.THEATER_ID = S.THEATER_ID)
 		 WHERE
-		 <foreach collection="list" item="resNo">
 		        	RES_NO = #{resNo}
-		 </foreach>
-	</select> -->
+	</select>
 	
 	<select id="searchMuze" parameterType="_int" resultMap="reservationMap">
 		SELECT 
@@ -329,15 +333,15 @@
 				<choose>
 					<when test="genre == 1">
 					AND
-		                        GENRE_NO = 1)A	
+		                        GENRE_NO = 1	
 					</when>
 					<otherwise>
 					AND
-		                        GENRE_NO = 2)A	
+		                        GENRE_NO = 2	
 					</otherwise>
 				</choose> 
-		                  
-	
-	
+		      ORDER
+		         BY
+		         		START_DATE ASC)A            
 	</select>
 </mapper>
