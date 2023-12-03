@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
 .page > table{
-	background-color : skyblue;
+	background-color: rgba(128, 128, 128, 0.506);
 	color : white;
 }
 
@@ -69,7 +69,7 @@ img{
 	   				<td>
 	   					${deal.seatFloor } | ${deal.seatRank} | ${ deal.seatArea } | ${deal.seatCol }
 						<c:if test="${!empty deal.seatDes }">
-							| ${deal.setDes }
+							| ${deal.seatDes }
 						</c:if>	   					
 	   				</td>
 	   			</tr>
@@ -127,7 +127,7 @@ img{
 	</div> 
 
 </div> 
-	
+	  
 	<script>
 		$(() => {
 			var ticketPrice = $('#price').text();
@@ -162,8 +162,7 @@ img{
 					userNo : '${sessionScope.loginUser.userNo}',
 					cateNo : '20'
 				},
-				success : result => {
-					console.log(result);
+				success : result => { 
 					$('#unLike').hide();
 					$('#Like').show();
 				},
@@ -183,15 +182,12 @@ img{
 					cateNo : '20'
 				},
 				success : result => {
-					console.log(result);
 					if(result > 0){
 						$('#unLike').hide();
 						$('#Like').show();
-						console.log('좋아요 있음');
 					} else {
 						$('#unLike').show();
 						$('#Like').hide();
-						console.log('좋아요 없음');
 					}
 				},
 				error : () => {
@@ -210,7 +206,6 @@ img{
 					cateNo : '20'
 				},
 				success : result => {
-					console.log('좋아요 취소');
 					$('#unLike').show();
 					$('#Like').hide();
 				},

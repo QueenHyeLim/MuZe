@@ -59,7 +59,15 @@ table{
 
 #searchBtn{
 	margin-bottom: 7px;
+	background-color: rgba(152, 29, 37);
+	border : rgba(152, 29, 37);
 }
+
+#insertBtn{
+	background-color: rgba(152, 29, 37);
+	border : rgba(152, 29, 37);
+}
+
 
 </style>
 </head>
@@ -71,7 +79,7 @@ table{
         
         <div class="page" align="right">
         	<c:if test="${ !empty sessionScope.loginUser }">
-        		<a class="btn btn-primary" href="dealInsertForm.bo">작성하기</a>
+        		<a class="btn btn-primary" id="insertBtn" href="dealInsertForm.bo">작성하기</a>
         	</c:if>
         </div>
         
@@ -161,7 +169,7 @@ table{
         	</div>
         </div>
 
-	</div>
+	</div>  
 
 	<script>
 		$(() => {

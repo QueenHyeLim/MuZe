@@ -244,6 +244,8 @@ public class BoardController {
 		
 		PageInfo pi = Pagination.getPageInfo(boardService.selectDSearchCount(map), currentPage, 10, 10);
 		
+		System.out.println(boardService.selectDSearchList(map, pi));
+		
 		model.addAttribute("list", boardService.selectDSearchList(map, pi));
 		model.addAttribute("pi", pi);
 		model.addAttribute("condition", condition);
