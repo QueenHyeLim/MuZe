@@ -132,6 +132,7 @@ public class ReservationDao {
 		return sqlSession.insert("reservationMapper.insertReservation", order);
 	}
 
+	
 	public int insertBook(SqlSessionTemplate sqlSession, ArrayList<Seat> seatZip) {
 		
 		int bookSuccess = 0;
@@ -143,7 +144,16 @@ public class ReservationDao {
 		
 		return bookSuccess;
 	}
-
+	
+	/*잘안됌
+	public int insertBook(SqlSessionTemplate sqlSession, ArrayList<Seat> seatZip) {
+		
+		
+		return sqlSession.insert("reservationMapper.insertBook", seatZip);
+	}
+	*/
+	
+	
 	public int insertTicket(SqlSessionTemplate sqlSession, String aid) {
 		return sqlSession.insert("reservationMapper.insertTicket", aid);
 	}

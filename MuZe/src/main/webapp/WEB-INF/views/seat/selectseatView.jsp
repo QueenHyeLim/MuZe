@@ -313,7 +313,7 @@
             <div class="gopay">
             	<form action="payment.rs" method="POST">
             		<!--<input type="hidden" name="userNo" value="${ sessionScope.loginUser.userNo }">  -->
-            		<input type="hidden" name="musId" value="${ musInfo.musId }">
+            		<input type="hidden" name="musId"  value="${ musInfo.musId }">
             		<input type="hidden" name="selectdate" value="${ selectdate }">
             		<input type="hidden" name="selectseat" id="selectseat">
             		<button type="submit" id="gopay" onclick="return goPay();">결제하기</button>
@@ -324,7 +324,7 @@
 		<script>
 			function goPay(){
 				let selectseats = $('.checked_seat');
-				const ffff = $('.selected-seat').children();
+				const myseats = $('.selected-seat').children();
 				
 				/*
 				if(selectseats.length > 0){
@@ -345,9 +345,9 @@
 					}
 				}
 				*/
-				if(ffff.length > 0){
+				if(myseats.length > 0){
 					let arr = [];
-					ffff.map((s,i) =>{
+					myseats.map((s,i) =>{
 						arr.push(i.innerText);
 					})
 					$('#selectseat').val(arr.map((v, i) => {
@@ -393,11 +393,13 @@ $(function(){
 		
 	$.ajax({
         url: 'disabled.st',
+        type : 'POST',
         data: {
             musId: '${musInfo.musId}',
             selectDate: '${selectdate}'
         },
-        success: data => {
+        success: (data) => {
+        	if (data !== null) {       	
         	 for (let j in data) {
                  const disabledSeatId = data[j].seatId;
 
@@ -414,7 +416,10 @@ $(function(){
                      console.log('결과 X');
                  }
              }
-         },
+        	} else {
+        		console.log('데이터가 null입니다.');
+        	}
+        },
         error: () => {
             console.log('실패');
         }

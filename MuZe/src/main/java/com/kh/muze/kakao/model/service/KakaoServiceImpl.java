@@ -23,18 +23,18 @@ import org.springframework.stereotype.Service;
 import com.kh.muze.kakao.model.dao.KakaoDao;
 import com.kh.muze.kakao.model.vo.ApproveResponse;
 import com.kh.muze.kakao.model.vo.ReadyResponse;
-import com.kh.muze.reservation.model.vo.Order;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class KakaoServiceImpl implements KakaoService {
 
 	private static String SERVICE_APP_ADMIN_KEY = "d1e312a7f32f5f7b5f297a111ae6429f";
 	
-	@Autowired
-	private SqlSessionTemplate sqlSession;
+	private final SqlSessionTemplate sqlSession;
 	
-	@Autowired
-	private KakaoDao kakaoDao;
+	private final KakaoDao kakaoDao;
 	
 	@Override
 	public String goKakaoPay(String musTitle, String selectseat, int total_amount, String partner_order_id, HttpSession session) throws ParseException {
@@ -42,7 +42,7 @@ public class KakaoServiceImpl implements KakaoService {
 		String apiURL = "https://kapi.kakao.com/v1/payment/ready";
 		
 		Map<String, String> requestHeaders = new HashMap<>();
-		requestHeaders.put("Authorization", "KakaoAK " + "d1e312a7f32f5f7b5f297a111ae6429f");
+		requestHeaders.put("Authorization", "KakaoAK " + SERVICE_APP_ADMIN_KEY);
 		requestHeaders.put("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		
 		String responseUrl = post(apiURL, requestHeaders, musTitle, selectseat, total_amount, partner_order_id);

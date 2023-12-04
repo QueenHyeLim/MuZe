@@ -26,6 +26,7 @@
 		<typeAlias type="com.kh.muze.ticket.model.vo.Mymuze" alias="Mymuze" />
 		<typeAlias type="com.kh.muze.board.model.vo.Like" alias="like"/>
 		<typeAlias type="com.kh.muze.rank.model.vo.Rank" alias="rank"/>
+		<typeAlias type="com.kh.muze.chatbot.model.vo.ChatbotResponse" alias="chatbot" />
 	</typeAliases>
 	 
 	<mappers>
@@ -36,6 +37,7 @@
 		<mapper resource="/mapper/board-mapper.xml"/>
 		<mapper resource="/mapper/bookmark-mapper.xml"/>
 		<mapper resource="/mapper/rank-mapper.xml" />
+		<mapper resource="/mapper/chatbot-mapper.xml" />
 	</mappers>
 	
 </configuration>

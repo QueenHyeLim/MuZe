@@ -139,6 +139,7 @@
 		$('#genre').on('change', () => {
 			$.ajax({
 				url : 'search.mz',
+				type : 'GET',
 				data : {genre : $('#genre').val()},
 				success : (data) => {
 					console.log(data);

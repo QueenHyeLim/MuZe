@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chatbotMapper">
+	
+	<resultMap type="chatbot" id="chatbotMap">
+		<result column="RESPONSE_NO"  property="responseNo" />
+		<result column="RESPONSE_KEY" property="responseKey" />
+		<result column="RESPONSE_CON" property="responseCon" />
+	</resultMap>
+	
+	
+	<select id="chatbotResponse" parameterType="string" resultMap="chatbotMap">
+		SELECT 
+			RESPONSE_NO,
+			RESPONSE_KEY,
+			RESPONSE_CON
+		FROM 
+			CHATBOT_RESPONSE
+		WHERE 
+			LOWER(RESPONSE_KEY) LIKE '%' || LOWER(#{userMessage}) || '%'
+	</select>
+</mapper>

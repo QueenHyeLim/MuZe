@@ -18,7 +18,9 @@
         width : 100%;
         height : 120px;
         border : 1px solid blue;
+        background-color : #fff;
     }
+
 
     .muz_content{
         width : 100%;
@@ -121,7 +123,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(function() {
-        $("#datepicker").datepicker();
+        $("#datepicker").datepicker({minDate:0});
 
         $.datepicker.setDefaults({
             dateFormat: 'yy-mm-dd',

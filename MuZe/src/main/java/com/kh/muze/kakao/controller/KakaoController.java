@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.muze.kakao.model.service.KakaoService;
@@ -39,7 +39,7 @@ public class KakaoController {
 	@Autowired
 	private JavaMailSender sender;
 	
-	
+	/*
 	@ResponseBody
 	@RequestMapping(value="kakao", produces="application/json; charset=UTF-8")
 	public String gokakaoPay(String musTitle, String musId, String theaterName, String selectdate, String selectseat, String totalPrice, HttpSession session) throws ParseException {
@@ -67,14 +67,15 @@ public class KakaoController {
 		String pay_approve = kakaoService.goKakaoPay(musTitle, selectseat, total_amount, partner_order_id, session);
 		
 		/*
-		ReadyResponse readyResponse = new ReadyResponse();
-		readyResponse.set
-		ReadyResponse started = session.setAttribute("readyResponse", ReadyResponse);
-		*/
+		//ReadyResponse readyResponse = new ReadyResponse();
+		//readyResponse.set
+		//ReadyResponse started = session.setAttribute("readyResponse", ReadyResponse);
+		
 		
 		
 		return pay_approve;
 	}
+	*/
 	
 	/*
 	@RequestMapping("kakao")
@@ -101,7 +102,7 @@ public class KakaoController {
 	}
 	*/
 	
-	@RequestMapping("payapprove")
+	@GetMapping("payapprove")
 	public ModelAndView payApprove(@RequestParam("pg_token") String pgToken, HttpSession session, HttpServletRequest request, ModelAndView mv) throws ParseException {
 		
 		String userId = ((Member)session.getAttribute("loginUser")).getUserId();
@@ -173,12 +174,15 @@ public class KakaoController {
 		if(insertReserve > 0) {
 			System.out.println("들어가나>>"+ insertReserve /*reservationService.insertReservation(bookList)*/);
 			
-			// 티켓메일 전송
-			try {
-				mail(order, appResponse, request, session);
-			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(!((Member)session.getAttribute("loginUser")).getEmail().equals("")) {
+				
+				// 티켓메일 전송 
+				try {
+					mail(order, appResponse, request, session);
+				} catch (MessagingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			// 유저가 선택한 예매 정보를 저장해두었던 OrderList 세션 무효화
 			session.removeAttribute("OrderList");
@@ -234,13 +238,13 @@ public class KakaoController {
 	}
 	*/
 	
-	@RequestMapping("payfail")
+	@GetMapping("payfail")
 	public ModelAndView payFail(ModelAndView mv) {
 		mv.addObject("errorMsg", "결제 실패 -카드사점검시간 - 잔액확인").setViewName("common/errorPage");
 		return mv;
 	}
 	
-	@RequestMapping("paycancel")
+	@GetMapping("paycancel")
 	public ModelAndView payCancel(ModelAndView mv) {
 		mv.addObject("errorMsg", "결제 취소되었습니다").setViewName("common/errorPage");
 		return mv;
