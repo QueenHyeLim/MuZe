@@ -12,14 +12,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="BOARD_CONTENT" property="boardContent"/>
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="COUNT" property="count"/>
+		<result column="USER_ID" property="userId"/>
 	</resultMap>
 	
 	<resultMap type="reply" id="replyResultSet">
 		<result column="BREP_NO" property="brepNo"/>
 		<result column="BOARD_NO" property="boardNo"/>
-		<result column="USER_ID" property="userId"/>
+		<result column="USER_NO" property="userNo"/>
 		<result column="REP_CONTENT" property="repContent"/>
 		<result column="CREATE_DATE" property="creaetDate"/>
+		<result column="USER_ID" property="replyWriter"/>
 	</resultMap>
 	
 	<resultMap type="report" id="reportResultSet">
@@ -31,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<resultMap type="deal" id="dealResultSet">
 		<result column="DEAL_NO" property="dealNo"/>
-		<result column="USER_ID" property="userId"/>
+		<result column="USER_NO" property="userNo"/>
 		<result column="SHOW_TITLE" property="showTitle"/>
 		<result column="TICKET_DATE" property="ticketDate"/>
 		<result column="TICKET_TIME" property="ticketTime"/>
@@ -46,11 +48,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="SALE_STATUS" property="saleStatus"/>
 		<result column="ORIGIN_NAME" property="originName"/>
 		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="USER_ID" property="dealWriter"/>
 	</resultMap>
 	
 	<resultMap type="like" id="likeResultSet">
-		<result column="BOARD_NO" property="boardNo"/>
-		<result column="USER_ID" property="userId"/>
+		<result column="CATE_NO" property="cateNo"/>
+		<result column="CONTENT_NO" property="contentNo"/>
+		<result column="USER_NO" property="userNo"/>
 		<result column="LIKE_DATE" property="likeDate"/>
 	</resultMap>
 
@@ -69,11 +73,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT
 				BOARD_NO,
 				BOARD_WRITER,
+				USER_ID,
 				BOARD_TITLE,
 				TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE",
 				COUNT
 		FROM
 				BOARD
+		JOIN
+				MEMBER ON (USER_NO = BOARD_WRITER)
 		WHERE
 				CATE_NO = 30
 		AND
@@ -98,12 +105,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT
 				BOARD_NO,
 				BOARD_WRITER,
+				USER_ID,
 				BOARD_TITLE,
 				BOARD_CONTENT,
 				CREATE_DATE,
 				COUNT
 		FROM
 				BOARD
+		JOIN
+				MEMBER ON (USER_NO = BOARD_WRITER)
 		WHERE
 				BOARD_NO = #{boardNo}
 	</select>
@@ -148,22 +158,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				BOARD_NO = #{boardNo}
 	</update>
 
-	<select id="selectFReplyList" parameterType="_int" resultMap="replyResultSet">
-		SELECT
-		 		BREP_NO,
-		 		BOARD_NO,
-		 		USER_ID,
-		 		REP_CONTENT,
-		 		CREATE_DATE
-		 FROM
-		 		REPLY
-		 WHERE
-		 		BOARD_NO = #{boardNo}
-		 ORDER
-		 	BY
-		 		BREP_NO DESC
-	</select>
-
 	<insert id="insertFReply" parameterType="reply">
 		INSERT
 		  INTO
@@ -171,14 +165,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  		(
 		  		BREP_NO,
 		  		BOARD_NO,
-		  		USER_ID,
+		  		USER_NO,
 		  		REP_CONTENT
 		  		)
 		VALUES
 				(
 				SEQ_BREP_NO.NEXTVAL,
 				#{boardNo},
-				#{userId},
+				#{userNo},
 				#{repContent}
 				)
 	</insert>
@@ -192,6 +186,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 		CREATE_DATE
 		 FROM
 		 		REPLY
+		 JOIN
+		 		MEMBER USING(USER_NO)
 		 WHERE
 		 		BOARD_NO = #{boardNo}
 		 ORDER
@@ -243,6 +239,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				TICKET_MANY
 		FROM
 				DEAL
+		JOIN
+				MEMBER USING(USER_NO)
 		WHERE
 				SALE_STATUS = 'N'
 		ORDER
@@ -256,7 +254,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		  		DEAL
 		  		(
 		  		DEAL_NO,
-		  		USER_ID,
+		  		USER_NO,
 		  		TICKET_DATE,
 		  		TICKET_TIME,
 		  		SEAT_FLOOR,
@@ -274,7 +272,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES
 				(
 				SEQ_DEAL_NO.NEXTVAL,
-				#{userId},
+				#{userNo},
 				#{ticketDate},
 				#{ticketTime},
 				#{seatFloor},
@@ -295,6 +293,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT
 				DEAL_NO,
 				USER_ID,
+				USER_NO,
 				TO_CHAR(TICKET_DATE, 'YYYY-MM-DD') AS TICKET_DATE,
 				TICKET_TIME,
 				SEAT_FLOOR,
@@ -311,6 +310,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				CHANGE_NAME
 		FROM
 				DEAL
+		JOIN
+				MEMBER USING(USER_NO)
 		WHERE
 				DEAL_NO = #{dealNo}
 	</select>
@@ -345,40 +346,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 		DEAL_NO = ${dealNo}
 	</delete>
 	
-	<insert id="insertFboardLike" parameterType="like">
+	<insert id="insertBoardLike" parameterType="like">
 		INSERT
 		  INTO
 		  		BOARD_LIKE
 		  		(
-		  		BOARD_NO,
-		  		USER_ID
+		  		CATE_NO,
+		  		CONTENT_NO,
+				USER_NO
 		  		)
 		VALUES
 				(
-				#{boardNo},
-				#{userId}
+				#{cateNo},
+				#{contentNo},
+				#{userNo}
 				)
 	</insert>
 	
-	<select id="selectFboardLike" parameterType="like" resultType="_int">
+	<select id="selectBoardLike" parameterType="like" resultType="_int">
 		SELECT
 				COUNT(*)
 		FROM
 				BOARD_LIKE
 		WHERE
-				BOARD_NO = #{boardNo}
+				CONTENT_NO = #{contentNo}
 		AND
-				USER_ID = #{userId}
+				USER_NO = #{userNo}
+		AND
+				CATE_NO = #{cateNo}
 	</select>
 	
-	<delete id="deleteFboardLike" parameterType="like">
+	<delete id="deleteBoardLike" parameterType="like">
 		DELETE
 		  FROM
 		  		BOARD_LIKE
 		WHERE
-				BOARD_NO = #{boardNo}
+				CONTENT_NO = #{contentNo}
 		AND
-				USER_ID = #{userId}
+				USER_NO = #{userNo}
+		AND
+				CATE_NO = #{cateNo}
 	</delete>
 	
 	<select id="selectFSearchCount" parameterType="hashmap" resultType="_int">

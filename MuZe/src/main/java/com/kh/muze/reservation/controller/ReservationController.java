@@ -1,39 +1,40 @@
 package com.kh.muze.reservation.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
 import com.kh.muze.reservation.model.service.ReservationService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class ReservationController {
 	
-	@Autowired
-	private ReservationService reservationService;
+	private final ReservationService reservationService;
 	
 	
-	@RequestMapping("show.rs")
+	@GetMapping("show.rs")
 	public String ShowLatest(Model model) {
 		model.addAttribute("list", reservationService.showLatest());
 		
 		return "reservation/showLatestView";
 	}
 	
+	/*
 	@ResponseBody
 	@GetMapping(value="search.mz", produces="application/json; charset=UTF-8")
 	public String searchMuze(@RequestParam(value="genre", defaultValue="1") int genre, Model model) {
 		
 		return new Gson().toJson(reservationService.searchMuze(genre));
 	}
+	*/
 	
-	@RequestMapping("detail.rs")
+	@PostMapping("detail.rs")
 	public ModelAndView detailMus(String musId, ModelAndView mv) {
 		mv.addObject("s", reservationService.selectMus(musId)).setViewName("reservation/detailMusView");
 		mv.addObject("sp", reservationService.selectMusPrice()).setViewName("reservation/detailMusView");
@@ -41,7 +42,7 @@ public class ReservationController {
 		return mv;
 	}
 	
-	@RequestMapping("seat.rs")
+	@PostMapping("seat.rs")
 	public ModelAndView SeatSelect(String musId, int userNo, String selectdate, ModelAndView mv) {
 		
 		System.out.println("뮤지컬아이디 : " + musId);
@@ -56,7 +57,7 @@ public class ReservationController {
 		return mv;
 	}
 	
-	@RequestMapping("payment.rs")
+	@PostMapping("payment.rs")
 	public ModelAndView reserPayment(String musId, String selectdate, String selectseat, ModelAndView mv) {
 		
 		//System.out.println("userNo >>" + userNo);

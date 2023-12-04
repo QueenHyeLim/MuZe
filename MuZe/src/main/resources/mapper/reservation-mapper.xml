@@ -242,7 +242,28 @@
 				SEQ_RESERVE.CURRVAL,
 				#{ seatNo }
 				)
-	</insert>
+	</insert> 
+	
+<!--	<insert id="insertBook" parameterType="java.util.List">
+		INSERT
+		  INTO
+		  		BOOK
+		  		(
+		  		BOOK_NO,
+		  		SEAT_NO
+		  		)
+		VALUES
+		<foreach collection="list" item="item" separator=" ">
+				(
+				SEQ_RESERVE.CURRVAL,
+				#{ item.seatNo }
+				)
+		</foreach>
+	</insert>   -->
+	
+	
+	
+	
 	
 	<insert id="insertTicket" parameterType="string">
 		INSERT
