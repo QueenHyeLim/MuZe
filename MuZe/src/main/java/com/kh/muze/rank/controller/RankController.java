@@ -2,6 +2,8 @@ package com.kh.muze.rank.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.kh.muze.common.template.LoginUser;
 import com.kh.muze.rank.model.service.RankService;
 import com.kh.muze.rank.model.vo.Rank;
 
@@ -30,13 +33,13 @@ public class RankController {
 	
 	@ResponseBody
 	@GetMapping(value="search.rk", produces="application/json; charset=UTF-8")
-	public String searchRankList(String rank,Model model) {
-		if(rank.equals("none")) {
-			model.addAttribute("none","카테고리를 선택해주세요.");
-			return "redirect:/previousPage";
-		}else {
-			return new Gson().toJson(rankService.searchRankList(rank));
+	public String searchRankList(Rank rank,HttpSession session) {
+		// myMuze순위를 select했을때 userNo를 가지고 온다
+		if(rank.getRankCategory().equals("myRank")) {
+			int userNo = LoginUser.getUserNo(session);
+			rank.setUserNo(userNo);
 		}
+		return new Gson().toJson(rankService.searchRankList(rank));
 	}
 
 }

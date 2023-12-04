@@ -27,8 +27,9 @@ public class CalendarServiceImpl implements CalendarService{
 		int result2 = 1;
 		
         result1 = calendarDao.insertDiary(sqlSession, diary);
-        
+        System.out.println("insertDiary" + diary);
         if (att != null && att.getAttCategoryNo() > 0) {
+        	System.out.println("att = contentNo : " + att.getContentNo());
             result2 = calendarDao.insertAttachment(sqlSession, att);
         }
 	    return (result1 * result2);
@@ -51,11 +52,9 @@ public class CalendarServiceImpl implements CalendarService{
 				result2 = calendarDao.updateAttachment(sqlSession,att);
 			}else {
 				// 없을 경우 INSERT
-				result2 = calendarDao.updateInsertAttachment(sqlSession, att);	
+				result2 = calendarDao.insertAttachment(sqlSession, att);
 			}
 		}
-		
-		
 		return (result1 * result2);
 	}
 

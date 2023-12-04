@@ -8,6 +8,6 @@ public interface RankService {
 
 	ArrayList<Rank> selectRankList();
 
-	ArrayList<Rank> searchRankList(String rank);
+	ArrayList<Rank> searchRankList(Rank rank);
 
 }

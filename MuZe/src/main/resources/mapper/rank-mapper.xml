@@ -49,6 +49,7 @@
 			           END_DATE,
 			           POSTER,
 			           STATUS,
+			           GENRE,
 			           THEATHER_NAME
 			      FROM
 			            RESERVE RE
@@ -59,6 +60,8 @@
 			            SHOW SH USING(MUS_ID)
 			      JOIN
 			            THEATER USING(THEATER_ID)
+			      JOIN
+			      		SHOW_GENRE USING(GENRE_NO)
 			      GROUP
 			         BY
 			            MUS_ID, 
@@ -67,10 +70,12 @@
 			            END_DATE,
 			            POSTER,
 			            STATUS,
+			            GENRE,
 			            THEATHER_NAME
 			   ) A
 	</select>
 	<select id="searchScrapList" resultMap="rankResultMap">
+	
 	</select>
 	<select id="searchRangeList" resultMap="rankResultMap">
 		SELECT
@@ -80,12 +85,36 @@
 		       END_DATE,
 		       POSTER,
 		       STATUS,
+		       GENRE,
 		       THEATHER_NAME 
 		  FROM
-		        SHOW
+		       SHOW
 		  JOIN
-		        THEATER USING(THEATER_ID)
+		       THEATER USING(THEATER_ID)
+		  JOIN
+			   SHOW_GENRE USING(GENRE_NO)
 		 ORDER
-		    BY  MUS_TITLE ASC
+		    BY MUS_TITLE ASC
+	</select>
+	<select id="searchMyRankList" resultMap="rankResultMap" parameterType="_int">
+		SELECT 
+		        MUS_TITLE,
+		        RES_DATE,
+		        COUNT(B.BOOK_NO) AS "COUNT"
+		  FROM 
+		        BOOK B
+		  JOIN 
+		        RESERVE RE ON B.BOOK_NO = RE.RES_NO
+		  JOIN 
+		        SHOW SH ON RE.MUS_ID = SH.MUS_ID
+		 GROUP  BY
+		        MUS_TITLE, 
+		        RES_DATE,
+		        RE.USER_NO
+		 HAVING
+		        RE.USER_NO = #{userNo}
+		 ORDER
+		    BY
+		        COUNT DESC
 	</select>
 </mapper>

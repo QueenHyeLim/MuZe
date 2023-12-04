@@ -145,6 +145,7 @@
 					console.log(data);
 					let value = '';
 					for(let i in data){
+						console.log(data[i]);
 						value += '<div class="pre-show">'
 							   + '<div class="pre-rank">'
 							   + '<div id="pre-rank_1">' + data[i].rowNo + '</div>'
