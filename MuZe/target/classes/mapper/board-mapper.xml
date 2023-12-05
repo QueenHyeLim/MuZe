@@ -222,6 +222,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				COUNT(*)
 		FROM
 				DEAL
+		WHERE
+				SALE_STATUS = 'N'
 	</select>
 	
 	<select id="selectDealList" resultMap="dealResultSet">
@@ -393,6 +395,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				COUNT(*)
 		FROM
 				BOARD
+		JOIN
+				MEMBER ON(BOARD_WRITER = USER_NO)
 		WHERE
 				CATE_NO = 30
 		AND
@@ -403,7 +407,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		<if test="condition == 'writer'">
 		AND
-				BOARD_WRITER
+				USER_ID
 		</if>
 		<if test="condition == 'title'">
 		AND
@@ -418,12 +422,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT
 				BOARD_NO,
 				BOARD_WRITER,
+				USER_ID,
 				BOARD_TITLE,
 				BOARD_CONTENT,
 				TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE",
 				COUNT
 		FROM	
 				BOARD
+		JOIN
+				MEMBER ON(BOARD_WRITER = USER_NO)
 		WHERE
 				CATE_NO = 30
 		AND
@@ -435,7 +442,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</when>
 			<when test="condition == 'writer'">
 		AND
-			BOARD_WRITER	
+			USER_ID
 			</when>
 			<otherwise>
 		AND
@@ -454,6 +461,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				COUNT(*)
 		FROM
 				DEAL
+		JOIN
+				MEMBER USING(USER_NO)
 		WHERE
 				SALE_STATUS = 'N'
 		<if test="condition == 'showTitle'">
@@ -473,6 +482,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT
 				DEAL_NO,
 				USER_ID,
+				USER_NO,
 				SHOW_TITLE,
 				TICKET_DATE,
 				SEAT_FLOOR,
@@ -484,6 +494,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				TICKET_MANY
 		FROM	
 				DEAL
+		JOIN
+				MEMBER USING(USER_NO)
 		WHERE
 				SALE_STATUS = 'N'
 		<choose>
