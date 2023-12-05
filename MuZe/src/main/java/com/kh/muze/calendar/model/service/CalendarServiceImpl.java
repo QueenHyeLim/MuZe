@@ -8,28 +8,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.muze.attachment.controller.AttachmentController;
 import com.kh.muze.attachment.model.vo.Attachment;
 import com.kh.muze.calendar.model.dao.CalendarDao;
 import com.kh.muze.calendar.model.vo.Diary;
 import com.kh.muze.calendar.model.vo.Schedule;
+
+import lombok.RequiredArgsConstructor;
 @Service
+@RequiredArgsConstructor
 public class CalendarServiceImpl implements CalendarService{
 
-	@Autowired
-	private CalendarDao calendarDao;
-	@Autowired
-	private SqlSessionTemplate sqlSession;	
+	private final CalendarDao calendarDao;
+	private final SqlSessionTemplate sqlSession;	
 
 	@Override
 	@Transactional("transactionManager")
 	public int insertTransaction(Attachment att, Diary diary) {
 		int result1 = 0;
 		int result2 = 1;
-		
         result1 = calendarDao.insertDiary(sqlSession, diary);
-        System.out.println("insertDiary" + diary);
         if (att != null && att.getAttCategoryNo() > 0) {
-        	System.out.println("att = contentNo : " + att.getContentNo());
             result2 = calendarDao.insertAttachment(sqlSession, att);
         }
 	    return (result1 * result2);

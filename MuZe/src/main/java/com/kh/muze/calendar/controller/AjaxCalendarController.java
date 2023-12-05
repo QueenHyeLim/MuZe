@@ -6,10 +6,11 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
@@ -22,47 +23,20 @@ import com.kh.muze.common.template.LoginUser;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-public class CalendarController {
+public class AjaxCalendarController {
 
 	private final CalendarService calendarService;
 	private final AttachmentController attController;
 	
-	// diary forwarding하면서 내용 가지고 오기
-	@RequestMapping("calendar.ca")
-	public String diary(Model model,HttpSession session) {
-		// Class로 빼놓은 loginUser의 userNo값
-		int diaryUser = LoginUser.getUserNo(session);
-		
-		// DIARY LIST SELECT
-		ArrayList<Diary> diaryList = calendarService.selectDiary(diaryUser);
-		model.addAttribute("diaryList",diaryList);
-		// SCHEDULE LIST SELECT
-		ArrayList<Schedule> scheduleList = calendarService.selectSchedule(diaryUser);
-		model.addAttribute("scheduleList",scheduleList);
-		
-		if(!diaryList.isEmpty() && diaryList != null) {
-			// 어차피 SQL에서 if null일 때  YOU ARE MY DIARY로 뽑았기 때문에 그대로 diaryName을 입력해주면 된다
-			String diaryName = diaryList.get(0).getDiaryName();
-			if(diaryList.get(0).getDiaryName().equals("YOU ARE MY DIARY")) {
-				model.addAttribute("diaryName", diaryName);
-			}else {
-				model.addAttribute("diaryName",diaryName);
-			}
-		}else {
-			// diaryList가 null이면 아예 YOU ARE MY DIARY로 값을 입력하여 넘겨준다
-			model.addAttribute("diaryName","YOU ARE MY DIARY");
-		}
-		return "diary/diaryCalender";
-	}
-	
 	// diary insert 작성 메소드
-	@RequestMapping("insert.di")
+	@PostMapping("insert.di")
 	public String insertDiary(Diary diary,
 							  Attachment att,
 							  MultipartFile upfile,
 							  HttpSession session) {
+		diary.setDiaryUser(LoginUser.getUserNo(session));
 		
 		if(!upfile.getOriginalFilename().isEmpty() && upfile != null) {
 			diary.setAttStatus("Y");
@@ -73,15 +47,13 @@ public class CalendarController {
 		}else {
 			diary.setAttStatus("N");
 		}
-		
 		calendarService.insertTransaction(att, diary);
-		
 		return "redirect:calendar.ca";
 	}	
 	
 	
 	// diary 수정 update 메소드
-	@RequestMapping("updateDiary.di")
+	@PostMapping("updateDiary.di")
 	public String updateDiary(Diary diary,
 							  Attachment att,
 							  MultipartFile upfile,
@@ -114,7 +86,7 @@ public class CalendarController {
 	
 	
 	// diary Name insert및 update 메소드
-	@RequestMapping("name.di")
+	@PostMapping("name.di")
 	public String insertDiaryName(String diaryName, int userNo) { 
 		
 		HashMap map = new HashMap();
@@ -133,8 +105,7 @@ public class CalendarController {
 	}
 	
 	// diary detail내용 select 메소드
-	@ResponseBody
-	@RequestMapping(value="diaryDetail.di", produces="application/json; charset=UTF-8")
+	@GetMapping(value="diaryDetail.di", produces="application/json; charset=UTF-8")
 	public String selectDiaryDetail(Diary diary,
 									HttpSession session) {
 		int diaryUser = LoginUser.getUserNo(session);
@@ -145,7 +116,7 @@ public class CalendarController {
 	}
 	
 	
-	@RequestMapping("schedule.sc")
+	@PostMapping("schedule.sc")
 	public String insertSchedule(Schedule sc,HttpSession session) {
 		
 		int userNo = LoginUser.getUserNo(session);
@@ -161,7 +132,7 @@ public class CalendarController {
 		return "redirect:calendar.ca";
 	}
 	
-	@RequestMapping("deleteSchedule.sc")
+	@GetMapping("deleteSchedule.sc")
 	public String deleteSchedule(int sNo,HttpSession session) {
 		
 		int userNo = LoginUser.getUserNo(session);
@@ -175,7 +146,7 @@ public class CalendarController {
 		return "redirect:calendar.ca";
 	}
 	
-	@RequestMapping("deleteDiary.di")
+	@GetMapping("deleteDiary.di")
 	public String deleteDiary(int dNo, HttpSession session) {
 		
 		int diaryUser = LoginUser.getUserNo(session);
