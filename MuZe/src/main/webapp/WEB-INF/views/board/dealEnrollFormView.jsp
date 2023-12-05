@@ -16,8 +16,19 @@
 	margin: 5px;
 }
 
+th{
+	color : white;
+}
+
+
 #other{
 	resize: none;
+}
+
+#insertBtn{
+	background-color: rgba(152, 29, 37);
+	border : rgba(152, 29, 37);
+	margin-top : 20px;
 }
 
 /*첨부파일*/
@@ -33,19 +44,19 @@
 	   		<form action="dealEnroll.bo" method="post" id="enrollForm" enctype="multipart/form-data">
 	   			<table align="center">
 					<tr>
-						<th>작품 제목</th>
+						<th>작품 제목*</th>
 						<td><input type="text" id="showTitle" name="showTitle" class="form-control" required/></td>
 					</tr>
 	   				<tr>
-	   					<th>티켓 사용 날짜</th>
+	   					<th>티켓 사용 날짜*</th>
 						<td><input type="date" id="ticketDate" name="ticketDate" class="form-control" required/></td>
 	   				</tr>
 					<tr>
-						<th>티켓 사용 시간</th>
+						<th>티켓 사용 시간*</th>
 						<td><input type="time" id="ticketTime" name="ticketTime" class="form-control" required/></td>
 					</tr>
 					<tr>
-						<th>좌석 정보</th>
+						<th>좌석 정보*</th>
 						<td id="seatInfo">
 							<select class="form-control" name="seatFloor">
 								<option value="1층">1층</option>
@@ -65,11 +76,11 @@
 						</td>
 					</tr>
 					<tr>
-						<th>판매 가격</th>
+						<th>판매 가격*</th>
 						<td><input type="number" id="ticketPrice" name="ticketPrice" class="form-control" required/></td>
 					</tr>
 					<tr>
-						<th>판매 수량</th>
+						<th>판매 수량*</th>
 						<td><input type="number" id="ticketMany" name="ticketMany" class="form-control" max="4" min="1" required/></td>
 					</tr> 
 					<tr>
@@ -86,7 +97,7 @@
 					</tr>
 	   			</table>
 				<div align="center">
-					<button type="submit" class="btn btn-primary">등록하기</button>
+					<button type="submit" class="btn btn-primary" id="insertBtn">등록하기</button>
 				</div>
 	   		</form>
 	   </div>
