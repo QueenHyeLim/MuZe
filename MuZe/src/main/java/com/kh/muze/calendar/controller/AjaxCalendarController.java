@@ -1,15 +1,13 @@
 package com.kh.muze.calendar.controller;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -132,7 +130,7 @@ public class AjaxCalendarController {
 		return "redirect:calendar.ca";
 	}
 	
-	@GetMapping("deleteSchedule.sc")
+	@DeleteMapping("deleteSchedule.sc")
 	public String deleteSchedule(int sNo,HttpSession session) {
 		
 		int userNo = LoginUser.getUserNo(session);
@@ -146,7 +144,7 @@ public class AjaxCalendarController {
 		return "redirect:calendar.ca";
 	}
 	
-	@GetMapping("deleteDiary.di")
+	@DeleteMapping("deleteDiary.di")
 	public String deleteDiary(int dNo, HttpSession session) {
 		
 		int diaryUser = LoginUser.getUserNo(session);
