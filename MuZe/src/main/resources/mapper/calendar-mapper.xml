@@ -92,7 +92,7 @@
 					 ON (USER_NO = DIARY_USER)
 				   LEFT 
 				   JOIN 
-				   		ATTACHMENT ATT ON CONTENT_NO = DIARY_NO
+				   		ATTACHMENT ON CONTENT_NO = DIARY_NO
 				  WHERE (DY.DIARY_USER = #{diaryUser} OR DNC.USER_NO = #{diaryUser})
 	</select>
 	<insert id="insertDiaryName" parameterType="map">

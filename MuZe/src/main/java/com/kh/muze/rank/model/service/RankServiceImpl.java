@@ -27,7 +27,7 @@ public class RankServiceImpl implements RankService{
 		
 		String rankCategory = rank.getRankCategory();
 		ArrayList<Rank> rankList = new ArrayList();
-		System.out.println("cate : " + rankCategory);
+		
 		switch(rankCategory) {
 		case "popular" : rankList = rankDao.searchPopularList(sqlSession);
 		break;
@@ -39,7 +39,6 @@ public class RankServiceImpl implements RankService{
 		break;
 		default : System.out.println(rank + "List를 찾지 못했습니다."); 
 		}
-		
 		return rankList;
 	}
 

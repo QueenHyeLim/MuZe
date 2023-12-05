@@ -25,22 +25,22 @@ public class CalendarServiceImpl implements CalendarService{
 	@Override
 	@Transactional("transactionManager")
 	public int insertTransaction(Attachment att, Diary diary) {
-		int result1 = 0;
-		int result2 = 1;
-        result1 = calendarDao.insertDiary(sqlSession, diary);
+		int diaryResult = 0;
+		int attachmentResult = 1;
+		diaryResult = calendarDao.insertDiary(sqlSession, diary);
         if (att != null && att.getAttCategoryNo() > 0) {
-            result2 = calendarDao.insertAttachment(sqlSession, att);
+        	attachmentResult = calendarDao.insertAttachment(sqlSession, att);
         }
-	    return (result1 * result2);
+	    return (diaryResult * attachmentResult);
 	}
 	
 	@Override
 	@Transactional("transactionManager")
 	public int updateTransaction(Attachment att, Diary diary) {
-		int result1 = 0;
-		int result2 = 1;
+		int diaryResult = 0;
+		int attachmentResult = 1;
 		
-		result1 = calendarDao.updateDiary(sqlSession,diary);
+		diaryResult = calendarDao.updateDiary(sqlSession,diary);
 		
 		// 첨부파일이 있을 경우
 		if(att != null && att.getAttCategoryNo() > 0) {
@@ -48,13 +48,13 @@ public class CalendarServiceImpl implements CalendarService{
 			int selectAtt = calendarDao.selectAttachment(sqlSession, att);
 			if(selectAtt > 0 ) {
 				// 있을 경우 UPDATE
-				result2 = calendarDao.updateAttachment(sqlSession,att);
+				attachmentResult = calendarDao.updateAttachment(sqlSession,att);
 			}else {
 				// 없을 경우 INSERT
-				result2 = calendarDao.insertAttachment(sqlSession, att);
+				attachmentResult = calendarDao.insertAttachment(sqlSession, att);
 			}
 		}
-		return (result1 * result2);
+		return (diaryResult * attachmentResult);
 	}
 
 	@Override
