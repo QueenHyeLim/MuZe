@@ -184,6 +184,14 @@
 	    overflow: hidden;
 	    border: 0;
 	}
+	#chatbot{
+		width : 60px;
+		height : 60px;
+		position : fixed;
+		bottom : 0;
+		right : 0;
+		background-image : url('https://cdn2.iconfinder.com/data/icons/artificial-intelligence-173/128/chatbot-AI-chat_bubble-chat-robotics-robot-communication-256.png');
+	}
 </style>
 </head>
 <body>
@@ -194,14 +202,13 @@
 		</script>
 		<c:remove var="alertdeleteMsg" scope="session"/>
 	</c:if>
-
 	<script>
 	    window.addEventListener("scroll", function(){
 	        var header = document.querySelector('#header');
 	        header.classList.toggle("sticky", window.scrollY > 0);
 	    })
 	</script>
-    <div id="menubar">
+    <header id="menubar">
         <div id="header">
         	<c:choose>
         		<c:when test="${ empty loginUser }">
@@ -270,6 +277,9 @@
             <!-- navi 영역 end -->
             <div id="logoPlace"></div>
         </div>
-    </div>
+    	<div class="chatbot" id="chatbot">
+    	 	<a href="chatbot.ch">MUZE 챗봇</a>
+    	</div>
+    </header>
 </body>
 </html>
