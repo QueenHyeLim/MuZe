@@ -24,8 +24,8 @@
 
 /*게시글 내용 출력 영역*/
 #board{
-	border : 1px solid red;
-	background-color : beige;
+	background-color: rgba(128, 128, 128, 0.506);
+	color : white;
 	display: block;
 	margin-top: 20px;
 }
@@ -69,8 +69,9 @@
 
 .reply-items{
 	margin-top : 5px;
-	border: 1px solid red;
+	margin-bottom : 10px;
 	padding-left: 5px;
+	borer : 1px solid red;
 }
 
 .reply-items > button{
@@ -296,7 +297,7 @@
 										+ '<span class="repWriter">' + result[i].replyWriter + '</span>';
 										
 										if('${loginUser.userId}' == result[i].replyWriter){
-						value += 		'<button class="deleteRep" onclick="deleteRep(' + result[i].brepNo + ');">삭제</button>'	;		
+						value += 		'<button class="deleteRep btn"  onclick="deleteRep(' + result[i].brepNo + ');">삭제</button>'	;		
 										}
 						value +=	'<hr/>'
 										+ '<p>' + result[i].repContent + '</p>'

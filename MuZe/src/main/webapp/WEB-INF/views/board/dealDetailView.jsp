@@ -167,7 +167,7 @@ img{
 					$('#Like').show();
 				},
 				error : () => {
-					console.log('error');
+					
 				}
 			})
 		}
@@ -191,7 +191,7 @@ img{
 					}
 				},
 				error : () => {
-					console.log('에러');
+
 				}
 			})
 		}
@@ -210,7 +210,7 @@ img{
 					$('#Like').hide();
 				},
 				error : () => {
-					console.log('실패');
+
 				}
 			})
 		}
