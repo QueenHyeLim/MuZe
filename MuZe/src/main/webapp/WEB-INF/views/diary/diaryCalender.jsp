@@ -414,7 +414,7 @@
    
 <!-------------------------------다이어리 네임 작성 모달창------------------------------------>
 <!-- The Modal -->
-<form action="name.di" method="get">
+<form action="name.di" method="post">
    <div class="modal fade" id="modal-diaryName">
        <div class="modal-dialog modal-dialog-centered">
        <div class="modal-content">
