@@ -12,18 +12,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
 public class AjaxShowController {
 
-	@PostMapping(value="slist.sh", produces="application/json; charset=UTF-8")
+	@GetMapping(value="slist.sh", produces="application/json; charset=UTF-8")
 	public String ajaxShowList(String shprfnm, String prfstate, Model model) throws Exception {
 		
 		String url = "http://www.kopis.or.kr/openApi/restful/pblprfr";
@@ -35,8 +32,6 @@ public class AjaxShowController {
 			url += "&prfstate=" + prfstate;
 		}
 		url += "&shprfnm=" + URLEncoder.encode(shprfnm, "UTF-8");
-		
-		//System.out.println(url);
 		
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -63,8 +58,6 @@ public class AjaxShowController {
 		
 		br.close();
 		urlConnection.disconnect();
-		
-		//System.out.println(jsonStr);
 		
 		return jsonStr;
 	}

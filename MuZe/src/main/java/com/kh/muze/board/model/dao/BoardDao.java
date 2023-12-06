@@ -90,16 +90,16 @@ public class BoardDao {
 		return sqlSession.insert("boardMapper.insertDealAtt", att);
 	}
 
-	public int insertBoardLike(SqlSessionTemplate sqlSession, Like l) {
-		return sqlSession.insert("boardMapper.insertBoardLike", l);
+	public int insertBoardLike(SqlSessionTemplate sqlSession, Like like) {
+		return sqlSession.insert("boardMapper.insertBoardLike", like);
 	}
 
 	public int selectBoardLike(SqlSessionTemplate sqlSession, Like like) {
 		return sqlSession.selectOne("boardMapper.selectBoardLike", like);
 	}
 
-	public int deleteBoardLike(SqlSessionTemplate sqlSession, Like l) {
-		return sqlSession.delete("boardMapper.deleteBoardLike", l);
+	public int deleteBoardLike(SqlSessionTemplate sqlSession, Like like) {
+		return sqlSession.delete("boardMapper.deleteBoardLike", like);
 	}
 
 	public int selectFSearchCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {

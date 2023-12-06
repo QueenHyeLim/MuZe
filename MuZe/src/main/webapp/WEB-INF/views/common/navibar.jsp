@@ -17,6 +17,17 @@
 <!-- alertify -->
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <style>
+	@font-face {
+	    font-family: 'JeonjuCraftMjB';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/JeonjuCraftMjB.woff2') format('woff2');
+	    font-weight: 700;
+	    font-style: normal;
+	}
+	
+	*{
+		font-family: 'JeonjuCraftMjB';
+	}
+
 	body{
 		background-color: rgb(39, 38, 38);
 		color : white;
