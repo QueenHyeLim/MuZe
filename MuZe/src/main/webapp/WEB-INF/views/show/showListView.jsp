@@ -52,8 +52,9 @@ select{
 
 /*결과*/
 #result-part {
-	background-color : beige;
+	background-color : rgb(128, 128, 128);
 	margin-top: 20px;
+	color : white;
 }
 
 /*결과 : 없는 경우*/
@@ -73,9 +74,11 @@ img {
 }
 
 .show {
-	border : 1px solid;
 	padding-left : 10px;
 	padding-top : 10px;
+	background-color: rgb(128, 128, 128);
+	border: 1px solid black;
+	color : white
 }
 
 .show:hover{
@@ -91,8 +94,9 @@ img {
 	font-size: 10px;
 	height: 30px;
 	border-radius: 5px;
-	background-color:transparent;
+	background-color:rgb(39, 38, 38);
 	border: 1px solid black;
+	color : white;
 }
 
 /*페이징바 영역*/
@@ -159,6 +163,17 @@ img {
 		var startPage;
 		var endPage;
 
+		let i; 
+
+		var poster;
+		var mt20id;
+		var	prfnm;
+		var	prfpdfrom;
+		var	prfpdto;
+		var	fcltynm;
+		var	prfstate;
+		var	genrenm;
+		
 		$('#btn').click(() => {
 			if($('#shprfnm').val() == ''){
 				alert('검색어를 입력하세요');
@@ -183,18 +198,14 @@ img {
 		function search(){
 			$.ajax({
 				url : 'slist.sh',
-				type : 'post',
+				type : 'get',
 				data : {
 					prfstate : $('#prfstate').val(),
 					shprfnm : $('#shprfnm').val()
 				},
 				success : function(result){
 					const itemArr = result.dbs.db;
-					console.log(itemArr);
-					searchList(null, result, itemArr);
-					
-					
-					
+					searchList(result, itemArr);
 				},
 				error : function(){
 					console.log('fail');
@@ -202,12 +213,11 @@ img {
 			})
 		}
 
-		function searchList(page, result, itemArr){
+		function searchList(result, itemArr){
 			
 			let value = '';
 			let paging = '';
 					
-			// 검색 결과가 0일 때
 			if(result.dbs.length == 0){
 				value += '<span>일치하는 항목이 존재하지 않습니다.</span>'; 
 			} else {
@@ -224,64 +234,60 @@ img {
 					endPage = maxPage;
 				}
 
+				function searchResult(){
+
+					if(itemArr.length > 1){
+						let item = itemArr[i];
+						poster = item.poster;
+						mt20id = item.mt20id;
+						prfnm = item.prfnm;
+						prfpdfrom = item.prfpdfrom;
+						prfpdto = item.prfpdto;
+						fcltynm = item.fcltynm;
+						prfstate = item.prfstate;
+						genrenm = item.genrenm;
+					} else {
+						poster = itemArr.poster;
+						mt20id = itemArr.mt20id;
+						prfnm = itemArr.prfnm;
+						prfpdfrom = itemArr.prfpdfrom;
+						prfpdto = itemArr.prfpdto;
+						fcltynm = itemArr.fcltynm;
+						prfstate = itemArr.prfstate;
+						genrenm = itemArr.genrenm;
+					}
+
+					value += '<div class="show">'
+								+ '<div class="poster">'
+									+ '<img src="' + poster + '">'
+								+ '</div>'
+								+ '<div class="des">'
+									+'<form action="detail.sh">'
+										+'<input type="hidden" id="mt20id" name="mt20id" value="' + mt20id + '"/>'
+										+'<p>' + prfnm + '<button align="center" class="detail">상세보기</button></p>'
+										+'<p>' + prfpdfrom + ' ~ ' +  prfpdto + '</p>'
+										+'<p>' + fcltynm + '</p>'
+										+'<p>' + prfstate + '</p>'
+										+'<p>' + genrenm + '</p>'
+										+'</form>'
+									+ '</div> <br clear="both">'
+								+ '</div>' ;
+            	}
+					
+
 				if(itemArr.length > 1){
 					if(itemArr.length > 10){
 						if(currentPage != maxPage){
-							for(let i = (currentPage -1) * contentLimit; i < contentLimit * currentPage; i++){
-								let item = itemArr[i];
-									value += '<div class="show">'
-								  		+ '<div class="poster">'
-								  			+ '<img src="' + item.poster + '">'
-								  		+ '</div>'
-								  		+ '<div class="des">'
-								  			+'<form action="detail.sh">'
-								  			+'<input type="hidden" id="mt20id" name="mt20id" value="' + item.mt20id + '"/>'
-				   							+'<p>' + item.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-				   							+'<p>' + item.prfpdfrom + ' ~ ' +  item.prfpdto + '</p>'
-				   							+'<p>' + item.fcltynm + '</p>'
-				   							+'<p>' + item.prfstate + '</p>'
-				   							+'<p>' + item.genrenm + '</p>'
-				   							+'</form>'
-				   					   + '</div> <br clear="both">'
-							  		+ '</div>' 
+							for(i = (currentPage -1) * contentLimit; i < contentLimit * currentPage; i++){
+								searchResult();
 							} 
 						} else if(listCount % contentLimit != 0 && currentPage == maxPage){
 							for(let i = (maxPage - 1) * contentLimit; i < (maxPage - 1) * contentLimit + listCount % contentLimit; i++){
-								let item = itemArr[i];
-								value += '<div class="show">'
-						  			  + '<div class="poster">'
-						  			  + '<img src="' + item.poster + '">'
-						  			  + '</div>'
-						  			  + '<div class="des">'
-						  			  +'<form action="detail.sh">'
-						  			  +'<input type="hidden" id="mt20id" name="mt20id" value="' + item.mt20id + '"/>'
-		   							  +'<p>' + item.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-		   						      +'<p>' + item.prfpdfrom + ' ~ ' +  item.prfpdto + '</p>'
-		   							  +'<p>' + item.fcltynm + '</p>'
-		   							  +'<p>' + item.prfstate + '</p>'
-		   							  +'<p>' + item.genrenm + '</p>'
-		   							  +'</form>'
-		   					  		  + '</div> <br clear="both">'
-					  				  + '</div>'
+								searchResult();
 							}
 						} else {
 							for(let i = (currentPage - 1) * contentLimit; i < contentLimit * currentPage; i++){
-								let item = itemArr[i];
-								value += '<div class="show">'
-						  			  + '<div class="poster">'
-						  			  + '<img src="' + itemArr.poster + '">'
-						  			  + '</div>'
-						  			  + '<div class="des">'
-						  			  +'<form action="detail.sh">'
-						  			  +'<input type="hidden" id="mt20id" name="mt20id" value="' + itemArr.mt20id + '"/>'
-		   							  +'<p>' + itemArr.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-		   						      +'<p>' + itemArr.prfpdfrom + ' ~ ' +  itemArr.prfpdto + '</p>'
-		   							  +'<p>' + itemArr.fcltynm + '</p>'
-		   							  +'<p>' + itemArr.prfstate + '</p>'
-		   							  +'<p>' + itemArr.genrenm + '</p>'
-		   							  +'</form>'
-		   					  		  + '</div> <br clear="both">'
-					  				  + '</div>'
+								searchResult();
 							}
 						}
 
@@ -294,46 +300,22 @@ img {
 						for(let i = startPage; i < endPage + 1; i++){
 							paging += '<li class="page-item paging" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
 						}
-								
-						paging += '<li class="page-item gt"><a class="page-link">&gt;</a></li>';
+						
+						if(currentPage == maxPage){
+							paging += '<li class="page-item disabled gt"><a class="page-link">&gt;</a></li>';
+						} else {
+							paging += '<li class="page-item gt"><a class="page-link">&gt;</a></li>';
+						}
+						
 
 					} else if(10 >= itemArr.length){
-						for(let i in itemArr){
-							let item = itemArr[i];
-							value += '<div class="show">'
-						  		  + '<div class="poster">'
-						  		  + '<img src="' + item.poster + '">'
-						  		  + '</div>'
-						  		  + '<div class="des">'
-						  		  +'<form action="detail.sh">'
-						  		  +'<input type="hidden" id="mt20id" name="mt20id" value="' + item.mt20id + '"/>'
-						  		  +'<p>' + item.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-						  		  +'<p>' + item.prfpdfrom + ' ~ ' +  item.prfpdto + '</p>'
-						  		  +'<p>' + item.fcltynm + '</p>'
-						  		  +'<p>' + item.prfstate + '</p>'
-						  		  +'<p>' + item.genrenm + '</p>'
-						  		  +'</form>'
-						  		  + '</div> <br clear="both">'
-						  		  + '</div>'
+						for(i in itemArr){
+							searchResult();
 						}
 					}
 							
 				} else {
-					value += '<div class="show">'
-						  + '<div class="poster">'
-							+ '<img src="' + itemArr.poster + '">'
-							+ '</div>'
-							+ '<div class="des">'
-							+'<form action="detail.sh">'
-						  	+'<input type="hidden" id="mt20id" name="mt20id" value="' + itemArr.mt20id + '"/>'
-						  	+'<p>' + itemArr.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-						  	+'<p>' + itemArr.prfpdfrom + ' ~ ' +  itemArr.prfpdto + '</p>'
-						  	+'<p>' + itemArr.fcltynm + '</p>'
-						  	+'<p>' + itemArr.prfstate + '</p>'
-						  	+'<p>' + itemArr.genrenm + '</p>'
-						  	+'</form>'
-						  	+ '</div> <br clear="both">'
-						  	+ '</div>'
+					searchResult();
 				}
 			}	
 			$('.result').html(value);
