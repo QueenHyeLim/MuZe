@@ -20,4 +20,5 @@ public class Rank {
     private String showStatus;    //STATUS,
     private String theatherName;  //THEATHER_NAME
     private String genre;         //GENRE
+    private int count;
 }
