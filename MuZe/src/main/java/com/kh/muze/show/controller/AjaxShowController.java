@@ -44,14 +44,6 @@ public class AjaxShowController {
 		while((line = br.readLine()) != null) {
 			responseText += line;
 		}
-		
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(url);
-		
-		doc.getDocumentElement().normalize();
-		
-		NodeList nList = doc.getElementsByTagName("db");
 	
 		JSONObject xmlToJson = XML.toJSONObject(responseText);
 		String jsonStr = xmlToJson.toString();

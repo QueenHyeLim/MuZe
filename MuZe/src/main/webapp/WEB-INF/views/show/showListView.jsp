@@ -173,7 +173,7 @@ img {
 		var	fcltynm;
 		var	prfstate;
 		var	genrenm;
-		
+
 		$('#btn').click(() => {
 			if($('#shprfnm').val() == ''){
 				alert('검색어를 입력하세요');
@@ -236,59 +236,50 @@ img {
 
 				function searchResult(){
 
+					let shows = [];
+					
 					if(itemArr.length > 1){
-						let item = itemArr[i];
-						poster = item.poster;
-						mt20id = item.mt20id;
-						prfnm = item.prfnm;
-						prfpdfrom = item.prfpdfrom;
-						prfpdto = item.prfpdto;
-						fcltynm = item.fcltynm;
-						prfstate = item.prfstate;
-						genrenm = item.genrenm;
+						for(let j = 0; j < itemArr.length; j++){
+							shows.push(itemArr[j]);
+						}
 					} else {
-						poster = itemArr.poster;
-						mt20id = itemArr.mt20id;
-						prfnm = itemArr.prfnm;
-						prfpdfrom = itemArr.prfpdfrom;
-						prfpdto = itemArr.prfpdto;
-						fcltynm = itemArr.fcltynm;
-						prfstate = itemArr.prfstate;
-						genrenm = itemArr.genrenm;
+						shows.push(itemArr);
 					}
 
 					value += '<div class="show">'
 								+ '<div class="poster">'
-									+ '<img src="' + poster + '">'
+									+ '<img src="' + shows[i].poster + '">'
 								+ '</div>'
 								+ '<div class="des">'
 									+'<form action="detail.sh">'
-										+'<input type="hidden" id="mt20id" name="mt20id" value="' + mt20id + '"/>'
-										+'<p>' + prfnm + '<button align="center" class="detail">상세보기</button></p>'
-										+'<p>' + prfpdfrom + ' ~ ' +  prfpdto + '</p>'
-										+'<p>' + fcltynm + '</p>'
-										+'<p>' + prfstate + '</p>'
-										+'<p>' + genrenm + '</p>'
+										+'<input type="hidden" id="mt20id" name="mt20id" value="' + shows[i].mt20id + '"/>'
+										+'<p>' + shows[i].prfnm + '<button align="center" class="detail">상세보기</button></p>'
+										+'<p>' + shows[i].prfpdfrom + ' ~ ' +  shows[i].prfpdto + '</p>'
+										+'<p>' + shows[i].fcltynm + '</p>'
+										+'<p>' + shows[i].prfstate + '</p>'
+										+'<p>' + shows[i].genrenm + '</p>'
 										+'</form>'
 									+ '</div> <br clear="both">'
 								+ '</div>' ;
-            	}
+            	};
 					
-
+				var initial, condition = 0;
 				if(itemArr.length > 1){
 					if(itemArr.length > 10){
 						if(currentPage != maxPage){
-							for(i = (currentPage -1) * contentLimit; i < contentLimit * currentPage; i++){
-								searchResult();
-							} 
+							initial = (currentPage -1) * contentLimit;
+							condition = contentLimit * currentPage;
+
 						} else if(listCount % contentLimit != 0 && currentPage == maxPage){
-							for(let i = (maxPage - 1) * contentLimit; i < (maxPage - 1) * contentLimit + listCount % contentLimit; i++){
-								searchResult();
-							}
+							initial = (maxPage - 1) * contentLimit;
+							condition = (maxPage - 1) * contentLimit + listCount % contentLimit;
 						} else {
-							for(let i = (currentPage - 1) * contentLimit; i < contentLimit * currentPage; i++){
-								searchResult();
-							}
+							initial = (currentPage -1) * contentLimit;
+							condition = contentLimit * currentPage;
+						}
+
+						for(i = initial; i < condition; i++){
+							searchResult();
 						}
 
 						if(currentPage == 1){
@@ -315,6 +306,7 @@ img {
 					}
 							
 				} else {
+					i = 0;
 					searchResult();
 				}
 			}	
