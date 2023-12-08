@@ -1,6 +1,7 @@
 package com.kh.muze.rank.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,10 @@ public class RankServiceImpl implements RankService{
 	}
 
 	@Override
-	public ArrayList<Rank> searchRankList(Rank rank) {
+	public List<Rank> searchRankList(Rank rank) {
 		
 		String rankCategory = rank.getRankCategory();
-		ArrayList<Rank> rankList = new ArrayList();
+		List<Rank> rankList = new ArrayList<Rank>();
 		
 		switch(rankCategory) {
 		case "popular" : rankList = rankDao.searchPopularList(sqlSession);
@@ -36,8 +37,6 @@ public class RankServiceImpl implements RankService{
 		case "range" : rankList = rankDao.searchRangeList(sqlSession);
 		break;
 		case "myRank" : rankList = rankDao.searchMyRankList(sqlSession,rank.getUserNo());
-		break;
-		default : System.out.println(rank + "List를 찾지 못했습니다."); 
 		}
 		return rankList;
 	}

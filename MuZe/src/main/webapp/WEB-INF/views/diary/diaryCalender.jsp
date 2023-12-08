@@ -213,17 +213,16 @@
             	</c:forEach>
             ],
           	eventContent: function (arg) {
-          		var eventTitle = arg.event.title;
-          		var result = '';
           		var html = '';
-          		// 제목의 length가 긴 경우를 위해 잘라서 넣기
-          		var htmlTag = '<b>' + arg.timeText + '</b class="eventTitle-area">';
+          		var eventTitle = arg.event.title;
+          		
           		if(eventTitle.length > 10){
-       				html += htmlTag + eventTitle.slice(0, 8) + '...';
+       				html += eventTitle.slice(0, 8) + '...';
           		}
           		else{
-          			html += htmlTag + eventTitle;
+          			html += eventTitle;
           		}
+          		
 	            if (arg.event.extendedProps.imageUrl) {
 	              html += '<img src="' + arg.event.extendedProps.imageUrl + '" class="event-image" />';
 	            }
