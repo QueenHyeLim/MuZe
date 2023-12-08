@@ -72,12 +72,12 @@
 	<select id="selectDiary" parameterType="_int" resultMap="diaryResultMap">
 		SELECT 
 				NVL(DNC.DIARY_NAME,'YOUR MY DIARY') AS "DIARY_NAME", 
-				DY.*, 
-				MODIFIED_NAME
+				DY.*,
+				ATT.MODIFIED_NAME
 		  FROM 
 		  		DIARY_NAME_CATEGORY DNC
 		  FULL 
-		  JOIN 
+		  JOIN  
            		(SELECT 
 	                    DIARY_USER,
 	                    DIARY_NO,
@@ -89,11 +89,12 @@
                    		DIARY
             	  WHERE
                   		DIARY_YN = 'Y') DY
-					 ON (USER_NO = DIARY_USER)
-				   LEFT 
-				   JOIN 
-				   		ATTACHMENT ON CONTENT_NO = DIARY_NO
-				  WHERE (DY.DIARY_USER = #{diaryUser} OR DNC.USER_NO = #{diaryUser})
+			ON  (DNC.USER_NO = DY.DIARY_USER)
+		  LEFT 
+		  JOIN 
+		   		ATTACHMENT ATT ON CONTENT_NO = DIARY_NO
+		 WHERE 
+		 		(DY.DIARY_USER = #{diaryUser} OR DNC.USER_NO = #{diaryUser})
 	</select>
 	<insert id="insertDiaryName" parameterType="map">
 		INSERT

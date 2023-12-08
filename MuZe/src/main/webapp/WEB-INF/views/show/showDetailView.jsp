@@ -75,11 +75,12 @@
 			<i class="fa-solid fa-bookmark" style="color: #981d26;" id="booked" onclick="bookedClick();"></i>
 		</div>
 		<script>
+			let $musId = ${mt20id};
 			$(() => {
-				// bookmarked되어있는 아이콘을 일단 숨겨준다
 				$.ajax({
 					url : 'select.bk',
-					data : { musId : '${mt20id}' },
+					type : 'GET',
+					data : { musId : $musId },
 					success : result => {
 						if(result > 0){
 							$('#booked').show();
@@ -95,34 +96,31 @@
 					}
 				})
 			});
-			
-			// unbooked를 클릭 할때 booked로 바꿔야 하기에 insert를 해준다
 			function unbookedClick(){
 				$.ajax({
 					url : 'insert.bk',
 					type : 'POST',
-					data : { musId : '${mt20id}' },
+					data : { musId : $musId },
 					success : result => {
 						$('#unbooked').hide();
 						$('#booked').show();
 					},
 					error : () => {
-						console.log('실패');
+						alert('bookmark를 실패하였습니다.');
 					}
 				});
 			};
-			// booked를 클릭할때 unbooked로 바꿔야 하기에 delete를 해준다
 			function bookedClick(){
 				$.ajax({
 					url : 'delete.bk',
 					type : 'POST',
-					data : { musId : '${mt20id}'},
+					data : { musId : $musId },
 					success : result => {
 						$('#booked').hide();
 						$('#unbooked').show();
 					},
 					error : () => {
-						console.log('실패');
+						alert('bookmark를 실패하였습니다.');
 					}
 				});
 			}

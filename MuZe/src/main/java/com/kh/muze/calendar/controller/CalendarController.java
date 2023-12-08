@@ -63,7 +63,7 @@ public class CalendarController {
 							  MultipartFile upfile,
 							  HttpSession session) {
 		diary.setDiaryUser(LoginUser.getUserNo(session));
-		if(!upfile.getOriginalFilename().isEmpty() && upfile != null) {
+		if(upfile != null && !upfile.getOriginalFilename().isEmpty()) {
 			diary.setAttStatus("Y");
 			att.setOriginName(upfile.getOriginalFilename());
 			att.setModifiedName(attController.saveFiles(upfile,session));
