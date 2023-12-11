@@ -76,7 +76,37 @@
 			   ) A
 	</select>
 	<select id="searchScrapList" resultMap="rankResultMap">
-	
+		SELECT 
+		        SH.MUS_TITLE,
+		        RES_DATE,
+		        COUNT(B.BOOK_NO) AS "COUNT",
+		        START_DATE,
+		        END_DATE,
+		        POSTER,
+		        STATUS,
+		        THEATHER_NAME 
+		  FROM 
+		        BOOK B
+		  JOIN 
+		        RESERVE RE ON B.BOOK_NO = RE.RES_NO
+		  JOIN 
+		        SHOW SH ON RE.MUS_ID = SH.MUS_ID
+		  JOIN
+		        THEATER TH ON TH.THEATER_ID = SH.THEATER_ID
+		 GROUP  BY
+		        MUS_TITLE, 
+		        RES_DATE, 
+		        RE.USER_NO, 
+		        START_DATE, 
+		        END_DATE, 
+		        POSTER, 
+		        STATUS, 
+		        THEATHER_NAME
+		 HAVING
+		        RE.USER_NO = #{userNo}
+		 ORDER
+		    BY
+		        COUNT DESC;
 	</select>
 	<select id="searchRangeList" resultMap="rankResultMap">
 		SELECT
