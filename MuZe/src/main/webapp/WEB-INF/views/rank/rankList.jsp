@@ -67,10 +67,12 @@
 	    					  + '<p>'  +  data[i].theatherName + '</p>'
 	    					  + '<p>'  +  data[i].showStatus   + '</p>'
 	    					  + '<p>'  +  data[i].genre        + '</p>'
+	    					  /*
 	    					  + '<div id="bookmark-area">'
     						  + '<i class="fa-regular fa-bookmark fa-lg" id="unbooked" onclick="unbookedClick();"></i>'
     						  + '<i class="fa-solid fa-bookmark" style="color: #981d26;" id="booked" onclick="bookedClick();"></i>'
     	   				      + '</div>'
+	    					  */
 	    					  + '</div>'
     	   			          + '<div id="muzImage-area">'
     	   				      + '<img src="' + data[i].poster + '" id="muzImage"/>'
@@ -104,6 +106,7 @@
    				<p>${r.theatherName}</p>
    				<p>${r.showStatus}</p>
    				<p>${r.genre}</p>
+   				<!--  
    		<c:if test="${not empty sessionScope.loginUser}">
 		<div class="bookmark">
 			<i class="fa-regular fa-bookmark fa-lg" id="unbooked" onclick="unbookedClick(e);"></i>
@@ -164,6 +167,7 @@
 			}
 		</script>
 		</c:if>
+   		-->
    			</div>
    			<div id="muzImage-area">
    				<img src="${r.poster}" id="muzImage"/>

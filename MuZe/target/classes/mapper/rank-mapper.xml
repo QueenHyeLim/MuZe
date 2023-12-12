@@ -130,12 +130,12 @@
 	<select id="searchMyRankList" resultMap="rankResultMap" parameterType="_int">
 		SELECT 
 		        SH.MUS_TITLE "MUS_TITLE",
-		        RES_DATE,
 		        COUNT(BK.BOOK_NO) AS "COUNT",
 		        START_DATE,
 		        END_DATE,
 		        POSTER,
 		        STATUS,
+		        GENRE,
 		        THEATHER_NAME 
 		  FROM 
 		        BOOK BK
@@ -145,15 +145,17 @@
 		        SHOW SH ON RE.MUS_ID = SH.MUS_ID
 		  JOIN
 		        THEATER TH ON TH.THEATER_ID = SH.THEATER_ID
+		  JOIN
+			    SHOW_GENRE USING(GENRE_NO)
 		 GROUP  
 		    BY
 		        MUS_TITLE, 
-		        RES_DATE, 
 		        RE.USER_NO, 
 		        START_DATE, 
 		        END_DATE, 
 		        POSTER, 
 		        STATUS, 
+		        GENRE,
 		        THEATHER_NAME
 		 HAVING
 		        RE.USER_NO = #{userMo}

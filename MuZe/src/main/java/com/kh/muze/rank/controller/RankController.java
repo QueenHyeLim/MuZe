@@ -34,7 +34,6 @@ public class RankController {
 	@ResponseBody
 	@GetMapping(value="search.rk", produces="application/json; charset=UTF-8")
 	public String searchRankList(Rank rank,HttpSession session) {
-		// myMuze순위를 select했을때 userNo를 가지고 온다
 		if(rank.getRankCategory().equals("myRank")) {
 			int userNo = LoginUser.getUserNo(session);
 			rank.setUserNo(userNo);
