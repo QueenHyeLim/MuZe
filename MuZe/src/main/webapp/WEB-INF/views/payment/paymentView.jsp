@@ -512,13 +512,11 @@
                 alert('결제 약관에 동의하고 결제 수단을 선택해주세요.');
                 e.preventDefault();
             } else {
-                $paybtn.prop('disabled', false); // Enable the button
-                // Optionally, you can call the payment function here
-                // payment();
+                $paybtn.prop('disabled', false); // 버튼 활성화
             }
         });
         
-        // 결제수단 추가하고
+        // 결제수단 추가후 버튼 활성화
         $('#payagree').on('click', (e) => {
         	console.log($('#payagree:checked').length);
         	
@@ -534,41 +532,9 @@
         
         
     });
-    // let fastpay = document.getElementById('fastpay');
-    // console.log(fastpay);
-    // if(fastpay != checked){
-    //     document.getElementsByClassName('payments-detail')
-    // }
-    
-    /*
-    function payment(){
-    	e.preventDefault();
-    	
-    	if($('#payagree').prop('checked') == false){
-    		alert('이용약관에 동의해주세요!');
-    		return false;
-    	} 
-    	else {
-    		return true;
-    	}
-    }
-    */
     
     function payment() {
-    	
 
-    	
-    	/*
-    	if($('#payagree').prop('checked', false)){
-    		alert('결제 약관에 동의해주세요');
-    		return true;
-    	}
-    	
-    	if($('#payments').prop('checked', false)){
-    		alert('결제 수단을 선택해주세요');
-    		return false;
-    	}
-    	*/
     	$.ajax({
     		url : 'kakao',
     		type : 'POST',

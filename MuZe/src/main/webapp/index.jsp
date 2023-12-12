@@ -53,6 +53,9 @@
                 <source src="resources/video/yourmymuze.mp4" type="video/mp4">
             </video>
         </div>
+	  <div class="page" id="height">01</div>
+	  <div class="page" id="height">02</div>
+	  <div class="page" id="height">03</div>
 	</div> 
 </body>
 </html> 

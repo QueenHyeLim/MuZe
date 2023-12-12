@@ -48,11 +48,11 @@ public interface BoardService {
 
 	int deleteDeal(int dealNo);
 
-	int ajaxInsertBoardLike(Like l);
+	int ajaxInsertBoardLike(Like like);
 
 	int selectBoardLike(Like like);
 
-	int ajaxDeleteBoardLike(Like l);
+	int ajaxDeleteBoardLike(Like like);
 
 	int selectFSearchCount(HashMap<String, String> map);
 

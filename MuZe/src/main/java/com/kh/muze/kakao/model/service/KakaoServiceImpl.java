@@ -46,7 +46,32 @@ public class KakaoServiceImpl implements KakaoService {
 		requestHeaders.put("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 		
 		String responseUrl = post(apiURL, requestHeaders, musTitle, selectseat, total_amount, partner_order_id);
-		/*
+		
+	    JSONParser parser = new JSONParser();
+	    JSONObject element = (JSONObject) parser.parse(responseUrl);
+
+	    String tid = element.get("tid").toString();
+	    String nextRedirectpcUrl = element.get("next_redirect_pc_url").toString();
+	    String orderId = partner_order_id;																																	 // Corrected the key name
+
+	    ReadyResponse readyResponse = new ReadyResponse();
+	    readyResponse.setTid(tid);
+	    readyResponse.setNextRedirectpcUrl(nextRedirectpcUrl);																										//(next_redirect_pc_url);
+	    readyResponse.setPartnerOrderId(orderId);																													//(order_id); // Corrected the method name
+																																														   // System.out.println("tid >>" + readyResponse.getTid());																														 // Corrected the method name
+	    session.setAttribute("ReadyResponse", readyResponse);
+	    return responseUrl;
+																																														   // System.out.println("들어오라서비스");
+	    
+	}
+	
+	/*
+	    int paystandby = kakaoDao.insertReady(sqlSession, readyResponse);
+	    if (paystandby > 0) {
+	        System.out.println("paystandby " + readyResponse.getNextRedirectpcUrl() + readyResponse.getTid());
+	    }
+	 */
+	/*
 		 try {
 	            JSONParser jsonParser = new JSONParser();
 	            JSONObject jsonObject = (JSONObject) jsonParser.parse(responseBody);
@@ -66,31 +91,7 @@ public class KakaoServiceImpl implements KakaoService {
 	            // Handle the exception accordingly
 	            return "Error processing the response";
 	        }
-	       */
-		
-	    JSONParser parser = new JSONParser();
-	    JSONObject element = (JSONObject) parser.parse(responseUrl);
-
-	    String tid = element.get("tid").toString();
-	    String nextRedirectpcUrl = element.get("next_redirect_pc_url").toString();
-	    String orderId = partner_order_id; // Corrected the key name
-
-	    ReadyResponse readyResponse = new ReadyResponse();
-	    readyResponse.setTid(tid);
-	    readyResponse.setNextRedirectpcUrl(nextRedirectpcUrl);//(next_redirect_pc_url);
-	    readyResponse.setPartnerOrderId(orderId);//(order_id); // Corrected the method name
-	    System.out.println("tid >>" + readyResponse.getTid()); // Corrected the method name
-	    System.out.println("들어오라서비스");
-	    
-	    session.setAttribute("ReadyResponse", readyResponse);
-	    /*
-	    int paystandby = kakaoDao.insertReady(sqlSession, readyResponse);
-	    if (paystandby > 0) {
-	        System.out.println("paystandby " + readyResponse.getNextRedirectpcUrl() + readyResponse.getTid());
-	    }
-	    */
-	    return responseUrl;
-	}
+	 */
 	
 	private String post(String apiURL, Map<String, String> requestHeaders, String musTitle, String selectseat, int total_amount, String partner_order_id) {
 		HttpURLConnection con = connect(apiURL);

@@ -25,14 +25,6 @@ public class ReservationController {
 		return "reservation/showLatestView";
 	}
 	
-	/*
-	@ResponseBody
-	@GetMapping(value="search.mz", produces="application/json; charset=UTF-8")
-	public String searchMuze(@RequestParam(value="genre", defaultValue="1") int genre, Model model) {
-		
-		return new Gson().toJson(reservationService.searchMuze(genre));
-	}
-	*/
 	
 	@PostMapping("detail.rs")
 	public ModelAndView detailMus(String musId, ModelAndView mv) {
@@ -60,7 +52,6 @@ public class ReservationController {
 	@PostMapping("payment.rs")
 	public ModelAndView reserPayment(String musId, String selectdate, String selectseat, ModelAndView mv) {
 		
-		//System.out.println("userNo >>" + userNo);
 		System.out.println("musId >>" + musId);
 		System.out.println("selectdate >> " + selectdate);
 		System.out.println("selectseat >> " + selectseat);
@@ -77,23 +68,7 @@ public class ReservationController {
 			mv.addObject("errorMsg", "결제페이지로 이동에 실패했습니다.").setViewName("common/errorPage");
 			return mv;
 		}
-		/*
-		String [] splitseat = selectseat.split(",");
-		System.out.println(splitseat);
 		
-		ArrayList<Seat> list = new ArrayList<Seat>();
-		Seat s = null;
-		
-		for(int i = 0; i < splitseat.length; i++) {
-			//s = new Seat();
-			String checkprice = splitseat[i];
-			//System.out.println(checkprice);
-			System.out.println("선택한좌석아이디 >>" + );
-			//s.setSeatId(splitseat[i]);
-			//list.add(s);
-			//System.out.println("선택한 좌석들~"+ list);
-		}
-		*/
 		
 	}
 }
