@@ -63,7 +63,7 @@
 	    margin: 0;
 	    padding: 0;
 	    width: 100%;
-	    height: 200px;
+	    height: 100px;
 	    z-index:5;
 	    background-color: rgba(152, 29, 37, 0.459);
 		border-bottom: 1px solid rgba(255, 255, 255, 0.459);
@@ -101,16 +101,16 @@
        top: 0;
     }
 	#navi {
-	    width: 60%;
+	    width: 1400px;
 	    padding: 0;
-	    padding-top: 110px;
-	    padding-right: 100px;
+	    padding-top : 20px;
+	    padding-left : 400px;	
 	    margin: 0;
 	    list-style: none;
 	    text-decoration: none;
 	    font-size: 22px;
 	    text-align: right;
-	    float: right;
+	    float: left;
 	    display: block;
 	}
 	#navi > li {
@@ -120,6 +120,7 @@
 	    text-align: center;
 	}
 	#navi a {
+		color : #d0a933;
 	    text-decoration: none;
 	    width: 100%;
 	    height: 100%;
@@ -248,8 +249,6 @@
 			            		<a href="myInfo.me">마이페이지</a>
 			                    <ul>
 			                        <li><a href="calendar.ca">다이어리</a></li>
-			                        <li><a href="#">가계부</a></li>
-			                        <li><a href="#">즐겨찾기</a></li>
 			                        <li><a href="ticket.mz">my muze</a></li>
 			                    </ul>
 			            </c:otherwise>
