@@ -165,15 +165,6 @@ img {
 
 		let i; 
 
-		var poster;
-		var mt20id;
-		var	prfnm;
-		var	prfpdfrom;
-		var	prfpdto;
-		var	fcltynm;
-		var	prfstate;
-		var	genrenm;
-
 		$('#btn').click(() => {
 			if($('#shprfnm').val() == ''){
 				alert('검색어를 입력하세요');
@@ -266,11 +257,7 @@ img {
 				var initial, condition = 0;
 				if(itemArr.length > 1){
 					if(itemArr.length > 10){
-						if(currentPage != maxPage){
-							initial = (currentPage -1) * contentLimit;
-							condition = contentLimit * currentPage;
-
-						} else if(listCount % contentLimit != 0 && currentPage == maxPage){
+						if(listCount % contentLimit != 0 && currentPage == maxPage){
 							initial = (maxPage - 1) * contentLimit;
 							condition = (maxPage - 1) * contentLimit + listCount % contentLimit;
 						} else {
@@ -289,9 +276,13 @@ img {
 						}
 
 						for(let i = startPage; i < endPage + 1; i++){
-							paging += '<li class="page-item paging" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
+							if(currentPage == i){
+								paging += '<li class="page-item paging active" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
+							} else {
+								paging += '<li class="page-item paging" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
+							}
 						}
-						
+
 						if(currentPage == maxPage){
 							paging += '<li class="page-item disabled gt"><a class="page-link">&gt;</a></li>';
 						} else {
