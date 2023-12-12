@@ -32,7 +32,7 @@ public class RankDaoImpl implements RankDao{
 
 	@Override
 	public  ArrayList<Rank> searchMyRankList(SqlSessionTemplate sqlSession, int userNo) {
-		return (ArrayList)sqlSession.selectList("rankMapper.searchMyRankList");
+		return (ArrayList)sqlSession.selectList("rankMapper.searchMyRankList",userNo);
 	}
 
 
