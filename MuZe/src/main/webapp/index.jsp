@@ -32,30 +32,71 @@
             height: 100%;
         }                
     }
+ #preview-rank{
+    	width : 1000px;
+    	height : 400px;
+    	float : right;
+        position: fixed;
+        right: 0;
+        bottom: 0;
+    }
+    #rank_photo{
+        box-sizing: border-box;
+    	width : 20%;
+    	height : 250px;
+    	float : left;
+        margin : 22px;
+    }
+    #image-poster{
+    	border-radius: 2cqmin;
+    	width : 200px;
+    	height : 250px;
+    }
+    #logo-area{
+    	position : fixed;
+    	right : 0;
+    	margin-top : 10%;
+    	margin-right : 150px;
+    	
+    }
+    #logo-image{
+    	width : 480px;
+    	height : 330px;
+    }
 </style>
 </head>
 <body>
-	<div id="include-navibar">
 	<jsp:include page="WEB-INF/views/common/navibar.jsp"/>
+	<div class="page" id="content">
+	<div id="logo-area">
+		<img alt="" src="resources/images/yourmymuze-logo.png" id="logo-image">
 	</div>
 	<script>
-		$('include-navibar').hide();
+		$(() => {
+			$.ajax({
+				url : 'search.rk',
+				data : { rankCategory : 'popular'},
+				success : (data) => {
+					console.log(data);
+					let value = '';
+					for(let i= 0; i < 4; i++){
+    					value +='<div id="rank_photo"><img src="' + data[i].poster + '" id="image-poster"></div>';
+		    				  console.log(data[i].poster);
+					}
+					$('#preview-rank').html(value);
+				},
+				error : () => {
+					console.log('실패');
+				}
+			})
+		})
 	</script>
-	<div class="page" id="content">
-	<div id="preview-rank">
-		<div></div>
-		<div></div>
-		<div></div>
-		<div></div>
-	</div>
+	<div id="preview-rank"></div>
 	  	<div class="background-video">
             <video autoplay loop muted plays-inline class="back-video">
                 <source src="resources/video/yourmymuze.mp4" type="video/mp4">
             </video>
         </div>
-	  <div class="page" id="height">01</div>
-	  <div class="page" id="height">02</div>
-	  <div class="page" id="height">03</div>
 	</div> 
 </body>
 </html> 

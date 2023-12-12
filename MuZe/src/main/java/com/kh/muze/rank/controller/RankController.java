@@ -34,6 +34,7 @@ public class RankController {
 	@ResponseBody
 	@GetMapping(value="search.rk", produces="application/json; charset=UTF-8")
 	public String searchRankList(Rank rank,HttpSession session) {
+		System.out.println("rank" + rank.getRankCategory());
 		if(rank.getRankCategory().equals("myRank")) {
 			int userNo = LoginUser.getUserNo(session);
 			rank.setUserNo(userNo);

@@ -38,6 +38,7 @@ public class RankServiceImpl implements RankService{
 		break;
 		case "myRank" : rankList = rankDao.searchMyRankList(sqlSession,rank.getUserNo());
 		}
+		System.out.println("rankList : " + rankList);
 		return rankList;
 	}
 
