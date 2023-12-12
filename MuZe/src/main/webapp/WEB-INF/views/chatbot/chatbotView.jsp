@@ -64,24 +64,19 @@
 	
 	
 	<script>
-	// jQuery를 사용한 코드
-	 $(document).ready(function() {
+	 $(() => {
         $('#sendButton').on('click', function() {
             var userMessage = $('#userInput').val();
             appendToChatLog('사용자: ' + userMessage);
 			
             // 사용자 입력값이 비어 있는 경우
             if (!userMessage.trim()) {
-                // 기본 응답 사용
+               	// 기본 응답 사용
                 appendToChatLog('챗봇: 죄송합니다. 정보가 없습니다. 추천 키워드: 안녕, muze, 취소, 티켓');
-                
                 // 입력 필드를 비우고 placeholder를 표시
                 $('#userInput').val('').attr('placeholder', '메시지를 입력하세요...');
-                return; // 빈 입력값이므로 더 이상 진행하지 않음
+                return; 				// 빈 입력값이므로 더 이상 진행하지 않음
             }
-
-            //appendToChatLog('사용자: ' + userMessage);
-            
             
             // Ajax를 사용하여 서버로 메시지 전송
             $.ajax({
@@ -94,10 +89,10 @@
                         appendToChatLog('챗봇: ' + data.responseCon);
                     }
                     else {
-                        // 서버 응답이 null인 경우 기본 응답 사용
+                    	// 서버 응답이 null인 경우 기본 응답 사용
                         appendToChatLog('챗봇: 죄송합니다. 정보가 없습니다. 추천 키워드: 안녕, muze, 취소, 티켓');
                     }
-                 	// 입력 필드를 비우고 placeholder를 표시
+                	// 입력 필드를 비우고 placeholder를 표시
                     $('#userInput').val('').attr('placeholder', '메시지를 입력하세요...');
                 },
                 error: function() {

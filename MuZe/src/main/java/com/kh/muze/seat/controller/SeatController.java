@@ -24,26 +24,15 @@ public class SeatController {
 	
 	@PostMapping(value="disabled.st", produces="application/json; charset=UTF-8")
 	public String disabledSeat(String musId, String selectDate) {
-		System.out.println("musId나와>>" + musId);
-		System.out.println("selectDate나와>>" + selectDate);
+		System.out.println("musId >>" + musId);
+		System.out.println("selectDate >>" + selectDate);
 		
 		Seat seat = new Seat();
 		seat.setMusId(musId);
 		seat.setSelectDate(selectDate);
-		/*
-		Reservation reservation = new Reservation();
-		reservation.setMusId(musId);
-		reservation.setSelectDate(selectDate);
 
-				
-		return new Gson().toJson(seatService.disabledSeat(reservation));
-
-		return new Gson().toJson(seatService.disabledSeat(seat));
-
-		*/
-		
 		ArrayList<Seat> seatResult = seatService.disabledSeat(seat);
-		// ArrayList가 null이면 빈 배열로 반환
+	
 	    if (seatResult != null) {
 	        return new Gson().toJson(seatResult);
 	    } else {

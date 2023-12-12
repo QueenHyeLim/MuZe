@@ -13,27 +13,6 @@
 		<result column="RES_DATE" property="resDate" />
 	</resultMap>
 	
-
-	
-	<!-- <select id="disabledSeat" resultType="seat" resultMap="disabledSeatMap">
-		SELECT 
-				SEAT_NO,
-				SEAT_TYPE, 
-				SEAT_ID, 
-				RES_NO, 
-				RES_DATE 
-		 FROM 
-				SEAT S
-		 JOIN 
-		 		RESERVATION R 
-		USING
-		 		(SEAT_NO)
-		WHERE 
-				R.MUS_ID = #{ musId }
-		  AND 
-		  		RES_DATE = #{ selectDate }
-	</select> -->
-	
 	<select id="disabledSeat" resultType="seat" resultMap="disabledSeatMap">
 		SELECT 
 				SEAT_NO,

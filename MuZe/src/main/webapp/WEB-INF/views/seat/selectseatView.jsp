@@ -369,15 +369,6 @@
 				}
 			}
 			
-			
-			/*
-			let selseatlist = [];
-			selectseats.each(function(){
-				selseatlist.push($(this).text());
-			});
-			$('#selectseat').val(selseatlist);
-			consoles.log('배열' , selseatlist);
-			*/
 		</script>
 
     </div>
@@ -386,9 +377,8 @@
 	</div>
 	
 <script>
-$(function(){
+$(() => {
 		
-	
 	$('.seat-row-vip').find('td').attr('id', 'green');
 		
 	$.ajax({
@@ -410,7 +400,7 @@ $(function(){
 
                  if ($seat.length > 0) {
                      $seat.css('background-color', 'grey');
-                     $seat.off('click'); //예매된 좌석은 onclick이벤트 disabled 하기
+                     $seat.off('click');		//예매된 좌석은 onclick이벤트 disabled 하기
                      console.log('결과 O');
                  } else {
                      console.log('결과 X');
@@ -445,7 +435,6 @@ $(function(){
 		    //console.log(e.target.eq(0).html());
 		    if($(e.target).attr('id') === 'red'){ 
 		    	$('.selected-seat').append('<div class="checked_seat">' + $(this).text() + '</div>');
-		    	//$('.selected-seat').html('<div class="checked_seat">' + $(this).text() + '</div>');
 		    	let check = $('.checked_seat');
 		    	console.log(check);
 		    	// 함수실행 하기??
@@ -465,28 +454,6 @@ $(function(){
 		    		
 		    	}
 		    	
-		    	/*
-		    	$('.checked_seat').each(function(index, value){
-		    		const $chs = $('.checked_seat');
-		    		if($(this).attr('value') == $chs[index] ){
-		    			console.log('each안의 $chs[i] : ', $chs[index]);
-		    			$chs[i].remove();
-		    		}
-		    	});
-		    	*/
-		    	
-		    	
-		    	//let $chs = $('.checked_seat');
-		    	//console.log($chs);
-		    	
-		    	//+ $(this).text() + ']').remove();
-		    	//$('.selected_seat').detach('<div class="chekced_seat">' + $(this).attr('value') + '</div>');
-		    	//$('.selected_seat').remove('<div class="chekced_seat">' + $(this).attr('value') + '</div>');
-		    	//$(this).removeAttr('id');
-		    		//$('#mem_check').empty();
-		    	//if($('.selected_seat').text() == $(this).attr('value')){
-		    		
-		    	//}
 		    }
 			
 		});

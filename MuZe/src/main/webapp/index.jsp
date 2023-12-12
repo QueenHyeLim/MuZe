@@ -18,7 +18,6 @@
 	  <div class="page" id="height">01</div>
 	  <div class="page" id="height">02</div>
 	  <div class="page" id="height">03</div>
-	  <div class="chatbot" id="chatbot"><a href="chatbot.ch"></a></div>
 	</div> 
 </body>
 </html> 
