@@ -22,10 +22,10 @@
 		<result column="ROWNUM" property="rowNo" />
 	</resultMap>
 	
-	<resultMap id="disabledSeatMap" type="reservation">
+	<resultMap id="reservedMap" type="reservation">
 		<result column="SEAT_NO" property="seatNo" />
-		<result column="SEAT_TYPE" property="seatType" />
-		<result column="SEAT_ID" property="seatId" />
+		<result column="MUS_ID" property="musId" />
+		<result column="USER_NO" property="userNo" />
 		<result column="RES_NO" property="resNo" />
 		<result column="RES_DATE" property="resDate" />
 		
@@ -194,7 +194,7 @@
 				)
 	</insert> -->	
 	
-	<select id="selectReserNo" parameterType="order" resultMap="disabledSeatMap">
+	<select id="selectReserNo" parameterType="order" resultMap="reservedMap">
 		SELECT
 			        RES_NO 
 		  FROM
@@ -276,7 +276,7 @@
 		 		)
 	</insert>	
 	
-	<select id="receiveResno" parameterType="_int" resultMap="disabledSeatMap">
+	<select id="receiveResno" parameterType="_int" resultMap="reservedMap">
 		SELECT 
 		        RES_NO
 		  FROM
@@ -303,25 +303,15 @@
 		  FROM
 			        BOOK
 		  JOIN
-			        RESERVE
-		    ON
-			        (RES_NO = BOOK_NO)
+			        RESERVE    ON (RES_NO = BOOK_NO)
 		  JOIN
-		       		TICKET
-		 USING
-		        	(RES_NO)
+		       		TICKET 	USING (RES_NO)
 		  JOIN
-		        	SHOW S
-		 USING
-		       		(MUS_ID)
+		        	SHOW S  USING (MUS_ID)
 		  JOIN
-		        	SEAT
-		  USING
-		        	(SEAT_NO)
-		 JOIN
-		        	THEATER T
-		 ON
-		        	(T.THEATER_ID = S.THEATER_ID)
+		        	SEAT	USING (SEAT_NO)
+		  JOIN
+		        	THEATER T  ON (T.THEATER_ID = S.THEATER_ID)
 		 WHERE
 		        	RES_NO = #{resNo}
 	</select>

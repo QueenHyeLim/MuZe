@@ -17,14 +17,12 @@ import lombok.ToString;
 @ToString
 public class Mymuze {
 	
-	private String ticketNo;	 // TICKET_NO
-	private String musId;		 // MUS_ID
-	private String musTitle;	 // MUS_TITLE
-	private int resNo; 		 // BOOK_NO OR RES_NO
-	private int seatNo;			 // SEAT_NO
-	private String seatId; 		 // SEAT_ID
-	private ArrayList<Seat> seatIdlist; //
-	private String resDate;		 // RES_DATE
-	private String theaterId;	 // THEATER_ID
-	private String theaterName;	 // THEATER_NAME
+	private String ticketNo;	 								// TICKET_NO
+	private String musId;										 // MUS_ID
+	private String musTitle;									 // MUS_TITLE
+	private int resNo; 											 // BOOK_NO OR RES_NO
+	private ArrayList<Seat> seatIdlist;													 //
+	private String resDate;														 // RES_DATE
+	private String theaterId;	 											// THEATER_ID
+	private String theaterName;	 												// THEATER_NAME
 }

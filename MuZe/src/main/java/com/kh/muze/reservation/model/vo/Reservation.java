@@ -16,7 +16,7 @@ import lombok.ToString;
 public class Reservation {
 	
 	int resNo; //RES_NO	NUMBER
-	int userNo; //USER_NO	NUMBER
+	int userNo; //	NUMBER
 	String musId; //MUS_ID	VARCHAR2(1000 BYTE)
 	int seatNo; //SEAT_NO	NUMBER
 	Date resDate; //RES_DATE	DATE
