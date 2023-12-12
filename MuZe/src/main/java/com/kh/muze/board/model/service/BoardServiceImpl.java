@@ -122,8 +122,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int ajaxInsertBoardLike(Like l) {
-		return boardDao.insertBoardLike(sqlSession, l);
+	public int ajaxInsertBoardLike(Like like) {
+		return boardDao.insertBoardLike(sqlSession, like);
 	}
 
 	@Override
@@ -132,8 +132,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int ajaxDeleteBoardLike(Like l) {
-		return boardDao.deleteBoardLike(sqlSession, l);
+	public int ajaxDeleteBoardLike(Like like) {
+		return boardDao.deleteBoardLike(sqlSession, like);
 	}
 
 	@Override

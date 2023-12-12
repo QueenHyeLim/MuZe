@@ -10,6 +10,6 @@ import lombok.ToString;
 public class Like {
 	private int cateNo;
 	private int contentNo;
-	private String userNo;
+	private int userNo;
 	private String likeDate;
 }

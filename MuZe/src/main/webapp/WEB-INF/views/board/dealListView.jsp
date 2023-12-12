@@ -156,7 +156,7 @@ table{
         					<li class="page-item disabled"><a class="page-link" href="dealList.bo?cPage=${p}">&lt;</a>
         				</c:when>
         				<c:otherwise>
-        					<li class="page-item"><a class="page-link" href="dealList.bo?cPage=${$pi.currentPage-1}">&lt;</a></li>
+        					<li class="page-item"><a class="page-link" href="dealList.bo?cPage=${pi.currentPage-1}">&lt;</a></li>
         				</c:otherwise>
         			</c:choose>
         			
@@ -164,7 +164,7 @@ table{
         				<li class="page-item"><a class="page-link" href="dealList.bo?cPage=${p}">${p}</a><li>
         			</c:forEach>
         			
-        			<li class="page-item"><a class="page-link" href="dealList.bo?cPage=${$pi.currentPage+1}">&gt;</a></li>
+        			<li class="page-item"><a class="page-link" href="dealList.bo?cPage=${pi.currentPage+1}">&gt;</a></li>
         		</ul>
         	</div>
         </div>

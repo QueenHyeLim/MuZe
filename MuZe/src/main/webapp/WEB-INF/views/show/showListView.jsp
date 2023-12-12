@@ -52,8 +52,9 @@ select{
 
 /*결과*/
 #result-part {
-	background-color : beige;
+	background-color : rgb(128, 128, 128);
 	margin-top: 20px;
+	color : white;
 }
 
 /*결과 : 없는 경우*/
@@ -73,9 +74,11 @@ img {
 }
 
 .show {
-	border : 1px solid;
 	padding-left : 10px;
 	padding-top : 10px;
+	background-color: rgb(128, 128, 128);
+	border: 1px solid black;
+	color : white
 }
 
 .show:hover{
@@ -91,8 +94,9 @@ img {
 	font-size: 10px;
 	height: 30px;
 	border-radius: 5px;
-	background-color:transparent;
+	background-color:rgb(39, 38, 38);
 	border: 1px solid black;
+	color : white;
 }
 
 /*페이징바 영역*/
@@ -159,6 +163,8 @@ img {
 		var startPage;
 		var endPage;
 
+		let i; 
+
 		$('#btn').click(() => {
 			if($('#shprfnm').val() == ''){
 				alert('검색어를 입력하세요');
@@ -183,18 +189,14 @@ img {
 		function search(){
 			$.ajax({
 				url : 'slist.sh',
-				type : 'post',
+				type : 'get',
 				data : {
 					prfstate : $('#prfstate').val(),
 					shprfnm : $('#shprfnm').val()
 				},
 				success : function(result){
 					const itemArr = result.dbs.db;
-					console.log(itemArr);
-					searchList(null, result, itemArr);
-					
-					
-					
+					searchList(result, itemArr);
 				},
 				error : function(){
 					console.log('fail');
@@ -202,12 +204,11 @@ img {
 			})
 		}
 
-		function searchList(page, result, itemArr){
+		function searchList(result, itemArr){
 			
 			let value = '';
 			let paging = '';
 					
-			// 검색 결과가 0일 때
 			if(result.dbs.length == 0){
 				value += '<span>일치하는 항목이 존재하지 않습니다.</span>'; 
 			} else {
@@ -224,65 +225,48 @@ img {
 					endPage = maxPage;
 				}
 
+				function searchResult(){
+
+					let shows = [];
+					
+					if(itemArr.length > 1){
+						for(let j = 0; j < itemArr.length; j++){
+							shows.push(itemArr[j]);
+						}
+					} else {
+						shows.push(itemArr);
+					}
+
+					value += '<div class="show">'
+								+ '<div class="poster">'
+									+ '<img src="' + shows[i].poster + '">'
+								+ '</div>'
+								+ '<div class="des">'
+									+'<form action="detail.sh">'
+										+'<input type="hidden" id="mt20id" name="mt20id" value="' + shows[i].mt20id + '"/>'
+										+'<p>' + shows[i].prfnm + '<button align="center" class="detail">상세보기</button></p>'
+										+'<p>' + shows[i].prfpdfrom + ' ~ ' +  shows[i].prfpdto + '</p>'
+										+'<p>' + shows[i].fcltynm + '</p>'
+										+'<p>' + shows[i].prfstate + '</p>'
+										+'<p>' + shows[i].genrenm + '</p>'
+										+'</form>'
+									+ '</div> <br clear="both">'
+								+ '</div>' ;
+            	};
+					
+				var initial, condition = 0;
 				if(itemArr.length > 1){
 					if(itemArr.length > 10){
-						if(currentPage != maxPage){
-							for(let i = (currentPage -1) * contentLimit; i < contentLimit * currentPage; i++){
-								let item = itemArr[i];
-									value += '<div class="show">'
-								  		+ '<div class="poster">'
-								  			+ '<img src="' + item.poster + '">'
-								  		+ '</div>'
-								  		+ '<div class="des">'
-								  			+'<form action="detail.sh">'
-								  			+'<input type="hidden" id="mt20id" name="mt20id" value="' + item.mt20id + '"/>'
-				   							+'<p>' + item.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-				   							+'<p>' + item.prfpdfrom + ' ~ ' +  item.prfpdto + '</p>'
-				   							+'<p>' + item.fcltynm + '</p>'
-				   							+'<p>' + item.prfstate + '</p>'
-				   							+'<p>' + item.genrenm + '</p>'
-				   							+'</form>'
-				   					   + '</div> <br clear="both">'
-							  		+ '</div>' 
-							} 
-						} else if(listCount % contentLimit != 0 && currentPage == maxPage){
-							for(let i = (maxPage - 1) * contentLimit; i < (maxPage - 1) * contentLimit + listCount % contentLimit; i++){
-								let item = itemArr[i];
-								value += '<div class="show">'
-						  			  + '<div class="poster">'
-						  			  + '<img src="' + item.poster + '">'
-						  			  + '</div>'
-						  			  + '<div class="des">'
-						  			  +'<form action="detail.sh">'
-						  			  +'<input type="hidden" id="mt20id" name="mt20id" value="' + item.mt20id + '"/>'
-		   							  +'<p>' + item.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-		   						      +'<p>' + item.prfpdfrom + ' ~ ' +  item.prfpdto + '</p>'
-		   							  +'<p>' + item.fcltynm + '</p>'
-		   							  +'<p>' + item.prfstate + '</p>'
-		   							  +'<p>' + item.genrenm + '</p>'
-		   							  +'</form>'
-		   					  		  + '</div> <br clear="both">'
-					  				  + '</div>'
-							}
+						if(listCount % contentLimit != 0 && currentPage == maxPage){
+							initial = (maxPage - 1) * contentLimit;
+							condition = (maxPage - 1) * contentLimit + listCount % contentLimit;
 						} else {
-							for(let i = (currentPage - 1) * contentLimit; i < contentLimit * currentPage; i++){
-								let item = itemArr[i];
-								value += '<div class="show">'
-						  			  + '<div class="poster">'
-						  			  + '<img src="' + itemArr.poster + '">'
-						  			  + '</div>'
-						  			  + '<div class="des">'
-						  			  +'<form action="detail.sh">'
-						  			  +'<input type="hidden" id="mt20id" name="mt20id" value="' + itemArr.mt20id + '"/>'
-		   							  +'<p>' + itemArr.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-		   						      +'<p>' + itemArr.prfpdfrom + ' ~ ' +  itemArr.prfpdto + '</p>'
-		   							  +'<p>' + itemArr.fcltynm + '</p>'
-		   							  +'<p>' + itemArr.prfstate + '</p>'
-		   							  +'<p>' + itemArr.genrenm + '</p>'
-		   							  +'</form>'
-		   					  		  + '</div> <br clear="both">'
-					  				  + '</div>'
-							}
+							initial = (currentPage -1) * contentLimit;
+							condition = contentLimit * currentPage;
+						}
+
+						for(i = initial; i < condition; i++){
+							searchResult();
 						}
 
 						if(currentPage == 1){
@@ -292,48 +276,29 @@ img {
 						}
 
 						for(let i = startPage; i < endPage + 1; i++){
-							paging += '<li class="page-item paging" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
+							if(currentPage == i){
+								paging += '<li class="page-item paging active" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
+							} else {
+								paging += '<li class="page-item paging" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
+							}
 						}
-								
-						paging += '<li class="page-item gt"><a class="page-link">&gt;</a></li>';
+
+						if(currentPage == maxPage){
+							paging += '<li class="page-item disabled gt"><a class="page-link">&gt;</a></li>';
+						} else {
+							paging += '<li class="page-item gt"><a class="page-link">&gt;</a></li>';
+						}
+						
 
 					} else if(10 >= itemArr.length){
-						for(let i in itemArr){
-							let item = itemArr[i];
-							value += '<div class="show">'
-						  		  + '<div class="poster">'
-						  		  + '<img src="' + item.poster + '">'
-						  		  + '</div>'
-						  		  + '<div class="des">'
-						  		  +'<form action="detail.sh">'
-						  		  +'<input type="hidden" id="mt20id" name="mt20id" value="' + item.mt20id + '"/>'
-						  		  +'<p>' + item.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-						  		  +'<p>' + item.prfpdfrom + ' ~ ' +  item.prfpdto + '</p>'
-						  		  +'<p>' + item.fcltynm + '</p>'
-						  		  +'<p>' + item.prfstate + '</p>'
-						  		  +'<p>' + item.genrenm + '</p>'
-						  		  +'</form>'
-						  		  + '</div> <br clear="both">'
-						  		  + '</div>'
+						for(i in itemArr){
+							searchResult();
 						}
 					}
 							
 				} else {
-					value += '<div class="show">'
-						  + '<div class="poster">'
-							+ '<img src="' + itemArr.poster + '">'
-							+ '</div>'
-							+ '<div class="des">'
-							+'<form action="detail.sh">'
-						  	+'<input type="hidden" id="mt20id" name="mt20id" value="' + itemArr.mt20id + '"/>'
-						  	+'<p>' + itemArr.prfnm + '<button align="center" class="detail">상세보기</button></p>'
-						  	+'<p>' + itemArr.prfpdfrom + ' ~ ' +  itemArr.prfpdto + '</p>'
-						  	+'<p>' + itemArr.fcltynm + '</p>'
-						  	+'<p>' + itemArr.prfstate + '</p>'
-						  	+'<p>' + itemArr.genrenm + '</p>'
-						  	+'</form>'
-						  	+ '</div> <br clear="both">'
-						  	+ '</div>'
+					i = 0;
+					searchResult();
 				}
 			}	
 			$('.result').html(value);

@@ -48,8 +48,8 @@ img{
 	   				<th>작품명</th>
 	   				<td>${ deal.showTitle }
 						<c:if test="${ !empty sessionScope.loginUser}">
-							<i class="fa-regular fa-heart" id="unLike" onclick="dealLike();"></i>
-							<i class="fa-solid fa-heart" id="Like" style="color: #981d26;" onclick="deleteDealLike();"></i>
+							<i class="fa-regular fa-heart" id="un-like" onclick="dealLike();"></i>
+							<i class="fa-solid fa-heart" id="like" style="color: #981d26;" onclick="deleteDealLike();"></i>
 						</c:if>
 					</td>
 	   			</tr>
@@ -147,27 +147,23 @@ img{
 
 		function deleteDeal(){
 			var result = confirm('게시글을 삭제하겠습니까?');
-
+ 
 			if(result){
 				$('#deleteForm').attr('action', 'dealDelete.bo').submit();
 			}
-		}
+		} 
 
 		function dealLike(){
 			$.ajax({
-				url : 'insertLike.bo',
+				url : 'insertLike.bo', 
 				type : 'post',
 				data : {
 					contentNo : $('#dealNo').val(),
-					userNo : '${sessionScope.loginUser.userNo}',
 					cateNo : '20'
 				},
 				success : result => { 
-					$('#unLike').hide();
-					$('#Like').show();
-				},
-				error : () => {
-					console.log('error');
+					$('#un-like').hide();
+					$('#like').show();
 				}
 			})
 		}
@@ -178,20 +174,16 @@ img{
 				type : 'post',
 				data : {
 					contentNo : $('#dealNo').val(),
-					userNo : '${sessionScope.loginUser.userNo}',
 					cateNo : '20'
 				},
 				success : result => {
 					if(result > 0){
-						$('#unLike').hide();
-						$('#Like').show();
+						$('#un-like').hide();
+						$('#like').show();
 					} else {
-						$('#unLike').show();
-						$('#Like').hide();
+						$('#un-like').show();
+						$('#like').hide();
 					}
-				},
-				error : () => {
-					console.log('에러');
 				}
 			})
 		}
@@ -202,15 +194,11 @@ img{
 				type : 'post',
 				data : {
 					contentNo : $('#dealNo').val(),
-					userNo : '${sessionScope.loginUser.userNo}',
 					cateNo : '20'
 				},
 				success : result => {
-					$('#unLike').show();
-					$('#Like').hide();
-				},
-				error : () => {
-					console.log('실패');
+					$('#un-like').show();
+					$('#like').hide();
 				}
 			})
 		}

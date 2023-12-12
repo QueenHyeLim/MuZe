@@ -1,14 +1,16 @@
 package com.kh.muze.board.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.kh.muze.board.model.service.BoardService;
 import com.kh.muze.board.model.vo.Like;
 import com.kh.muze.board.model.vo.Reply;
+import com.kh.muze.common.template.LoginUser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,18 +31,27 @@ public class AjaxBoardController {
 	}
 	
 	@PostMapping(value="insertLike.bo")
-	public String ajaxInsertBoardLike(Like l) {
-		return boardService.ajaxInsertBoardLike(l) > 0 ? "success" : "fail";
+	public String ajaxInsertBoardLike(Like like, HttpSession session) {
+		
+		like.setUserNo(LoginUser.getUserNo(session));
+		
+		return boardService.ajaxInsertBoardLike(like) > 0 ? "success" : "fail";
 	}
 	
 	@PostMapping(value="selectLike.bo", produces="application/json; charset=UTF-8")
-	public String ajaxSelectBoardLike(Like l) {
-		return new Gson().toJson(boardService.selectBoardLike(l));
+	public String ajaxSelectBoardLike(Like like, HttpSession session) {
+		
+		like.setUserNo(LoginUser.getUserNo(session));
+		
+		return new Gson().toJson(boardService.selectBoardLike(like));
 	}
 	
 	@PostMapping(value="deleteLike.bo")
-	public String ajaxDeleteBoardLike(Like l) {
-		return boardService.ajaxDeleteBoardLike(l) > 0 ? "success" : "fail";
+	public String ajaxDeleteBoardLike(Like like, HttpSession session) {
+		
+		like.setUserNo(LoginUser.getUserNo(session));
+		
+		return boardService.ajaxDeleteBoardLike(like) > 0 ? "success" : "fail";
 	}
 
 	

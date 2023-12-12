@@ -213,17 +213,16 @@
             	</c:forEach>
             ],
           	eventContent: function (arg) {
-          		var eventTitle = arg.event.title;
-          		var result = '';
           		var html = '';
-          		// 제목의 length가 긴 경우를 위해 잘라서 넣기
-          		var htmlTag = '<b>' + arg.timeText + '</b class="eventTitle-area">';
+          		var eventTitle = arg.event.title;
+          		
           		if(eventTitle.length > 10){
-       				html += htmlTag + eventTitle.slice(0, 8) + '...';
+       				html += eventTitle.slice(0, 8) + '...';
           		}
           		else{
-          			html += htmlTag + eventTitle;
+          			html += eventTitle;
           		}
+          		
 	            if (arg.event.extendedProps.imageUrl) {
 	              html += '<img src="' + arg.event.extendedProps.imageUrl + '" class="event-image" />';
 	            }
@@ -257,7 +256,7 @@
             },
             // 이벤트 클릭시 다이어리 내용을 볼수 있는 이벤트
             eventClick : function(info) {
-            	// id가 999인건 일정 정보 아닌것은 다이어리
+            	// id가 999인건 일정 정보 , 아닌것은 다이어리
             	if(info.event.groupId != '999'){
 	            	$('#modal-content').modal('show');
 	            	$('#replyDiaryTitle').text(info.event.title);
@@ -414,7 +413,7 @@
    
 <!-------------------------------다이어리 네임 작성 모달창------------------------------------>
 <!-- The Modal -->
-<form action="name.di" method="get">
+<form action="name.di" method="post">
    <div class="modal fade" id="modal-diaryName">
        <div class="modal-dialog modal-dialog-centered">
        <div class="modal-content">
@@ -444,7 +443,6 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <!-- USER_NO HIDDEN / DIARY_DATE HIDDEN -->
-            <input type="hidden" name="diaryUser" value="${sessionScope.loginUser.userNo}"/>
 			<input type="hidden" name="diaryDate" id="diaryDate"/>
                 <!-- Modal Header -->
                 <div class="modal-header" style="text-align: center;" id="diary-header">
@@ -524,12 +522,6 @@
                                               제목 <br>
                     <input type="text" placeholder="제목을 입력해세요..." name="diaryTitle" id="updateformTitle" class="diary-body" required> 
                    	<br/><br/>
-                   	<!-- 
-                    <div class="filebox">
-					    <input class="upload-name" value="첨부파일" placeholder="첨부파일" >
-					    <label for="file" id="file-box"  onclick="fileUploadClick();">파일찾기</label> 
-					</div>
-                   	 -->
                    		<input type="file" name="upfile" id="diary-file"> <br/><br/>
                     <div id="updateImage-area">
                     	<img src="" id="updateformImg"/>

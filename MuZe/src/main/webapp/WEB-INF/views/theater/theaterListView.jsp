@@ -123,6 +123,8 @@
 		var startPage;
 		var endPage;
 
+		let i;
+
 		$(()=>{
 			$('#btn').click(()=>{
 				if($('#shprfnmfct').val() == ''){
@@ -201,119 +203,77 @@
 					endPage = maxPage;
 				}
 
+				function searchResult() {
+					let theaters = [];
+
+					if(itemArr.length > 1){
+						for(let j = 0; j < itemArr.length; j++){
+							theaters.push(itemArr[j]);
+						}
+					} else {
+						theaters.push(itemArr);
+					}
+
+					value += '<tr align="center">'
+										+ '<td>' + theaters[i].fcltynm + '</td>'
+										+ '<td>' + theaters[i].mt13cnt + '</td>'
+										+ '<td>' + theaters[i].sidonm + '</td>'
+										+ '<td>' + theaters[i].gugunnm + '</td>'
+										+ '<td>' + theaters[i].opende + '</td>'
+										+ '<td>'
+										+ '<form action="theatermap">'
+										+ '<input type="hidden" id="mt10id" name="mt10id" value="' + theaters[i].mt10id + '"/>'
+										+ '<button>지도</button>'
+										+ '</form>'
+										+ '</td>'
+										+ '</tr>'
+				};
+
+					var initial, condition  = 0;
 					if(itemArr.length > 1){
 						// 검색 결과가 10개 이상일 때
 						if(itemArr.length >= 10) {
-							if(currentPage != maxPage){
-								for(let i = (currentPage -1) * contentLimit ; i < contentLimit * currentPage; i++){
-									let item = itemArr[i];
-									// console.log(item);
+							if(listCount % contentLimit != 0 && currentPage == maxPage){
+								initial = (maxPage - 1) * contentLimit;
+								condition = (maxPage - 1) * contentLimit + listCount % contentLimit;
+							} else {
+								initial = (currentPage -1) * contentLimit;
+								condition = contentLimit * currentPage;
+							}
 
-									// if(item.fcltynm != undefined && i == (listCount - 1)){
-									// 	for(let i )
-									// }
-
-									
-									// 마지막 페이지가 아닐 때
-									value += '<tr align="center">'
-										+ '<td>' + item.fcltynm + '</td>'
-										+ '<td>' + item.mt13cnt + '</td>'
-										+ '<td>' + item.sidonm + '</td>'
-										+ '<td>' + item.gugunnm + '</td>'
-										+ '<td>' + item.opende + '</td>'
-										+ '<td>'
-										+ '<form action="theatermap">'
-										+ '<input type="hidden" id="mt10id" name="mt10id" value="' + item.mt10id + '"/>'
-										+ '<button>지도</button>'
-										+ '</form>'
-										+ '</td>'
-										+ '</tr>'
-									}
-
-								 // 마지막 페이지일 때
-								} else if(listCount % contentLimit != 0 && currentPage == maxPage){
-									for(let j = (maxPage-1) * contentLimit; j < (maxPage-1) * contentLimit + listCount % contentLimit; j++){
-										let items = itemArr[j];
-										value += '<tr align="center">'
-										+ '<td>' + items.fcltynm + '</td>'
-										+ '<td>' + items.mt13cnt + '</td>'
-										+ '<td>' + items.sidonm + '</td>'
-										+ '<td>' + items.gugunnm + '</td>'
-										+ '<td>' + items.opende + '</td>'
-										+ '<td>'
-										+ '<form action="theatermap">'
-										+ '<input type="hidden" id="mt10id" name="mt10id" value="' + items.mt10id + '"/>'
-										+ '<button>지도</button>'
-										+ '</form>'
-										+ '</td>'
-										+ '</tr>'
-									}
-								} else {
-									for(let i = (currentPage -1) * 10 ; i < contentLimit * currentPage; i++){
-									let item = itemArr[i];
-									// console.log(item);
-									
-									value += '<tr align="center">'
-										+ '<td>' + item.fcltynm + '</td>'
-										+ '<td>' + item.mt13cnt + '</td>'
-										+ '<td>' + item.sidonm + '</td>'
-										+ '<td>' + item.gugunnm + '</td>'
-										+ '<td>' + item.opende + '</td>'
-										+ '<td>'
-										+ '<form action="theatermap">'
-										+ '<input type="hidden" id="mt10id" name="mt10id" value="' + item.mt10id + '"/>'
-										+ '<button>지도</button>'
-										+ '</form>'
-										+ '</td>'
-										+ '</tr>'
-									}
-								}
+							for(i = initial; i < condition; i++){
+								searchResult();
+							}
 								
-								if(currentPage == 1){
-									paging += '<li class="page-item disabled lt"><a class="page-link">&lt;</li>';
-								} else {
-									paging += '<li class="page-item lt"><a class="page-link">&lt;</a></li>';
-								}
+							if(currentPage == 1){
+								paging += '<li class="page-item disabled lt"><a class="page-link">&lt;</li>';
+							} else {
+								paging += '<li class="page-item lt"><a class="page-link">&lt;</a></li>';
+							}
 
-								for(let i = startPage; i < endPage + 1; i++){
+							for(let i = startPage; i < endPage + 1; i++){
+								if(currentPage == i){
+									paging += '<li class="page-item paging active" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
+								} else {
 									paging += '<li class="page-item paging" value="' + i + '"><a class="page-link" value="' + i + '">' + i + '</a></li>'
 								}
-								
+							}
+
+							if(currentPage == maxPage){
+								paging += '<li class="page-item disabled gt"><a class="page-link">&gt;</a></li>';
+							} else {
 								paging += '<li class="page-item gt"><a class="page-link">&gt;</a></li>';
+							}
 
 							} else if(itemArr.length < 10) {
-								for(let k in itemArr){
-									let item = itemArr[k];
-									value += '<tr align="center">'
-										+ '<td>' + item.fcltynm + '</td>'
-										+ '<td>' + item.mt13cnt + '</td>'
-										+ '<td>' + item.sidonm + '</td>'
-										+ '<td>' + item.gugunnm + '</td>'
-										+ '<td>' + item.opende + '</td>'
-										+ '<td>'
-										+ '<form action="theatermap">'
-										+ '<input type="hidden" id="mt10id" name="mt10id" value="' + item.mt10id + '"/>'
-										+ '<button>지도</button>'
-										+ '</form>'
-										+ '</td>'
-										+ '</tr>'
+								for(i in itemArr){
+									searchResult();
 								}
 							}
 							
 						} else {
-							value += '<tr align="center">'
-									+ '<td>' + itemArr.fcltynm + '</td>'
-									+ '<td>' + itemArr.mt13cnt + '</td>'
-									+ '<td>' + itemArr.sidonm + '</td>'
-									+ '<td>' + itemArr.gugunnm + '</td>'
-									+ '<td>' + itemArr.opende + '</td>'
-									+ '<td>'
-									+ '<form action="theatermap">'
-									+ '<input type="hidden" id="mt10id" name="mt10id" value="' + itemArr.mt10id + '"/>'
-									+ '<button>지도</button>'
-									+ '</form>'
-									+ '</td>'
-									+ '</tr>'
+							i = 0;
+							searchResult();
 						} 
 					}
 

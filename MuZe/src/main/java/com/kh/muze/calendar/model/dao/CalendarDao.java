@@ -15,7 +15,6 @@ public class CalendarDao {
 	public int insertDiary(SqlSessionTemplate sqlSession, Diary diary) {
 		return sqlSession.insert("calendarMapper.insertDiary",diary);
 	}
-
 	public int insertAttachment(SqlSessionTemplate sqlSession, Attachment att) {
 		return sqlSession.insert("calendarMapper.insertAttachment",att);
 	}

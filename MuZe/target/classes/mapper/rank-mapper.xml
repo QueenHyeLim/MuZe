@@ -14,6 +14,7 @@
 	<result column="STATUS" property="showStatus" />
 	<result column="THEATHER_NAME" property="theatherName" />
 	<result column="GENRE" property="genre" />
+	<result column="COUNT" property="count"/>
 </resultMap>
 	<select id="selectRankList" resultMap="rankResultMap">
 		SELECT
@@ -41,7 +42,7 @@
 	   		   A.*
 	      FROM
 		       (
-		       SELECT
+		        SELECT
 		               RANK() OVER (ORDER BY COUNT(MUS_ID) DESC) "RANKING",
 		               MUS_ID,
 			           MUS_TITLE,
@@ -52,30 +53,60 @@
 			           GENRE,
 			           THEATHER_NAME
 			      FROM
-			            RESERVE RE
+			           RESERVE RE
 			      JOIN
-			            BOOK BK ON (BK.BOOK_NO = RE.RES_NO)
+			           BOOK BK ON (BK.BOOK_NO = RE.RES_NO)
 			      FULL
 			      JOIN
-			            SHOW SH USING(MUS_ID)
+			           SHOW USING(MUS_ID)
 			      JOIN
-			            THEATER USING(THEATER_ID)
+			           THEATER USING(THEATER_ID)
 			      JOIN
-			      		SHOW_GENRE USING(GENRE_NO)
-			      GROUP
-			         BY
-			            MUS_ID, 
-			            MUS_TITLE,
-			            START_DATE,
-			            END_DATE,
-			            POSTER,
-			            STATUS,
-			            GENRE,
-			            THEATHER_NAME
+			      	   SHOW_GENRE USING(GENRE_NO)
+			     GROUP
+			        BY
+			           MUS_ID, 
+			           MUS_TITLE,
+			           START_DATE,
+			           END_DATE,
+			           POSTER,
+			           STATUS,
+			           GENRE,
+			           THEATHER_NAME
 			   ) A
 	</select>
 	<select id="searchScrapList" resultMap="rankResultMap">
-	
+		SELECT 
+		        SH.MUS_TITLE,
+		        RES_DATE,
+		        COUNT(B.BOOK_NO) AS "COUNT",
+		        START_DATE,
+		        END_DATE,
+		        POSTER,
+		        STATUS,
+		        THEATHER_NAME 
+		  FROM 
+		        BOOK B
+		  JOIN 
+		        RESERVE RE ON B.BOOK_NO = RE.RES_NO
+		  JOIN 
+		        SHOW SH ON RE.MUS_ID = SH.MUS_ID
+		  JOIN
+		        THEATER TH ON TH.THEATER_ID = SH.THEATER_ID
+		 GROUP  BY
+		        MUS_TITLE, 
+		        RES_DATE, 
+		        RE.USER_NO, 
+		        START_DATE, 
+		        END_DATE, 
+		        POSTER, 
+		        STATUS, 
+		        THEATHER_NAME
+		 HAVING
+		        RE.USER_NO = #{userNo}
+		 ORDER
+		    BY
+		        COUNT DESC;
 	</select>
 	<select id="searchRangeList" resultMap="rankResultMap">
 		SELECT
@@ -98,23 +129,36 @@
 	</select>
 	<select id="searchMyRankList" resultMap="rankResultMap" parameterType="_int">
 		SELECT 
-		        MUS_TITLE,
+		        SH.MUS_TITLE "MUS_TITLE",
 		        RES_DATE,
-		        COUNT(B.BOOK_NO) AS "COUNT"
+		        COUNT(BK.BOOK_NO) AS "COUNT",
+		        START_DATE,
+		        END_DATE,
+		        POSTER,
+		        STATUS,
+		        THEATHER_NAME 
 		  FROM 
-		        BOOK B
+		        BOOK BK
 		  JOIN 
-		        RESERVE RE ON B.BOOK_NO = RE.RES_NO
+		        RESERVE RE ON BK.BOOK_NO = RE.RES_NO
 		  JOIN 
 		        SHOW SH ON RE.MUS_ID = SH.MUS_ID
-		 GROUP  BY
-		        MUS_TITLE, 
-		        RES_DATE,
-		        RE.USER_NO
-		 HAVING
-		        RE.USER_NO = #{userNo}
-		 ORDER
+		  JOIN
+		        THEATER TH ON TH.THEATER_ID = SH.THEATER_ID
+		 GROUP  
 		    BY
+		        MUS_TITLE, 
+		        RES_DATE, 
+		        RE.USER_NO, 
+		        START_DATE, 
+		        END_DATE, 
+		        POSTER, 
+		        STATUS, 
+		        THEATHER_NAME
+		 HAVING
+		        RE.USER_NO = #{userMo}
+		  ORDER
+		     BY
 		        COUNT DESC
 	</select>
 </mapper>
